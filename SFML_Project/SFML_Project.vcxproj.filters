@@ -13,10 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="00. GameInstance">
+      <UniqueIdentifier>{c1d9817c-a1c4-4c1b-8ef5-7ab4bdb7b48c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers">
+      <UniqueIdentifier>{acfd42f2-4371-46cb-9b1d-14ed98dfdc0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\ResourceManager">
+      <UniqueIdentifier>{fc5a2daa-c3a5-4bab-aedc-4dc46d640c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\ObjectManager">
+      <UniqueIdentifier>{5b27fcd5-2056-4ebf-a72d-957d19571a33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\SceneManager">
+      <UniqueIdentifier>{20087aa3-a51a-43d5-b815-ae6649e79a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject">
+      <UniqueIdentifier>{ac772958-9d6e-4772-b4ba-1b5e2918d3f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>00. GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>01. Managers\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>01. Managers\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>01. Managers\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>03. GameObject</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameInstance.h">
+      <Filter>00. GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="include.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="using.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>01. Managers\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>01. Managers\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>01. Managers\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
