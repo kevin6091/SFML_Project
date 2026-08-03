@@ -12,7 +12,8 @@ public:
     void Initialize();
     void Update(float deltaTime);
     void LateUpdate(float deltaTime);
-    void Render(RenderWindow& window);
+    void Render();
+    void RenderUI();
     void Release();
 
     void AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> obj);

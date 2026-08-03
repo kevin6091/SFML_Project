@@ -1,5 +1,11 @@
 #include "ObjectManager.h"
 #include "GameObject.h"
+#include "ResourceManager.h"
+
+void ObjectManager::Initialize()
+{
+
+}
 
 void ObjectManager::Update(float deltaTime)
 {
@@ -42,17 +48,42 @@ void ObjectManager::LateUpdate(float deltaTime)
     }
 }
 
-void ObjectManager::Render(RenderWindow& window)
+void ObjectManager::Render()
 {
-    for (auto& obj : renderObjects[ERenderLayer::Background])
-        obj->Render();
+    for (int i = 0; i < (int)ERenderLayer::UI; i++)
+    {
+        for (auto& obj : renderObjects[(ERenderLayer)i])
+        {
+            if (obj->IsActive())
+                obj->Render();
+            else
+                continue;
+        }
+    }
 }
 
-void ObjectManager::AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> obj)
+void ObjectManager::RenderUI()
 {
-    
+    for (int i = (int)ERenderLayer::UI; i < (int)ERenderLayer::End; i++)
+    {
+        for (auto& obj : renderObjects[(ERenderLayer)i])
+        {
+            if (obj->IsActive())
+                obj->Render();
+            else
+                continue;
+        }
+    }
 }
 
-void GameObject::Release()
+void ObjectManager::AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> uObj)
 {
+    objects[eTag].push_back(uObj);
+    renderObjects[eLayer].push_back(uObj);
+}
+
+void ObjectManager::Release()
+{
+    objects.clear();
+    renderObjects.clear();
 }

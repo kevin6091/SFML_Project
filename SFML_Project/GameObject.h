@@ -1,6 +1,8 @@
 #pragma once
 #include "include.h"
 
+class Animator;
+
 class GameObject : public Drawable
 {
 public:
@@ -13,7 +15,6 @@ public:
 	virtual void LateUpdate(float deltaTime) = 0;
 	virtual void Render() = 0;
 	virtual void Release() = 0;
-
 	virtual void draw(RenderTarget& target, RenderStates states) const override = 0;
 
  	__forceinline void Destroy() { isDestroy = true; }
@@ -33,6 +34,10 @@ public:
 
     // 충돌 판정용 AABB 바운딩 박스 (기본값: 위치 기준 크기 0)
 	//__forceinline virtual FloatRect GetBoundingBox() const { return FloatRect(position, { 0.0f, 0.0f }); }
+
+protected:
+	void Init_Sprites(Animator& animator, optional<Sprite>& sprite, string name, float duration, bool loop);
+	Sprite CenterAlign_Sprite(Sprite sprite);
 
 protected:
 	Vector2f position{ 0.0f, 0.0f };

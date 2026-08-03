@@ -1,40 +1,71 @@
 #include "GameInstance.h"
 #include "ResourceManager.h"
+#include "ObjectManager.h"
 #include "SceneManager.h"
+#include "GameObject.h"
+#include "Camera.h"
 
 GameInstance::GameInstance() = default;
 GameInstance::~GameInstance() = default;
 
 void GameInstance::Initialize(uint width, uint height, const string& title)
 {
-    window.create(sf::VideoMode({ width, height }), title);
-
+    window.create(VideoMode({ width, height }), title);
+    
+    uCamera = uptr<Camera>(new Camera());
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
+    uObjectManager = uptr<ObjectManager>(new ObjectManager());
     uSceneManager  = uptr<SceneManager>(new SceneManager());
+
+    uCamera->Initialize(Vector2f(width, height));
+    uResourceManager->Initialzie();
+    uObjectManager->Initialize();
+    uSceneManager->Initialize();
+
+    uSceneManager->ChangeScene(ESceneType::Title, 0.0f);
 }
 
 void GameInstance::Run()
 {
-    sf::Clock clock;
+    Clock clock;
 
     while (window.isOpen()) 
     {
         while (const optional event = window.pollEvent()) 
         {
-            if (event->is<sf::Event::Closed>()) 
+            if (event->is<Event::Closed>()) 
             {
                 window.close();
             }
         }
 
         float rawDeltaTime = clock.restart().asSeconds();
-        float gameDeltaTime = rawDeltaTime * timeScale; // 카타나 제로 시간 감속 적용
+        float gameDeltaTime = rawDeltaTime * timeScale;
+        
+        uSceneManager->Update(gameDeltaTime);
+        uSceneManager->LateUpdate(gameDeltaTime);
+        uCamera->Update(rawDeltaTime);
 
-        // Update & Render
-        //sceneManager->Update(gameDt);
+        window.clear(Color(0, 0, 0));
 
-        window.clear(sf::Color(15, 15, 20));
-        //sceneManager->Render(window);
+        window.setView(uCamera->GetView());
+        uSceneManager->Render();
+
+        window.setView(window.getDefaultView());
+        uSceneManager->RenderUI();
+
         window.display();
     }
+}
+
+void GameInstance::Draw(const GameObject& gameObject, RenderStates states)
+{
+    window.draw(gameObject, states);
+}
+
+void GameInstance::Release()
+{
+    uSceneManager->Release();
+    uObjectManager->Release();
+    uResourceManager->Release();
 }

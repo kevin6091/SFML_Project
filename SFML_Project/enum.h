@@ -1,6 +1,7 @@
 #pragma once
 
-enum class ERenderLayer {
+enum class ERenderLayer 
+{
     Background = 0, 
     Decal,          // º®/¹Ù´ÚÀÇ Ç÷Èç, Ä®ÀÚ±¹
     Prop,           // ºÎ¼­Áö´Â ¹®, µîºÒ, ¼ÒÇ°
@@ -11,7 +12,8 @@ enum class ERenderLayer {
     End
 };
 
-enum class EObjectTag {
+enum class EObjectTag 
+{
     Default,
     Player,
     Enemy,
@@ -19,5 +21,12 @@ enum class EObjectTag {
     Slash,
     Wall,
     Hazard,
+    End
+};
+
+enum class ESceneType
+{
+    Title,
+    Tutorial,
     End
 };

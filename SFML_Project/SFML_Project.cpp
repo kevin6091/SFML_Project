@@ -1,21 +1,11 @@
 ﻿#include "include.h"
+#include "GameInstance.h"
 
 int main()
 {
-    RenderWindow window(VideoMode({ 200, 200 }), "SFML works!");
-    CircleShape shape(100.f);
-    shape.setFillColor(Color::Green);
+    GameInstance::GetInstance().Initialize(WIDTH, HEIGHT, "Katana Zero");
 
-    while (window.isOpen())
-    {
-        while (const std::optional event = window.pollEvent())
-        {
-            if (event->is<Event::Closed>())
-                window.close();
-        }
+    GameInstance::GetInstance().Run();
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+    GameInstance::GetInstance().Release();
 }

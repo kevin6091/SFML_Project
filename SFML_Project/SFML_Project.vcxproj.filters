@@ -31,6 +31,30 @@
     <Filter Include="03. GameObject">
       <UniqueIdentifier>{ac772958-9d6e-4772-b4ba-1b5e2918d3f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Managers\EffectManager">
+      <UniqueIdentifier>{f509b33b-0140-41e0-9ba0-8aefd45a80ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene">
+      <UniqueIdentifier>{6955d811-cdb5-4c5c-bda5-d9c463ce6090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\SceneTitle">
+      <UniqueIdentifier>{7e33ec22-ca5f-4def-8fa5-9824ff068913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Title">
+      <UniqueIdentifier>{e2d8138e-b24f-4925-845b-ae6884ad51fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Animation">
+      <UniqueIdentifier>{ae3ea902-2700-43d6-8d02-ba1541fce607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Animation\AnimationClip">
+      <UniqueIdentifier>{4f66a705-4935-44f6-99f7-62b52bbc2a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Animation\Animator">
+      <UniqueIdentifier>{15ea9778-5edb-4a12-b029-512df1d653d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Camera">
+      <UniqueIdentifier>{864699f1-029f-4063-b775-001c1a12ac8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -50,6 +74,27 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeManager.cpp">
+      <Filter>01. Managers\EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTitle.cpp">
+      <Filter>04. Scene\SceneTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationClip.cpp">
+      <Filter>05. Animation\AnimationClip</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>05. Animation\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>03. GameObject\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>06. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +121,30 @@
     </ClInclude>
     <ClInclude Include="enum.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeManager.h">
+      <Filter>01. Managers\EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>04. Scene\SceneTitle</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationClip.h">
+      <Filter>05. Animation\AnimationClip</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>05. Animation\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>03. GameObject\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>06. Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
