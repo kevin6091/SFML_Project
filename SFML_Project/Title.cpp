@@ -18,18 +18,22 @@ void Title::Initialize()
     sprite_ZER = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_zer")));
     sprite_O = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_o")));
 
-    (*sprite_ZERO).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 100));
-    (*sprite_ZER).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 100));
-    (*sprite_O).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 100));
+    (*sprite_ZERO).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
+    (*sprite_ZER).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
+    (*sprite_O).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
+
+    (*sprite_ZERO).setScale(Vector2f(1.2f, 1.2f));
+    (*sprite_ZER).setScale(Vector2f(1.2f, 1.2f));
+    (*sprite_O).setScale(Vector2f(1.2f, 1.2f));
 
 #pragma endregion
 
 #pragma region Katana
     
     sprite_Katana = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_katana")));
-    sprite_Katana2 = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_katana2")));
 
-    (*sprite_Katana).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2)));
+    (*sprite_Katana).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) - 20));
+    (*sprite_Katana).setScale(Vector2f(1.2f, 1.2f));
 
 #pragma endregion
 
@@ -38,8 +42,8 @@ void Title::Initialize()
     sprite_BG = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_bg")));
     sprite_Fence = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_fence")));
 
-    (*sprite_BG).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2));
-    (*sprite_Fence).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2));
+    (*sprite_BG).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 50));
+    (*sprite_Fence).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 50));
 
     FloatRect bounds = (*sprite_BG).getLocalBounds();
     float scaleX = WIDTH / bounds.size.x;
@@ -48,17 +52,19 @@ void Title::Initialize()
 
 #pragma endregion
 
-    
-    // 1. ResourceManager에서 텍스처 시퀀스 가져와 애니메이션 클립 생성
-    Init_Sprites(animator_run, sprite_run, "zero_run", 0.1f, true);
+#pragma region Plant
 
-    // 2. 기본 애니메이션 시작
-    animator_run.Play("zero_run");
-    animator_run.UpdateSpriteTexture(*sprite_run); // 첫 프레임 초기화
-    (*sprite_run).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2));
-    (*sprite_run).setScale(Vector2f(3.0f, 3.0f));
+    sprite_grass = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_grass")));
+    animator.AddClip("anim_title_plant", 0.1f, true);
+    animator.Play("anim_title_plant");
+    seq_sprite_plant.emplace(*resource.GetTexture("title_zero"));
 
+    (*seq_sprite_plant).setPosition(Vector2f(WIDTH / 2, HEIGHT - 150));
+    (*seq_sprite_plant).setScale({ scaleX, 1.5f });
+    (*sprite_grass).setPosition(Vector2f(WIDTH / 2, HEIGHT));
+    (*sprite_grass).setScale({ scaleX, 1.5f });
 
+#pragma endregion
 
 #pragma region SetPosition
     position = Vector2f(WIDTH / 2, -2 * HEIGHT);
@@ -68,8 +74,8 @@ void Title::Initialize()
 
 void Title::Update(float deltaTime)
 {
-    //animator_run.Update(deltaTime, *sprite_run);
-    
+    animator.Update(deltaTime, *seq_sprite_plant);
+
     if (position.y >= 360)
         position.y = 360;
     else
@@ -102,7 +108,7 @@ void Title::Update(float deltaTime)
         accO -= deltaTime;
         if (accO <= 0.0f)
         {
-            accO = (float)RandomInt(1, 20) / 10.0f;
+            accO = (float)RandomInt(1, 10) / 10.0f;
             isO = true;
         }
     }
@@ -111,7 +117,7 @@ void Title::Update(float deltaTime)
         accO -= deltaTime;
         if (accO <= 0.0f)
         {
-            accO = (float)RandomInt(1, 3) / 10.0f;
+            accO = (float)RandomInt(1, 2) / 10.0f;
             isO = false;
         }
     }
@@ -128,22 +134,23 @@ void Title::Render()
 
 void Title::Release()
 {
-    animator_run.Release();
+    animator.Release();
 }
 
 void Title::draw(RenderTarget& target, RenderStates states) const
 {
     target.draw(*sprite_BG, states);
     target.draw(*sprite_Fence, states);
-    
+
     target.draw(*sprite_ZERO, states);
-    
-    if(isZER)
+
+    if (isZER)
         target.draw(*sprite_ZER, states);
-    if(isO)
+    if (isO)
         target.draw(*sprite_O, states);
-    
+
     target.draw(*sprite_Katana, states);
 
-    //target.draw(*sprite_run, states);
+    target.draw(*seq_sprite_plant, states);
+    target.draw(*sprite_grass, states);
 }

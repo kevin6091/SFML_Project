@@ -38,6 +38,8 @@ void ObjectManager::LateUpdate(float deltaTime)
         {
             if ((*it)->IsDestroy())
             {
+                (*it)->Release();
+
                 auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].begin(), (*it));
                 renderObjects[(*it)->GetLayer()].erase(renderIter);
                 it = tag.second.erase(it);
@@ -78,8 +80,31 @@ void ObjectManager::RenderUI()
 
 void ObjectManager::AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> uObj)
 {
+    uObj->Initialize();
     objects[eTag].push_back(uObj);
     renderObjects[eLayer].push_back(uObj);
+}
+
+void ObjectManager::ReleaseScene()
+{
+    for (int i = (int)EObjectTag::Default; i < (int)EObjectTag::End; i++)
+    {
+        if ((EObjectTag)i == EObjectTag::Player)
+            continue;
+
+        for (auto& obj : objects[(EObjectTag)i])
+        {
+            obj->Release();
+        }
+        objects[(EObjectTag)i].clear();
+    }
+
+    for (int i = (int)ERenderLayer::Background; i < (int)ERenderLayer::End; i++)
+    {
+        if ((ERenderLayer)i == ERenderLayer::Player)
+            continue;
+        renderObjects[(ERenderLayer)i].clear();
+    }
 }
 
 void ObjectManager::Release()

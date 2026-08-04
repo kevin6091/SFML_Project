@@ -1,11 +1,13 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Sound.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 #include <map>	
 #include <set>
 #include <list>
+#include <array>
 #include <vector>	
 #include <queue>
 #include <stack>
@@ -17,10 +19,12 @@
 #include <filesystem>
 #include <fstream> 
 #include <iostream>
+#include <json.hpp>
 
 #include "using.h"
 #include "enum.h"
 #include "util.h"
+#include "macro.h"
 
 
 using namespace std;

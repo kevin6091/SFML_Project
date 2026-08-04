@@ -2,18 +2,19 @@
 #include "GameInstance.h"
 #include "ObjectManager.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
+#include "SceneManager.h"
+
 #include "Camera.h"
 #include "Title.h"
 
 void SceneTitle::Initialize()
 {
-	// 텍스쳐, 오브젝트 로딩
-	// 배치
-	// 플레이어 생성
-
 	auto& gameInstance = GameInstance::GetInstance();
 	auto& resourceManager = gameInstance.GetResourceManager();
 	auto& objectManager = gameInstance.GetObjectManager();
+
+	resourceManager.LoadTexture("default", "resource/textures/default/default");
 
 #pragma region Zero
 
@@ -44,10 +45,7 @@ void SceneTitle::Initialize()
 
 #pragma endregion
 
-	resourceManager.LoadTextureSequence("anim_zero_run", "resource/textures/zero/run", 10);
-
 	auto title = make_unique<Title>();
-	title->Initialize();
 	gameInstance.GetCamera().SetTarget(title.get());
 	objectManager.AddObject(EObjectTag::Default, ERenderLayer::Background, move(title));
 }
@@ -65,6 +63,9 @@ void SceneTitle::LateUpdate(float deltaTime)
 {
 	if (accTime_Wait > 2.0f)
 		GameInstance::GetInstance().GetObjectManager().LateUpdate(deltaTime);
+
+	if (GameInstance::GetInstance().GetInputManager().GetKeyDown(Keyboard::Key::Enter))
+		GameInstance::GetInstance().GetSceneManager().ChangeScene(ESceneType::Stage1, 1.0f);
 }
 
 void SceneTitle::Render()
@@ -85,4 +86,6 @@ void SceneTitle::Release()
 	// 플레이어 제외
 	// 오브젝트 매니저에 등록된 것들 삭제
 	// FadeIn
+
+	GameInstance::GetInstance().GetObjectManager().ReleaseScene();
 }

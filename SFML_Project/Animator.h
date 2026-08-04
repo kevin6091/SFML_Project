@@ -18,10 +18,11 @@ public:
     void Update(float deltaTime, Sprite& targetSprite);
     void UpdateSpriteTexture(Sprite& targetSprite) const;
 
-    __forceinline void AddClip(const string& name, const AnimationClip& clip) { clips.emplace(name, clip); }
     __forceinline bool IsFinished() const { return m_isFinished; }
     __forceinline string GetCurrentClipName() const { return currentClipName; }
     __forceinline size_t GetCurrentFrameIndex() const { return currentFrameIndex; }
+
+    void AddClip(const string& name, float duration, bool loop);
 
 private:
     unordered_map<string, AnimationClip> clips;

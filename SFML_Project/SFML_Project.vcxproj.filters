@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="00. GameInstance">
       <UniqueIdentifier>{c1d9817c-a1c4-4c1b-8ef5-7ab4bdb7b48c}</UniqueIdentifier>
     </Filter>
@@ -55,6 +51,24 @@
     <Filter Include="06. Camera">
       <UniqueIdentifier>{864699f1-029f-4063-b775-001c1a12ac8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Player">
+      <UniqueIdentifier>{93c818c3-6c73-41c2-90fc-d27e2273e4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. FSM">
+      <UniqueIdentifier>{4064b06a-66f6-49f6-a20a-254dfe954c9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. FSM\Player_FSM">
+      <UniqueIdentifier>{5fbfb90d-680d-4c1a-8668-d7ac1e4afea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\SceneStage1">
+      <UniqueIdentifier>{9eefaa7d-92a7-485e-87b0-c3314a486c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\InputManager">
+      <UniqueIdentifier>{ad74c013-5faf-452a-b4f9-6fc21cb62254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Status">
+      <UniqueIdentifier>{a78f35fb-5e1c-4709-a0fc-0a17aab6e89e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -95,6 +109,24 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>06. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>03. GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFSM.cpp">
+      <Filter>07. FSM\Player_FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>07. FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>01. Managers\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneStage1.cpp">
+      <Filter>04. Scene\SceneStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +177,27 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>06. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>03. GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFSM.h">
+      <Filter>07. FSM\Player_FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>07. FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="macro.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>01. Managers\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneStage1.h">
+      <Filter>04. Scene\SceneStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 #include "FadeManager.h"
 #include "GameInstance.h"
 #include "SceneTitle.h"
+#include "SceneStage1.h"
+
 
 SceneManager::SceneManager()
 {
@@ -16,9 +18,9 @@ void SceneManager::Initialize()
     uFadeManager = make_unique<FadeManager>();
 }
 
-void SceneManager::ChangeScene(ESceneType eSceneType, float fadeDuration)
+void SceneManager::ChangeScene(ESceneType _eSceneType, float fadeDuration)
 {
-    eSceneType = eSceneType;
+    eSceneType = _eSceneType;
 
     switch (eSceneType)
     {
@@ -26,9 +28,9 @@ void SceneManager::ChangeScene(ESceneType eSceneType, float fadeDuration)
         uNextScene = move(make_unique<SceneTitle>());
         isChangingScene = true;
         break;
-    case ESceneType::Tutorial:
+    case ESceneType::Stage1:
+        uNextScene = move(make_unique<SceneStage1>());
         isChangingScene = true;
-        uFadeManager->StartFadeOut(fadeDuration);
         break;
     case ESceneType::End:
         break;

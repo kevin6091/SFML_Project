@@ -28,8 +28,9 @@ private:
 	optional<Sprite> sprite_BG;
 	optional<Sprite> sprite_Fence;
 
-	optional<Sprite> sprite_run;
-	Animator animator_run;
+	optional<Sprite> sprite_grass;
+	optional<Sprite> seq_sprite_plant;
+	Animator animator;
 
 private:
 	float accTargetMove = 0.0f;

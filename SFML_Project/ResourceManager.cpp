@@ -17,6 +17,8 @@ sptr<Texture> ResourceManager::LoadTexture(const string& id, const string& filep
         return tex;
     }
 
+    cerr << "텍스쳐 로딩안됨!! : " << filepath << endl;
+
     return nullptr;
 }
 

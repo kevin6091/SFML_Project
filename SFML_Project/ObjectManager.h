@@ -17,6 +17,7 @@ public:
     void Release();
 
     void AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> obj);
+    void ReleaseScene();
 
 private:
     unordered_map<EObjectTag, list<sptr<GameObject>>> objects;

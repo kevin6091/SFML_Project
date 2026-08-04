@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"
+#include "InputManager.h"
 #include "GameObject.h"
 #include "Camera.h"
 
@@ -16,11 +17,13 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
     uObjectManager = uptr<ObjectManager>(new ObjectManager());
     uSceneManager  = uptr<SceneManager>(new SceneManager());
+    uInputManager = uptr<InputManager>(new InputManager());
 
-    uCamera->Initialize(Vector2f(width, height));
+    uCamera->Initialize(Vector2f((float)width, (float)height));
     uResourceManager->Initialzie();
     uObjectManager->Initialize();
     uSceneManager->Initialize();
+    uInputManager->Initialize();
 
     uSceneManager->ChangeScene(ESceneType::Title, 0.0f);
 }
@@ -42,6 +45,7 @@ void GameInstance::Run()
         float rawDeltaTime = clock.restart().asSeconds();
         float gameDeltaTime = rawDeltaTime * timeScale;
         
+        uInputManager->Update();
         uSceneManager->Update(gameDeltaTime);
         uSceneManager->LateUpdate(gameDeltaTime);
         uCamera->Update(rawDeltaTime);
@@ -68,4 +72,5 @@ void GameInstance::Release()
     uSceneManager->Release();
     uObjectManager->Release();
     uResourceManager->Release();
+    uInputManager->Release();
 }

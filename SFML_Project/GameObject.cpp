@@ -4,14 +4,13 @@
 #include "GameInstance.h"
 #include "ResourceManager.h"
 
-void GameObject::Init_Sprites(Animator& animator, optional<Sprite>& sprite, string name, float duration, bool loop)
+void GameObject::SetFace(bool face)
 {
-    auto& resourceManager = GameInstance::GetInstance().GetResourceManager();
-
-    if (auto runFrames = resourceManager.GetTextureSequence(name)) {
-        animator.AddClip(name, AnimationClip(*runFrames, duration, loop));
-        if (!runFrames->empty() && (*runFrames)[0])
-            sprite.emplace(*(*runFrames)[0]);
+    if (descStatus.bFace != face)
+    {
+        descStatus.bFace = face;
+        Vector2f originScale = (*sprite).getScale();
+        (*sprite).setScale(Vector2f(originScale.x * -1.0f, originScale.y * 1.0f));
     }
 }
 

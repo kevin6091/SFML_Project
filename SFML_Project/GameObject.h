@@ -6,6 +6,13 @@ class Animator;
 class GameObject : public Drawable
 {
 public:
+	struct StatusDesc
+	{
+		bool bFace = true; // false = 왼쪽, true = 오른쪽
+		float speed = 100.0f;
+	};
+
+public:
 	GameObject() = default;
 	virtual ~GameObject() = default;
 
@@ -17,26 +24,28 @@ public:
 	virtual void Release() = 0;
 	virtual void draw(RenderTarget& target, RenderStates states) const override = 0;
 
- 	__forceinline void Destroy() { isDestroy = true; }
-	__forceinline bool IsDestroy() const { return isDestroy; }
+ 	__forceinline void Destroy()				{ isDestroy = true; }
+	__forceinline bool IsDestroy() const		{ return isDestroy; }
 
-	__forceinline void SetActive(bool active) { isActive = active; }
-	__forceinline bool IsActive() const { return isActive; }
+	__forceinline void SetActive(bool active)	{ isActive = active; }
+	__forceinline bool IsActive() const			{ return isActive; }
 
-	__forceinline Vector2f GetPosition() const { return position; }
+	__forceinline Vector2f GetPosition() const					{ return position; }
 	__forceinline virtual void SetPosition(const Vector2f& pos) { position = pos; }
 
-	__forceinline ERenderLayer GetLayer() const { return eRenderLayer; }
-	__forceinline void SetLayer(ERenderLayer _layer) { eRenderLayer = _layer; }
+	__forceinline ERenderLayer GetLayer() const			{ return eRenderLayer; }
+	__forceinline void SetLayer(ERenderLayer _layer)	{ eRenderLayer = _layer; }
 
-	__forceinline EObjectTag GetTag() const { return eObjectTag; }
-	__forceinline void SetTag(EObjectTag tag) { eObjectTag = tag; }
+	__forceinline EObjectTag GetTag() const			{ return eObjectTag; }
+	__forceinline void SetTag(EObjectTag tag)		{ eObjectTag = tag; }
 
+	__forceinline StatusDesc& GetDesc()				{ return descStatus; }
+	
     // 충돌 판정용 AABB 바운딩 박스 (기본값: 위치 기준 크기 0)
 	//__forceinline virtual FloatRect GetBoundingBox() const { return FloatRect(position, { 0.0f, 0.0f }); }
 
+	void SetFace(bool face);
 protected:
-	void Init_Sprites(Animator& animator, optional<Sprite>& sprite, string name, float duration, bool loop);
 	Sprite CenterAlign_Sprite(Sprite sprite);
 
 protected:
@@ -49,5 +58,8 @@ protected:
 
 	bool isActive = true;		// 그리거나 연산할지 말지
 	bool isDestroy = false;		// Delete할지 말지
+
+	optional<Sprite> sprite;
+	StatusDesc descStatus;
 };
 

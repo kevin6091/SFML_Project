@@ -32,6 +32,8 @@ private:
     uptr<Scene> uCurrentScene;
     uptr<Scene> uNextScene;
     uptr<FadeManager> uFadeManager;
+    
+    ESceneType eSceneType = ESceneType::End;
     bool isChangingScene = false;
 };
 

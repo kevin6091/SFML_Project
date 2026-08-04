@@ -135,14 +135,20 @@
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FadeManager.cpp" />
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="GameInstance.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerFSM.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneStage1.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SFML_Project.cpp" />
+    <ClCompile Include="Status.cpp" />
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,14 +157,21 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FadeManager.h" />
     <ClInclude Include="enum.h" />
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="include.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="macro.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerFSM.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneStage1.h" />
     <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="Status.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="using.h" />
     <ClInclude Include="util.h" />

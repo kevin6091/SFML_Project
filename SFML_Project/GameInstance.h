@@ -4,6 +4,7 @@
 class ResourceManager;
 class ObjectManager;
 class SceneManager;
+class InputManager;
 class GameObject;
 class Camera;
 
@@ -25,6 +26,7 @@ private:
     uptr<ResourceManager>   uResourceManager;
     uptr<ObjectManager>     uObjectManager;
     uptr<SceneManager>      uSceneManager;
+    uptr<InputManager>      uInputManager;
     uptr<Camera>            uCamera;
 
 public:
@@ -35,16 +37,19 @@ public:
         return *uInstance;
     }
 
-    __forceinline ResourceManager& GetResourceManager()   { return *uResourceManager; }
-    __forceinline ObjectManager& GetObjectManager()       { return *uObjectManager; }
-    __forceinline SceneManager& GetSceneManager()         { return *uSceneManager; }
-    __forceinline Camera& GetCamera() { return *uCamera; }
+    __forceinline ResourceManager& GetResourceManager()     { return *uResourceManager; }
+    __forceinline ObjectManager& GetObjectManager()         { return *uObjectManager; }
+    __forceinline SceneManager& GetSceneManager()           { return *uSceneManager; }
+    __forceinline InputManager& GetInputManager()           { return *uInputManager; }
+    __forceinline Camera& GetCamera()                       { return *uCamera; }
+    __forceinline RenderWindow& GetWindow()                 { return window; }
+
     void Initialize(uint width, uint height, const string& title);
     void Run();
     void Release();
 
-    __forceinline float GetTimeScale() const { return timeScale; }
-    __forceinline void  SetTimeScale(float scale) { timeScale = scale; }
+    __forceinline float GetTimeScale() const            { return timeScale; }
+    __forceinline void  SetTimeScale(float scale)       { timeScale = scale; }
 
     void Draw(const GameObject& gameObject, RenderStates states = RenderStates::Default);
     // CreateObject() -> ResourceManager, Ç®¸µ

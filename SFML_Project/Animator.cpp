@@ -1,4 +1,6 @@
 #include "Animator.h"
+#include "GameInstance.h"
+#include "ResourceManager.h"
 
 Animator::Animator()
 {
@@ -73,6 +75,16 @@ void Animator::UpdateSpriteTexture(Sprite& targetSprite) const
             Vector2u size = tex->getSize();
             targetSprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y) * 0.5f });
         }
+    }
+}
+
+void Animator::AddClip(const string& name, float duration, bool loop)
+{
+    auto& resourceManager = GameInstance::GetInstance().GetResourceManager();
+
+    if (auto runFrames = resourceManager.GetTextureSequence(name))
+    {
+        clips.emplace(name, AnimationClip(*runFrames, duration, loop));
     }
 }
 
