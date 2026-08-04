@@ -39,12 +39,12 @@ void SceneTitle::Initialize()
 
 #pragma region Plant
 
-	//resourceManager.LoadTexture("title_grass", "resource/textures/title/plant/grass");
-	//resourceManager.LoadTextureSequence("title_plant", "resource/textures/title/plant/plant", 10);
+	resourceManager.LoadTexture("title_grass", "resource/textures/title/plant/grass");
+	resourceManager.LoadTextureSequence("anim_title_plant", "resource/textures/title/plant", 10, "frame_");
 
 #pragma endregion
 
-	resourceManager.LoadTextureSequence("zero_run", "resource/textures/zero/run", 10);
+	resourceManager.LoadTextureSequence("anim_zero_run", "resource/textures/zero/run", 10);
 
 	auto title = make_unique<Title>();
 	title->Initialize();
