@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 #include "InputManager.h"
 #include "GameObject.h"
 #include "Camera.h"
@@ -17,6 +18,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
     uObjectManager = uptr<ObjectManager>(new ObjectManager());
     uSceneManager  = uptr<SceneManager>(new SceneManager());
+    uCollisionManager = uptr<CollisionManager>(new CollisionManager());
     uInputManager = uptr<InputManager>(new InputManager());
 
     uCamera->Initialize(Vector2f((float)width, (float)height));

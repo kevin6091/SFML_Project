@@ -66,8 +66,29 @@
     <Filter Include="01. Managers\InputManager">
       <UniqueIdentifier>{ad74c013-5faf-452a-b4f9-6fc21cb62254}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08. Status">
-      <UniqueIdentifier>{a78f35fb-5e1c-4709-a0fc-0a17aab6e89e}</UniqueIdentifier>
+    <Filter Include="08. Collider">
+      <UniqueIdentifier>{8e4c8a04-0fae-4320-b870-dda8b7622469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\CollisionManager">
+      <UniqueIdentifier>{542ad9a7-82f4-4a2b-97a3-5f1c9deb0272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks">
+      <UniqueIdentifier>{69efd99b-b89c-4c5d-8e79-2c7018d79f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks\Block">
+      <UniqueIdentifier>{0b37dffd-f3c9-402e-b9f3-439a634f2c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks\Grippable">
+      <UniqueIdentifier>{f267a579-52d6-4e8a-ae4b-021de8967781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks\JumpThrough">
+      <UniqueIdentifier>{a4f8a229-c946-4f1b-8cc7-ea66fd0edbdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks\EndBlock">
+      <UniqueIdentifier>{be201fd5-69c0-45fc-9d75-2cc30f19dd65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\BackGrounds">
+      <UniqueIdentifier>{f46a876e-c222-4b32-8ea8-09dffd6e012e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +146,19 @@
     <ClCompile Include="SceneStage1.cpp">
       <Filter>04. Scene\SceneStage1</Filter>
     </ClCompile>
-    <ClCompile Include="Status.cpp">
+    <ClCompile Include="Collider.cpp">
+      <Filter>08. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>01. Managers\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>03. GameObject\Blocks\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1_BackGround.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Grippable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -196,7 +229,19 @@
     <ClInclude Include="SceneStage1.h">
       <Filter>04. Scene\SceneStage1</Filter>
     </ClInclude>
-    <ClInclude Include="Status.h">
+    <ClInclude Include="Collider.h">
+      <Filter>08. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>01. Managers\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>03. GameObject\Blocks\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1_BackGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Grippable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

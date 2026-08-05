@@ -73,7 +73,7 @@ void Animator::UpdateSpriteTexture(Sprite& targetSprite) const
 
             // 중심점(Origin)을 프레임 중앙으로 자동 정렬
             Vector2u size = tex->getSize();
-            targetSprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y) * 0.5f });
+            targetSprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y)});
         }
     }
 }

@@ -1,0 +1,60 @@
+{
+  "room_name": "room_factory_3_2",
+  "width": 1950,
+  "height": 1400,
+  "layers": [
+    {
+      "layer_name": "blocks",
+      "instances": [
+        { "object_name": "obj_block", "x": 0, "y": 480, "scale_x": 26, "scale_y": 2 },
+        { "object_name": "obj_block", "x": -416, "y": 1184, "scale_x": 47, "scale_y": 9 },
+        { "object_name": "obj_block", "x": 0, "y": 256, "scale_x": 26, "scale_y": 7 },
+        { "object_name": "obj_block", "x": 576, "y": 768, "scale_x": 61, "scale_y": 13 },
+        { "object_name": "obj_block", "x": 1056, "y": 480, "scale_x": 28, "scale_y": 9 },
+        { "object_name": "obj_grippable", "x": 832, "y": 256, "scale_x": 1, "scale_y": 11 },
+        { "object_name": "obj_grippable", "x": 288, "y": 544, "scale_x": 4, "scale_y": 14 },
+        { "object_name": "obj_grippable", "x": 1024, "y": 480, "scale_x": 1, "scale_y": 10 },
+        { "object_name": "obj_jumpthrough", "x": 416, "y": 768, "scale_x": 4, "scale_y": 1 },
+        { "object_name": "obj_ceiling_tile_strip", "x": 416, "y": 768, "scale_x": 8, "scale_y": 1 },
+        { "object_name": "obj_grippable", "x": 544, "y": 768, "scale_x": 1, "scale_y": 13 },
+        { "object_name": "obj_block", "x": -896, "y": 768, "scale_x": 40, "scale_y": 7 },
+        { "object_name": "obj_block", "x": 0, "y": 32, "scale_x": 66, "scale_y": 7 },
+        { "object_name": "obj_block", "x": 800, "y": 544, "scale_x": 1.000004, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 0, "y": 544, "scale_x": 9, "scale_y": 7 },
+        { "object_name": "obj_block", "x": -256, "y": 992, "scale_x": 9, "scale_y": 7 },
+        { "object_name": "obj_end_block", "x": 1856, "y": 256, "scale_x": 1, "scale_y": 7 }
+      ]
+    },
+    {
+      "layer_name": "objects",
+      "instances": [
+        { "object_name": "obj_fanblade", "x": 1344, "y": 256, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_enemy_grunt", "x": 704, "y": 768, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 1216, "y": 480, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_ceiling_laser", "x": 944, "y": 256, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_ceiling_laser", "x": 480, "y": 544, "scale_x": 1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "player",
+      "instances": [
+        { "object_name": "obj_respawn_point", "x": 288, "y": 1184, "scale_x": 1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "fg_tileset",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "bg_tileset",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Colour",
+      "instances": [
+      ]
+    }
+  ]
+}

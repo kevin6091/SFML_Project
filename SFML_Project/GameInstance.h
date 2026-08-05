@@ -5,6 +5,7 @@ class ResourceManager;
 class ObjectManager;
 class SceneManager;
 class InputManager;
+class CollisionManager;
 class GameObject;
 class Camera;
 
@@ -26,6 +27,7 @@ private:
     uptr<ResourceManager>   uResourceManager;
     uptr<ObjectManager>     uObjectManager;
     uptr<SceneManager>      uSceneManager;
+    uptr<CollisionManager>  uCollisionManager;
     uptr<InputManager>      uInputManager;
     uptr<Camera>            uCamera;
 
@@ -37,12 +39,13 @@ public:
         return *uInstance;
     }
 
-    __forceinline ResourceManager& GetResourceManager()     { return *uResourceManager; }
-    __forceinline ObjectManager& GetObjectManager()         { return *uObjectManager; }
-    __forceinline SceneManager& GetSceneManager()           { return *uSceneManager; }
-    __forceinline InputManager& GetInputManager()           { return *uInputManager; }
-    __forceinline Camera& GetCamera()                       { return *uCamera; }
-    __forceinline RenderWindow& GetWindow()                 { return window; }
+    __forceinline ResourceManager& GetResourceManager()             { return *uResourceManager; }
+    __forceinline ObjectManager& GetObjectManager()                 { return *uObjectManager; }
+    __forceinline SceneManager& GetSceneManager()                   { return *uSceneManager; }
+    __forceinline InputManager& GetInputManager()                   { return *uInputManager; }
+    __forceinline CollisionManager& GetCollisionManager()           { return *uCollisionManager; }
+    __forceinline Camera& GetCamera()                               { return *uCamera; }
+    __forceinline RenderWindow& GetWindow()                         { return window; }
 
     void Initialize(uint width, uint height, const string& title);
     void Run();

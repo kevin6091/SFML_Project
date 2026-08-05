@@ -33,11 +33,6 @@ using namespace sf;
 #define WIDTH 960
 #define HEIGHT 540
 
-
-
-
-
-
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

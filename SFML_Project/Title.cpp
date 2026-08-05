@@ -18,9 +18,9 @@ void Title::Initialize()
     sprite_ZER = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_zer")));
     sprite_O = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_o")));
 
-    (*sprite_ZERO).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
-    (*sprite_ZER).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
-    (*sprite_O).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 80));
+    (*sprite_ZERO).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 60));
+    (*sprite_ZER).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 60));
+    (*sprite_O).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) + 60));
 
     (*sprite_ZERO).setScale(Vector2f(1.2f, 1.2f));
     (*sprite_ZER).setScale(Vector2f(1.2f, 1.2f));
@@ -32,7 +32,7 @@ void Title::Initialize()
     
     sprite_Katana = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_katana")));
 
-    (*sprite_Katana).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) - 20));
+    (*sprite_Katana).setPosition(Vector2f(WIDTH / 2, (HEIGHT / 2) - 40));
     (*sprite_Katana).setScale(Vector2f(1.2f, 1.2f));
 
 #pragma endregion
@@ -42,8 +42,8 @@ void Title::Initialize()
     sprite_BG = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_bg")));
     sprite_Fence = CenterAlign_Sprite(Sprite(*resource.GetTexture("title_fence")));
 
-    (*sprite_BG).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 50));
-    (*sprite_Fence).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 50));
+    (*sprite_BG).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 20));
+    (*sprite_Fence).setPosition(Vector2f(WIDTH / 2, HEIGHT / 2 - 20));
 
     FloatRect bounds = (*sprite_BG).getLocalBounds();
     float scaleX = WIDTH / bounds.size.x;
@@ -59,9 +59,9 @@ void Title::Initialize()
     animator.Play("anim_title_plant");
     seq_sprite_plant.emplace(*resource.GetTexture("title_zero"));
 
-    (*seq_sprite_plant).setPosition(Vector2f(WIDTH / 2, HEIGHT - 150));
+    (*seq_sprite_plant).setPosition(Vector2f(WIDTH / 2, HEIGHT + 80));
     (*seq_sprite_plant).setScale({ scaleX, 1.5f });
-    (*sprite_grass).setPosition(Vector2f(WIDTH / 2, HEIGHT));
+    (*sprite_grass).setPosition(Vector2f(WIDTH / 2, HEIGHT - 20));
     (*sprite_grass).setScale({ scaleX, 1.5f });
 
 #pragma endregion

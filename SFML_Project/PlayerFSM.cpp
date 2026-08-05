@@ -13,7 +13,6 @@
 
 #pragma endregion
 
-
 #pragma region PlayerFSM
 
 PlayerFSM::PlayerFSM(Player& _context)
@@ -45,6 +44,36 @@ void PlayerFSM::Play(const string& name, bool forceReset)
 	context.GetAnimator().Play(name, forceReset);
 }
 
+void PlayerFSM::MoveLeft()
+{
+	Vector2f newVelocity = context.GetVelocity();
+	if (newVelocity.x > -context.GetSpeed())
+		newVelocity.x = -context.GetSpeed();
+	context.SetVelocity(newVelocity);
+	context.SetFace(false);
+}
+
+void PlayerFSM::MoveRight()
+{
+	context.SetFace(true);
+	Vector2f newVelocity = context.GetVelocity();
+	if (newVelocity.x <= context.GetSpeed())
+		newVelocity.x = context.GetSpeed();
+	context.SetVelocity(newVelocity);
+}
+
+void PlayerFSM::BreakX(float deltaTime)
+{
+	Vector2f newVelocity = context.GetVelocity();
+	if (newVelocity.x > 0)
+		newVelocity.x -= context.GetSpeed() * 2 * deltaTime;
+	else
+		newVelocity.x += context.GetSpeed() * 2 * deltaTime;
+	if (fabsf(newVelocity.x) <= 0.01f)
+		newVelocity.x = 0.0f;
+	context.SetVelocity(newVelocity);
+}
+
 #pragma endregion
 
 #pragma region Player_Idle
@@ -74,8 +103,12 @@ uptr<PlayerFSM> Player_Idle::Update(float deltaTime)
 	{
 		return make_unique<Player_Crouch>(context);
 	}
+	else if (INPUT.GetKeyDown(KEY::W))
+	{
+		return make_unique<Player_Jump>(context);
+	}
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 	{
 		return make_unique<Player_Attack>(context);
 	}
@@ -109,9 +142,12 @@ void Player_Run::Enter()
 uptr<PlayerFSM> Player_Run::Update(float deltaTime)
 {
 	if (INPUT.GetKeyPress(KEY::A))
-		context.SetFace(false);
+		MoveLeft();
 	else if (INPUT.GetKeyPress(KEY::D))
-		context.SetFace(true);
+		MoveRight();
+	
+	if (INPUT.GetKeyPress(KEY::W))
+		return make_unique<Player_Jump>(context);
 
 	if (INPUT.GetKeyPress(KEY::S))
 		return make_unique<Player_Roll>(context);
@@ -119,7 +155,7 @@ uptr<PlayerFSM> Player_Run::Update(float deltaTime)
 	if (INPUT.GetKeyNone(KEY::A) && INPUT.GetKeyNone(KEY::D) && INPUT.GetKeyNone(KEY::S))
 		return make_unique<Player_Run_To_Idle>(context);
 		
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
 
 	return nullptr;
@@ -151,11 +187,13 @@ void Player_Idle_To_Run::Enter()
 uptr<PlayerFSM> Player_Idle_To_Run::Update(float deltaTime)
 {
 	if (INPUT.GetKeyPress(KEY::A))
-		context.SetFace(false);
+		MoveLeft();
 	else if (INPUT.GetKeyPress(KEY::D))
-		context.SetFace(true);
+		MoveRight();
 	else if (INPUT.GetKeyPress(KEY::S))
 		return make_unique<Player_Roll>(context);
+	else if (INPUT.GetKeyPress(KEY::W))
+		return make_unique<Player_Jump>(context);
 
 	if (INPUT.GetKeyNone(KEY::A) && INPUT.GetKeyNone(KEY::D) && INPUT.GetKeyNone(KEY::S))
 		return make_unique<Player_Run_To_Idle>(context);
@@ -163,7 +201,7 @@ uptr<PlayerFSM> Player_Idle_To_Run::Update(float deltaTime)
 	if(context.GetAnimator().IsFinished())
 		return make_unique<Player_Run>(context);
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
 
 	return nullptr;
@@ -194,15 +232,18 @@ void Player_Run_To_Idle::Enter()
 
 uptr<PlayerFSM> Player_Run_To_Idle::Update(float deltaTime)
 {
+	// 브레이크, 바로 멈추진 않음
+	BreakX(deltaTime);
+
 	if (INPUT.GetKeyPress(KEY::A) || INPUT.GetKeyPress(KEY::D))
-	{
 		return make_unique<Player_Idle_To_Run>(context);
-	}
+	else if (INPUT.GetKeyPress(KEY::W))
+		return make_unique<Player_Jump>(context);
 
 	if (context.GetAnimator().IsFinished())
 		return make_unique<Player_Idle>(context);
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
 
 	return nullptr;
@@ -235,19 +276,23 @@ uptr<PlayerFSM> Player_Crouch::Update(float deltaTime)
 {
 	if (INPUT.GetKeyDown(KEY::A))
 	{
-		context.SetFace(false);
+		MoveLeft();
 		return make_unique<Player_Roll>(context);
 	}
 	else if (INPUT.GetKeyDown(KEY::D))
 	{
-		context.SetFace(true);
+		MoveRight();
 		return make_unique<Player_Roll>(context);
+	}
+	else if (INPUT.GetKeyPress(KEY::W))
+	{
+		return make_unique<Player_Jump>(context);
 	}
 
 	if(!INPUT.GetKeyPress(KEY::S))
 		return make_unique<Player_Crouch_To_Idle>(context);
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
 
 	return nullptr;
@@ -281,8 +326,11 @@ uptr<PlayerFSM> Player_Crouch_To_Idle::Update(float deltaTime)
 	if (context.GetAnimator().IsFinished())
 		return make_unique<Player_Idle>(context);
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
+
+	if (INPUT.GetKeyPress(KEY::W))
+		return make_unique<Player_Jump>(context);
 
 	return nullptr;
 }
@@ -308,14 +356,28 @@ void Player_Roll::Enter()
 {
  	context.SetState(EPlayerState::Roll);
 	Play(PLAYER_ROLL, true);
+
+	Vector2f vel = context.GetVelocity();
+	if (context.GetDesc().bFace == false)
+	{
+		vel.x = -ATTACK_FORCE;
+		vel.y += ATTACK_FORCE;
+	}
+	else
+	{
+		vel.x = +ATTACK_FORCE;
+		vel.y += ATTACK_FORCE;
+	}
+
+	context.SetVelocity(vel);
 }
 
 uptr<PlayerFSM> Player_Roll::Update(float deltaTime)
 {
 	if (INPUT.GetKeyDown(KEY::W))
-	{
-		// 점프
-	}
+		return make_unique<Player_Jump>(context);
+	else if (INPUT.GetKeyPress(KEY::W))
+		return make_unique<Player_Jump>(context);
 
 	if (ANIM.IsFinished())
 	{
@@ -325,7 +387,7 @@ uptr<PlayerFSM> Player_Roll::Update(float deltaTime)
 			return make_unique<Player_Run_To_Idle>(context);
 	}
 
-	if (INPUT.GetMouseDown(MOUSE::Left))
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
 
 	return nullptr;
@@ -339,13 +401,110 @@ void Player_Roll::Exit()
 
 #pragma region Player_Jump
 
+Player_Jump::Player_Jump(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Jump::~Player_Jump()
+{
+}
+
+void Player_Jump::Enter()
+{
+	context.SetState(EPlayerState::Jump);
+	Play(PLAYER_JUMP, true);
+	context.SetIsGrounded(false);
+	context.SetVelocity({ context.GetVelocity().x, context.GetVelocity().y - JUMP_FORCE });
+}
+
+uptr<PlayerFSM> Player_Jump::Update(float deltaTime)
+{
+	if (INPUT.GetKeyPress(KEY::A))
+		MoveLeft();
+	else if (INPUT.GetKeyPress(KEY::D))
+		MoveRight();
+	else if (INPUT.GetKeyPress(KEY::S))
+	{
+		// 빠른 착지
+	}
+
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
+		return make_unique<Player_Attack>(context);
+
+	if (context.GetVelocity().y >= 0.f)
+		return make_unique<Player_Fall>(context);
+
+	return nullptr;
+}
+
+void Player_Jump::Exit()
+{
+}
+
 #pragma endregion
 
 #pragma region Player_Fall
 
-#pragma endregion
+Player_Fall::Player_Fall(Player& context)
+	:PlayerFSM(context)
+{
+}
 
-#pragma region Player_Landing
+Player_Fall::~Player_Fall()
+{
+}
+
+void Player_Fall::Enter()
+{
+	context.SetState(EPlayerState::Fall);
+	Play(PLAYER_FALL, true);
+}
+
+uptr<PlayerFSM> Player_Fall::Update(float deltaTime)
+{
+	if (INPUT.GetKeyPress(KEY::A))
+	{
+		if(context.GetVelocity().x <= 0.f)
+			MoveLeft();
+	}
+	else if (INPUT.GetKeyPress(KEY::D))
+	{
+		if (context.GetVelocity().x >= 0.f)
+			MoveRight();
+	}
+	
+	if (INPUT.GetKeyPress(KEY::S))
+	{
+		context.SetGravityFactor(2.5f);
+	}
+
+	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
+		return make_unique<Player_Attack>(context);
+
+	if (context.GetIsGrounded())
+	{
+		if (INPUT.GetKeyPress(KEY::S) && INPUT.GetKeyPress(KEY::A))
+		{
+			MoveLeft();
+			return make_unique<Player_Roll>(context);
+		}
+		else if (INPUT.GetKeyPress(KEY::S) && INPUT.GetKeyPress(KEY::D))
+		{
+			MoveRight();
+			return make_unique<Player_Roll>(context);
+		}
+		context.ResetAttackCount();
+		return make_unique<Player_Run_To_Idle>(context);
+	}
+
+	return nullptr;
+}
+
+void Player_Fall::Exit()
+{
+	context.SetGravityFactor(1.0f);
+}
 
 #pragma endregion
 
@@ -365,9 +524,21 @@ void Player_Attack::Enter()
 	context.SetState(EPlayerState::Attack);
 	Play(PLAYER_ATTACK, true);
 
-	Vector2f mousePos = INPUT.GetMouseWorldPos();
-	Vector2f playerPos = context.GetPosition();
+	context.ResetAttackCool();
+	context.AddAttackCount();
 
+	mousePos = INPUT.GetMouseWorldPos();
+	playerPos = context.GetPosition();
+	attackDir = (mousePos - playerPos).normalized();
+	Vector2f newVelocity = context.GetVelocity();
+	float decrease = (float)context.GetAttackCount();
+	if (decrease > 1.f)
+		decrease *= 0.8f;
+
+	newVelocity.x = (attackDir * ATTACK_FORCE).x;
+	newVelocity.y = (attackDir * (ATTACK_FORCE / decrease)).y;
+	context.SetVelocity(newVelocity);
+	
 	if (mousePos.x >= playerPos.x)
 		context.SetFace(true);
 	else
@@ -378,7 +549,10 @@ uptr<PlayerFSM> Player_Attack::Update(float deltaTime)
 {
 	if (ANIM.IsFinished())
 	{
-		return make_unique<Player_Run_To_Idle>(context);
+		if (context.GetIsGrounded())
+			return make_unique<Player_Run_To_Idle>(context);
+		else
+			return make_unique<Player_Fall>(context);
 	}
 
 	return nullptr;
@@ -389,3 +563,32 @@ void Player_Attack::Exit()
 }
 
 #pragma endregion
+
+#pragma region Player_WallSlide
+
+Player_WallSlide::Player_WallSlide(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_WallSlide::~Player_WallSlide()
+{
+}
+
+void Player_WallSlide::Enter()
+{
+	context.SetState(EPlayerState::WallSlide);
+	Play(PLAYER_WALLSLIDE, true);
+}
+
+uptr<PlayerFSM> Player_WallSlide::Update(float deltaTime)
+{
+	return nullptr;
+}
+
+void Player_WallSlide::Exit()
+{
+}
+
+#pragma endregion
+

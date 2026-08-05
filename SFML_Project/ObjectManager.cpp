@@ -1,6 +1,9 @@
 #include "ObjectManager.h"
 #include "GameObject.h"
+#include "GameInstance.h"
 #include "ResourceManager.h"
+#include "CollisionManager.h"
+
 
 void ObjectManager::Initialize()
 {
@@ -16,6 +19,9 @@ void ObjectManager::Update(float deltaTime)
             obj->Update(deltaTime);
         }
     }
+
+    GameInstance::GetInstance().GetCollisionManager()
+        .UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
 }
 
 void ObjectManager::LateUpdate(float deltaTime)
@@ -36,7 +42,7 @@ void ObjectManager::LateUpdate(float deltaTime)
 
         for (auto it = tag.second.begin(); it != tag.second.end();)
         {
-            if ((*it)->IsDestroy())
+            if ((*it)->GetIsDestroy())
             {
                 (*it)->Release();
 

@@ -1,6 +1,11 @@
 #pragma once
 #include "FSM.h"
 
+#define GRAVITY 1200.f
+#define MAX_FALL 1000.0f
+#define JUMP_FORCE 450.f
+#define ATTACK_FORCE 550.0f
+
 class Player;
 
 class PlayerFSM : public FSM
@@ -16,7 +21,9 @@ public:
 
 protected:
 	virtual void Play(const string& name, bool forceReset);
-
+	virtual void MoveLeft();
+	virtual void MoveRight();
+	virtual void BreakX(float deltaTime);
 protected:
 	Player& context;
 };
@@ -103,6 +110,44 @@ class Player_Attack : public PlayerFSM
 public:
 	Player_Attack(Player& context);
 	virtual ~Player_Attack();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+
+private:
+	Vector2f mousePos;
+	Vector2f playerPos;
+	Vector2f attackDir;
+};
+
+class Player_Jump : public PlayerFSM
+{
+public:
+	Player_Jump(Player& context);
+	virtual ~Player_Jump();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_Fall : public PlayerFSM
+{
+public:
+	Player_Fall(Player& context);
+	virtual ~Player_Fall();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_WallSlide : public PlayerFSM
+{
+public:
+	Player_WallSlide(Player& context);
+	virtual ~Player_WallSlide();
 
 	virtual void Enter() override;
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;

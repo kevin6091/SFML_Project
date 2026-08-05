@@ -11,3 +11,12 @@
 #define PLAYER_FALL				"anim_player_fall"
 
 #define PLAYER_ATTACK			"anim_player_attack"
+#define PLAYER_WALLSLIDE		"anim_player_wallslide"
+
+#define MAP_STAGE1				"map_stage1"
+
+
+//#define GRAVITY 98.f
+//#define MAX_FALL 300.0f
+//#define JUMP_FORCE 200.0f
+//#define ATTACK_FORCE 300.0f

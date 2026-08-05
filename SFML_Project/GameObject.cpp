@@ -3,6 +3,15 @@
 #include "AnimationClip.h"
 #include "GameInstance.h"
 #include "ResourceManager.h"
+#include "Collider.h"
+
+GameObject::GameObject()
+{
+}
+
+GameObject::~GameObject()
+{
+}
 
 void GameObject::SetFace(bool face)
 {
@@ -20,4 +29,24 @@ Sprite GameObject::CenterAlign_Sprite(Sprite sprite)
     sprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y) * 0.5f });
 
     return sprite;
+}
+
+void GameObject::SetPosition(const Vector2f& pos)
+{
+    Vector2f offset = { 0.f, 0.f };
+    if (uCollider) 
+    {
+        // 기존 오프셋(거리) 저장
+        offset = uCollider->GetBounds().position - position;
+    }
+
+    position = pos;
+    if (sprite) 
+        sprite->setPosition(pos);
+
+    if (uCollider) 
+    {
+        // 새로운 위치에 오프셋을 더해서 덮어쓰기 방지
+        uCollider->GetBounds().position = pos + offset;
+    }
 }

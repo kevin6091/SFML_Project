@@ -2,9 +2,14 @@
 #include "GameInstance.h"
 #include "Animator.h"
 #include "ResourceManager.h"
+#include "Collider.h"
+#include "PlayerFSM.h"
 
 Player::Player()
 {
+	eObjectTag = EObjectTag::Player;
+	eRenderLayer = ERenderLayer::Player;
+	speed = 250.f;
 }
 
 Player::~Player()
@@ -13,6 +18,8 @@ Player::~Player()
 
 void Player::Initialize()
 {
+#pragma region Resource
+
 	auto& resource = GameInstance::GetInstance().GetResourceManager();
 	
 	animator.AddClip(PLAYER_IDLE, 0.08f, true);
@@ -24,22 +31,54 @@ void Player::Initialize()
 	animator.AddClip(PLAYER_CROUCH_TO_IDLE, 0.05f, false);
 
 	animator.AddClip(PLAYER_ROLL, 0.05f, false);
+	animator.AddClip(PLAYER_JUMP, 0.1f, true);
+	animator.AddClip(PLAYER_FALL, 0.1f, true);
 	
-	animator.AddClip(PLAYER_ATTACK, 0.05f, false);
-
+	animator.AddClip(PLAYER_ATTACK, 0.02f, false);
 
 	sprite.emplace(*resource.GetTexture("default"));
-	(*sprite).setScale(Vector2f(1.5f, 1.5f));
+
+#pragma endregion
+
+#pragma region FSM
 
 	curState = EPlayerState::Idle;
 	curFSM = make_unique<Player_Idle>(*this);
 	curFSM->Enter();
 
-	SetPosition(Vector2f(0.0f, 0.0f));
+#pragma endregion
+
+	uCollider = make_unique<Collider>(this);
+	Vector2f topLeftOffset = { -9.f, -44.f };
+	ColliderDesc desc = { "", EColliderType::DynamicObject, FloatRect(topLeftOffset, {18.f, 44.f}) };	
+	uCollider->Initialize(desc);
+
+	SetPosition(descStatus.vSpawnPoint);
+	sprite->setScale({ 1.5f,1.5f });
 }
 
 void Player::Update(float deltaTime)
 {
+#pragma region Velocity
+
+	velocity.y += GRAVITY * deltaTime * gravityFactor;
+	if (velocity.y > MAX_FALL)
+		velocity.y = MAX_FALL;
+
+	Vector2f newVelocity = velocity;
+	if (newVelocity.x > 0)
+		newVelocity.x -= GRAVITY * deltaTime * 0.5f;
+	else
+		newVelocity.x += GRAVITY * deltaTime * 0.5f;
+	if (fabsf(newVelocity.x) <= 0.0001f)
+		newVelocity.x = 0.0f;
+	velocity = newVelocity;
+
+#pragma endregion
+
+	if ((accAttackCool += deltaTime) >= 1.0f)
+		attackCount = 0;
+
 	if (curFSM)
 	{
 		if (uptr<PlayerFSM> nextFSM = curFSM.get()->Update(deltaTime))
@@ -67,6 +106,14 @@ void Player::Render()
 void Player::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(*sprite, states);
+
+	RectangleShape debugBox(uCollider->GetBounds().size);
+	debugBox.setPosition(uCollider->GetBounds().position);
+	debugBox.setFillColor(Color(0, 255, 0, 100));
+
+	debugBox.setOutlineThickness(1.0f);
+
+	//target.draw(debugBox);
 }
 
 void Player::Release()

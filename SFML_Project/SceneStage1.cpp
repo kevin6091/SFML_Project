@@ -7,6 +7,9 @@
 
 #include "Camera.h"
 #include "Player.h"
+#include "Block.h"
+#include "Stage1_BackGround.h"
+#include "Grippable.h"
 
 
 void SceneStage1::Initialize()
@@ -15,8 +18,14 @@ void SceneStage1::Initialize()
 	auto& resourceManager = gameInstance.GetResourceManager();
 	auto& objectManager = gameInstance.GetObjectManager();
 
+	//gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH * 5.5f, (float)HEIGHT * 5.5f));
+	//gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH / 1.5f, (float)HEIGHT / 1.5f));
+	gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH, (float)HEIGHT));
+
+	gameInstance.GetCamera().SetOffSet(Vector2f(0.f, -60.f)); 
+
 	//************** Texture, Anim **************//
-#pragma region Zero
+#pragma region Texture. Anim
 
 	// idle, moving
 	resourceManager.LoadTextureSequence(PLAYER_IDLE, "resource/textures/player/idle", 11);
@@ -34,17 +43,53 @@ void SceneStage1::Initialize()
 	// attack
 	resourceManager.LoadTextureSequence(PLAYER_ATTACK, "resource/textures/player/attack", 7);
 
+	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
+
 #pragma endregion
+
+
 
 	//************** Object **************//
-#pragma region Player
+#pragma region MapInfo, Object
 
-	auto player = make_unique<Player>();
-	player->Initialize();
-	gameInstance.GetCamera().SetTarget(player.get());
-	objectManager.AddObject(EObjectTag::Player, ERenderLayer::Player, move(player));
+	auto stage1 = make_unique<Stage1_BackGround>();
+	objectManager.AddObject(EObjectTag::Default, ERenderLayer::Background, move(stage1));
+
+	vector<ColliderDesc> outColliders;
+	vector<MapObjectInfo> outObjects;
+	Vector2f outMapSize;
+	
+	resourceManager.LoadMap("resource/map_info/stage1_info.json", outColliders, outObjects, outMapSize);
+
+	for (auto& col : outColliders)
+	{
+		if (col.type == EColliderType::Block)
+		{
+			auto block = make_unique<Block>(col);
+			objectManager.AddObject(EObjectTag::Wall, ERenderLayer::Background, move(block));
+		}
+		else if (col.type == EColliderType::Grippable)
+		{
+			auto grippable = make_unique<Grippable>(col);
+			objectManager.AddObject(EObjectTag::Wall, ERenderLayer::Background, move(grippable));
+		}
+	}
+
+	for (auto& obj : outObjects) 
+	{
+		if (obj.layerName == "player")
+		{
+			auto player = make_unique<Player>();
+			gameInstance.GetCamera().SetTarget(player.get());
+			player->GetDesc().vSpawnPoint = obj.position;
+			objectManager.AddObject(EObjectTag::Player, ERenderLayer::Player, move(player));
+		}
+	}
+
 
 #pragma endregion
+
+
 
 }
 
