@@ -16,6 +16,8 @@ enum class EPlayerState
 	Fall,
 	Attack,
 	WallSlide,
+	Flip,
+
 	End
 };
 
@@ -33,6 +35,8 @@ public:
 	virtual void Release() override;
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
 
+	virtual void CollisionEvent(GameObject& other);
+
 public:
 	__forceinline Animator& GetAnimator()				{ return animator; }
 	__forceinline EPlayerState GetState()				{ return  curState; }
@@ -44,7 +48,13 @@ public:
 	__forceinline float GetAttackCool()			{ return accAttackCool; }
 	__forceinline void ResetAttackCool()		{ accAttackCool = 0.0f; }
 
-	__forceinline void SetGravityFactor(float _factor) { gravityFactor = _factor; }
+	__forceinline void SetGravityFactor(float _factor)	{ gravityFactor = _factor; } // 중력 조절
+
+	__forceinline void SetIsGrippable(bool boolean)		{ isGrippable = boolean; }	
+	__forceinline bool GetIsGrippable()					{ return isGrippable; }	// 벽타기 벽에 출동중인지
+
+private:
+	void ForceChangeFSM(uptr<PlayerFSM> fsm);
 
 private:
 	uptr<PlayerFSM> curFSM;
@@ -55,6 +65,9 @@ private:
 	int		attackCount = 0;
 	float	accAttackCool = 0.0f;
 	float	gravityFactor = 1.0f;
+
+	float	grippableEnd = 0.f;
+	bool	isGrippable = false;
 };
 
 

@@ -239,6 +239,8 @@ uptr<PlayerFSM> Player_Run_To_Idle::Update(float deltaTime)
 		return make_unique<Player_Idle_To_Run>(context);
 	else if (INPUT.GetKeyPress(KEY::W))
 		return make_unique<Player_Jump>(context);
+	else if (INPUT.GetKeyPress(KEY::S))
+		return make_unique<Player_Crouch>(context);
 
 	if (context.GetAnimator().IsFinished())
 		return make_unique<Player_Idle>(context);
@@ -420,14 +422,16 @@ void Player_Jump::Enter()
 
 uptr<PlayerFSM> Player_Jump::Update(float deltaTime)
 {
+	if (context.GetIsGrippable())
+		return make_unique<Player_WallSlide>(context);
+	
+
 	if (INPUT.GetKeyPress(KEY::A))
 		MoveLeft();
 	else if (INPUT.GetKeyPress(KEY::D))
 		MoveRight();
 	else if (INPUT.GetKeyPress(KEY::S))
-	{
-		// ºü¸¥ ÂøÁö
-	}
+		context.SetGravityFactor(2.5f);
 
 	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
@@ -465,12 +469,18 @@ uptr<PlayerFSM> Player_Fall::Update(float deltaTime)
 {
 	if (INPUT.GetKeyPress(KEY::A))
 	{
-		if(context.GetVelocity().x <= 0.f)
+		if (context.GetIsGrippable())
+			return make_unique<Player_WallSlide>(context);
+
+		if(context.GetVelocity().x <= 0.05f)
 			MoveLeft();
 	}
 	else if (INPUT.GetKeyPress(KEY::D))
 	{
-		if (context.GetVelocity().x >= 0.f)
+		if (context.GetIsGrippable())
+			return make_unique<Player_WallSlide>(context);
+
+		if (context.GetVelocity().x >= -0.051f)
 			MoveRight();
 	}
 	
@@ -583,12 +593,72 @@ void Player_WallSlide::Enter()
 
 uptr<PlayerFSM> Player_WallSlide::Update(float deltaTime)
 {
+	if (context.GetIsGrounded())
+		return make_unique<Player_Run_To_Idle>(context);
+	
+	if (!context.GetIsGrippable())
+		return make_unique<Player_Fall>(context);
+
+	if (INPUT.GetKeyDown(KEY::W))
+		return make_unique<Player_Flip>(context);
+
+	context.SetGravityFactor(0.4f);
+
 	return nullptr;
 }
 
 void Player_WallSlide::Exit()
 {
+	context.SetGravityFactor(1.0f);
+	
+	if(context.GetDesc().bFace)
+		context.SetFace(false);
+	else
+		context.SetFace(true);
 }
 
 #pragma endregion
 
+#pragma region Player_Flip
+
+Player_Flip::Player_Flip(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Flip::~Player_Flip()
+{
+}
+
+void Player_Flip::Enter()
+{
+	context.SetState(EPlayerState::Flip);
+	Play(PLAYER_FLIP, true);
+
+	if (context.GetDesc().bFace)
+		context.SetVelocity({ ATTACK_FORCE, -JUMP_FORCE});
+	else
+		context.SetVelocity({ -ATTACK_FORCE, -JUMP_FORCE});
+
+	context.SetIsGrippable(false);
+}
+
+uptr<PlayerFSM> Player_Flip::Update(float deltaTime)
+{
+	if (ANIM.IsFinished())
+		return make_unique<Player_Fall>(context);
+
+	if (context.GetIsGrippable() && ANIM.GetCurrentFrameIndex() >= 4)
+		return make_unique<Player_WallSlide>(context);
+
+	if (context.GetIsGrounded())
+		return make_unique<Player_Run_To_Idle>(context);
+
+	return nullptr;
+}
+
+void Player_Flip::Exit()
+{
+}
+
+#pragma endregion

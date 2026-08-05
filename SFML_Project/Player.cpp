@@ -33,6 +33,8 @@ void Player::Initialize()
 	animator.AddClip(PLAYER_ROLL, 0.05f, false);
 	animator.AddClip(PLAYER_JUMP, 0.1f, true);
 	animator.AddClip(PLAYER_FALL, 0.1f, true);
+	animator.AddClip(PLAYER_WALLSLIDE, 0.1f, true);
+	animator.AddClip(PLAYER_FLIP, 0.05f, false);
 	
 	animator.AddClip(PLAYER_ATTACK, 0.02f, false);
 
@@ -89,6 +91,9 @@ void Player::Update(float deltaTime)
 		}
 	}
 
+	if (grippableEnd <= position.y)
+		isGrippable = false;
+
 	animator.Update(deltaTime, *sprite);
 }
 
@@ -109,11 +114,27 @@ void Player::draw(RenderTarget& target, RenderStates states) const
 
 	RectangleShape debugBox(uCollider->GetBounds().size);
 	debugBox.setPosition(uCollider->GetBounds().position);
-	debugBox.setFillColor(Color(0, 255, 0, 100));
+	debugBox.setFillColor(Color(0, 0, 255, 10));
 
 	debugBox.setOutlineThickness(1.0f);
 
-	//target.draw(debugBox);
+	target.draw(debugBox);
+}
+
+void Player::CollisionEvent(GameObject& other)
+{
+	if (other.GetCollider().GetColliderType() == EColliderType::Grippable)
+	{
+		if ((grippableEnd = other.GetCollider().GetBounds().getCenter().y + (other.GetCollider().GetBounds().size.y / 2.f)) >= position.y)
+			isGrippable = true;
+	}
+}
+
+void Player::ForceChangeFSM(uptr<PlayerFSM> fsm)
+{
+	curFSM->Exit();
+	curFSM = move(fsm);
+	curFSM->Enter();
 }
 
 void Player::Release()

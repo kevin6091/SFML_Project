@@ -36,6 +36,9 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                     
                     vel.x = 0.f; // 벽에 막혔으니 속도 0
                     obj->SetPosition(pos); // 밀어낸 위치 즉시 갱신
+
+                    if (wall->GetCollider().GetColliderType() == EColliderType::Grippable)
+                        obj->CollisionEvent(*wall);
                 }
             }
 

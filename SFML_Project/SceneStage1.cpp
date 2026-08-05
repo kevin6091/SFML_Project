@@ -39,6 +39,8 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(PLAYER_ROLL, "resource/textures/player/roll", 7);
 	resourceManager.LoadTextureSequence(PLAYER_JUMP, "resource/textures/player/jump", 4);
 	resourceManager.LoadTextureSequence(PLAYER_FALL, "resource/textures/player/fall", 4);
+	resourceManager.LoadTextureSequence(PLAYER_WALLSLIDE, "resource/textures/player/wallslide", 1);
+	resourceManager.LoadTextureSequence(PLAYER_FLIP, "resource/textures/player/flip", 11);
 
 	// attack
 	resourceManager.LoadTextureSequence(PLAYER_ATTACK, "resource/textures/player/attack", 7);

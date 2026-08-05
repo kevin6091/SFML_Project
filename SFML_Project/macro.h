@@ -12,7 +12,7 @@
 
 #define PLAYER_ATTACK			"anim_player_attack"
 #define PLAYER_WALLSLIDE		"anim_player_wallslide"
-
+#define PLAYER_FLIP				"anim_player_filp"
 #define MAP_STAGE1				"map_stage1"
 
 

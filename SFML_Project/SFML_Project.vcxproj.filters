@@ -90,6 +90,9 @@
     <Filter Include="03. GameObject\BackGrounds">
       <UniqueIdentifier>{f46a876e-c222-4b32-8ea8-09dffd6e012e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\BackGrounds\Stage1">
+      <UniqueIdentifier>{ea5b5505-09d2-4d73-89f8-e290d93104b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -156,10 +159,10 @@
       <Filter>03. GameObject\Blocks\Block</Filter>
     </ClCompile>
     <ClCompile Include="Stage1_BackGround.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>03. GameObject\BackGrounds\Stage1</Filter>
     </ClCompile>
     <ClCompile Include="Grippable.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>03. GameObject\Blocks\Grippable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,10 +242,10 @@
       <Filter>03. GameObject\Blocks\Block</Filter>
     </ClInclude>
     <ClInclude Include="Stage1_BackGround.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>03. GameObject\BackGrounds\Stage1</Filter>
     </ClInclude>
     <ClInclude Include="Grippable.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>03. GameObject\Blocks\Grippable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,6 +24,7 @@ protected:
 	virtual void MoveLeft();
 	virtual void MoveRight();
 	virtual void BreakX(float deltaTime);
+
 protected:
 	Player& context;
 };
@@ -148,6 +149,17 @@ class Player_WallSlide : public PlayerFSM
 public:
 	Player_WallSlide(Player& context);
 	virtual ~Player_WallSlide();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_Flip : public PlayerFSM
+{
+public:
+	Player_Flip(Player& context);
+	virtual ~Player_Flip();
 
 	virtual void Enter() override;
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;
