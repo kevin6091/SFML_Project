@@ -14,5 +14,7 @@ public:
 	virtual void Render() override;
 	virtual void RenderUI() override;
 	virtual void Release() override;
+	
+	virtual void RestartScene() override;
 };
 

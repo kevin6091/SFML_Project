@@ -93,6 +93,24 @@
     <Filter Include="03. GameObject\BackGrounds\Stage1">
       <UniqueIdentifier>{ea5b5505-09d2-4d73-89f8-e290d93104b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Player\Slash">
+      <UniqueIdentifier>{10a7ae2e-6b5a-4bc0-9d96-94b9a1a7786d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\RewindManager">
+      <UniqueIdentifier>{8af81177-a6ab-43f5-aef5-765e6b5a5815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. RewindTracker">
+      <UniqueIdentifier>{a66bef2d-23bc-4507-aec4-ebc8f76b06f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Enemy">
+      <UniqueIdentifier>{fba516fe-c749-44fa-a957-bad568406f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Enemy\Grunt">
+      <UniqueIdentifier>{ce6976a8-d2df-4c0b-8497-aa1a3c9f6f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. FSM\Grunt_FSM">
+      <UniqueIdentifier>{0c1dea03-4690-4c1f-95bb-7ca482b1824e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -163,6 +181,18 @@
     </ClCompile>
     <ClCompile Include="Grippable.cpp">
       <Filter>03. GameObject\Blocks\Grippable</Filter>
+    </ClCompile>
+    <ClCompile Include="RewindManager.cpp">
+      <Filter>01. Managers\RewindManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Slash.cpp">
+      <Filter>03. GameObject\Player\Slash</Filter>
+    </ClCompile>
+    <ClCompile Include="Grunt.cpp">
+      <Filter>03. GameObject\Enemy\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="GruntFSM.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +276,21 @@
     </ClInclude>
     <ClInclude Include="Grippable.h">
       <Filter>03. GameObject\Blocks\Grippable</Filter>
+    </ClInclude>
+    <ClInclude Include="RewindManager.h">
+      <Filter>01. Managers\RewindManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RewindTracker.h">
+      <Filter>09. RewindTracker</Filter>
+    </ClInclude>
+    <ClInclude Include="Slash.h">
+      <Filter>03. GameObject\Player\Slash</Filter>
+    </ClInclude>
+    <ClInclude Include="Grunt.h">
+      <Filter>03. GameObject\Enemy\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="GruntFSM.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -86,9 +86,9 @@ void ObjectManager::RenderUI()
 
 void ObjectManager::AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> uObj)
 {
-    uObj->Initialize();
     objects[eTag].push_back(uObj);
     renderObjects[eLayer].push_back(uObj);
+    uObj->Initialize();
 }
 
 void ObjectManager::ReleaseScene()
@@ -107,9 +107,20 @@ void ObjectManager::ReleaseScene()
 
     for (int i = (int)ERenderLayer::Background; i < (int)ERenderLayer::End; i++)
     {
-        if ((ERenderLayer)i == ERenderLayer::Player)
+        if ((ERenderLayer)i == ERenderLayer::Actor)
             continue;
         renderObjects[(ERenderLayer)i].clear();
+    }
+}
+
+void ObjectManager::RestartObject()
+{
+    for (int i = (int)EObjectTag::Default; i < (int)EObjectTag::End; i++)
+    {
+        for (auto& obj : objects[(EObjectTag)i])
+        {
+            obj->RestartObject();
+        }
     }
 }
 

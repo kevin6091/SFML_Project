@@ -16,6 +16,7 @@ public:
     void StartFadeOut(float duration, Color color = Color::Black);
 
     void Update(float deltaTime);
+    void Render();
 
     __forceinline bool IsFading() const { return m_fadeState != FadeState::None; }
 

@@ -15,8 +15,8 @@ public:
     // 애니메이션 재생
     void Play(const string& name, bool forceReset = false);
     // 매 프레임 업데이트
-    void Update(float deltaTime, Sprite& targetSprite);
-    void UpdateSpriteTexture(Sprite& targetSprite) const;
+    void Update(float deltaTime, Sprite& targetSprite, bool alignCenter = true);
+    void UpdateSpriteTexture(Sprite& targetSprite, bool alignCenter = true) const;
 
     __forceinline bool IsFinished() const { return m_isFinished; }
     __forceinline string GetCurrentClipName() const { return currentClipName; }

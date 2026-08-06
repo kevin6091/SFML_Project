@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "Camera.h"
+#include "RewindManager.h"
 
 GameInstance::GameInstance() = default;
 GameInstance::~GameInstance() = default;
@@ -13,7 +14,24 @@ GameInstance::~GameInstance() = default;
 void GameInstance::Initialize(uint width, uint height, const string& title)
 {
     window.create(VideoMode({ width, height }), title);
-    
+    window.setVerticalSyncEnabled(false);
+    window.setFramerateLimit(240);
+
+    if (!renderTarget_BG.resize(Vector2u(width, height)))
+        cout << "렌더타겟 생성실패!!!" << endl;
+
+    if (!renderTarget_Actor.resize(Vector2u(width, height)))
+        cout << "렌더타겟 생성실패!!!" << endl;
+
+    if (!renderTarget_Effect.resize(Vector2u(width, height)))
+        cout << "렌더타겟 생성실패!!!" << endl;
+
+    if (!Shader::isAvailable())
+        cout << "셰이더 로드 실패!!!" << endl;
+   
+    if (!shader.loadFromFile("shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
+
     uCamera = uptr<Camera>(new Camera());
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
     uObjectManager = uptr<ObjectManager>(new ObjectManager());
@@ -44,29 +62,101 @@ void GameInstance::Run()
             }
         }
 
+#pragma region Update
+
+        if (uInputManager->GetKeyPress(Keyboard::Key::LShift))
+        {
+            isSlow = true;
+            timeScale = 0.3f;
+        }
+        else
+        {
+            isSlow = false; 
+            timeScale = 1.f;
+        }
+
         float rawDeltaTime = clock.restart().asSeconds();
         float gameDeltaTime = rawDeltaTime * timeScale;
-        
+
         uInputManager->Update();
         uSceneManager->Update(gameDeltaTime);
         uSceneManager->LateUpdate(gameDeltaTime);
         uCamera->Update(rawDeltaTime);
+        
+        if (uInputManager->GetKeyDown(Keyboard::Key::Tab))
+            isRenderDebug = !isRenderDebug;
+        if (uInputManager->GetKeyDown(Keyboard::Key::R))
+            RewindManager::GetInstance().SetRewinding(true); 
 
-        window.clear(Color(0, 0, 0));
+#pragma endregion
 
-        window.setView(uCamera->GetView());
+#pragma region Render
+
+        // RenderTarget 초기화
+        renderTarget_BG.clear(Color(0, 0, 0));
+        renderTarget_Actor.clear(Color::Transparent);
+        renderTarget_Effect.clear(Color::Transparent);
+
+        renderTarget_BG.setView(uCamera->GetView());
+        renderTarget_Actor.setView(uCamera->GetView());
+        renderTarget_Effect.setView(uCamera->GetView());
+
+        // Target에 Render
         uSceneManager->Render();
 
-        window.setView(window.getDefaultView());
+        renderTarget_BG.setView(renderTarget_BG.getDefaultView());
         uSceneManager->RenderUI();
 
+        // Target 완성
+        renderTarget_BG.display();
+        renderTarget_Actor.display();
+        renderTarget_Effect.display();
+
+        Sprite spriteBG(renderTarget_BG.getTexture());
+        Sprite spriteActor(renderTarget_Actor.getTexture());
+        Sprite spriteEffect(renderTarget_Effect.getTexture());
+
+        window.clear();
+
+        if (RewindManager::GetInstance().IsRewinding())
+        {
+            if ((accTime1 += gameDeltaTime * 0.5f * 2.f) >= 20.0f)
+                accTime1 = 20.0f;
+            if ((accTime2 += gameDeltaTime * 1.5f) >= 10.0f)
+                accTime2 = 10.0f;
+
+            shader.setUniform("time", gameDeltaTime);
+            shader.setUniform("accTime1", accTime1);
+            shader.setUniform("accTime2", accTime2);
+
+            shader.setUniform("currentTexture", Shader::CurrentTexture);
+
+            RenderStates states(&shader);
+
+            window.draw(spriteBG, states);
+            window.draw(spriteActor);
+            window.draw(spriteEffect);
+        }
+        else
+        {
+            // 평상시
+            accTime1 = 0.0f;
+            accTime2 = 0.0f;
+            window.draw(spriteBG);
+            window.draw(spriteActor);
+            window.draw(spriteEffect);
+        }
+
         window.display();
+
+#pragma endregion
+
     }
 }
 
 void GameInstance::Draw(const GameObject& gameObject, RenderStates states)
 {
-    window.draw(gameObject, states);
+    renderTarget_BG.draw(gameObject, states);
 }
 
 void GameInstance::Release()

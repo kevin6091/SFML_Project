@@ -44,7 +44,10 @@ void SceneStage1::Initialize()
 
 	// attack
 	resourceManager.LoadTextureSequence(PLAYER_ATTACK, "resource/textures/player/attack", 7);
+	resourceManager.LoadTextureSequence(SLASH_MAIN, "resource/textures/player/slash/slash_main", 7);
+	resourceManager.LoadTextureSequence(SLASH_SUB, "resource/textures/player/slash/slash_sub", 5);
 
+	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
 
 #pragma endregion
@@ -84,15 +87,11 @@ void SceneStage1::Initialize()
 			auto player = make_unique<Player>();
 			gameInstance.GetCamera().SetTarget(player.get());
 			player->GetDesc().vSpawnPoint = obj.position;
-			objectManager.AddObject(EObjectTag::Player, ERenderLayer::Player, move(player));
+			objectManager.AddObject(EObjectTag::Player, ERenderLayer::Actor, move(player));
 		}
 	}
 
-
 #pragma endregion
-
-
-
 }
 
 void SceneStage1::Update(float deltaTime)
@@ -118,4 +117,9 @@ void SceneStage1::RenderUI()
 void SceneStage1::Release()
 {
 	GameInstance::GetInstance().GetObjectManager().ReleaseScene();
+}
+
+void SceneStage1::RestartScene()
+{
+	GameInstance::GetInstance().GetObjectManager().RestartObject();
 }

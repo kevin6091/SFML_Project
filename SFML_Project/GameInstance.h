@@ -46,6 +46,9 @@ public:
     __forceinline CollisionManager& GetCollisionManager()           { return *uCollisionManager; }
     __forceinline Camera& GetCamera()                               { return *uCamera; }
     __forceinline RenderWindow& GetWindow()                         { return window; }
+    __forceinline RenderTexture& GetRenderTarget_BG()               { return renderTarget_BG; }
+    __forceinline RenderTexture& GetRenderTarget_Actor()            { return renderTarget_Actor; }
+    __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
 
     void Initialize(uint width, uint height, const string& title);
     void Run();
@@ -55,6 +58,21 @@ public:
     __forceinline void  SetTimeScale(float scale)       { timeScale = scale; }
 
     void Draw(const GameObject& gameObject, RenderStates states = RenderStates::Default);
-    // CreateObject() -> ResourceManager, Ç®¸µ
-    // AddObject() -> ObjectManager
+
+    __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
+
+    __forceinline bool GetIsSlow() { return isSlow; }
+
+private:
+    bool   isRenderDebug = false;
+    RenderTexture renderTarget_BG;
+    RenderTexture renderTarget_Actor;
+    RenderTexture renderTarget_Effect;
+
+    Shader shader;
+
+    float accTime1;
+    float accTime2;
+
+    bool    isSlow = false;
 };

@@ -30,7 +30,7 @@ void Animator::Play(const string& name, bool forceReset)
     }
 }
 
-void Animator::Update(float deltaTime, Sprite& targetSprite)
+void Animator::Update(float deltaTime, Sprite& targetSprite, bool alignCenter)
 {
     if (!m_isPlaying || !currentClip) return;
 
@@ -58,11 +58,11 @@ void Animator::Update(float deltaTime, Sprite& targetSprite)
         }
 
         // 스프라이트에 새로운 프레임 텍스처 적용
-        UpdateSpriteTexture(targetSprite);
+        UpdateSpriteTexture(targetSprite, alignCenter);
     }
 }
 
-void Animator::UpdateSpriteTexture(Sprite& targetSprite) const
+void Animator::UpdateSpriteTexture(Sprite& targetSprite, bool alignCenter) const
 {
     if (currentClip) 
     {
@@ -71,9 +71,17 @@ void Animator::UpdateSpriteTexture(Sprite& targetSprite) const
         {
             targetSprite.setTexture(*tex, true); // true: 텍스처 크기에 맞게 스프라이트 Rect 자동 맞춤
 
-            // 중심점(Origin)을 프레임 중앙으로 자동 정렬
-            Vector2u size = tex->getSize();
-            targetSprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y)});
+            if (alignCenter)
+            {
+                // 중심점(Origin)을 프레임 중앙으로 자동 정렬
+                Vector2u size = tex->getSize();
+                targetSprite.setOrigin({ static_cast<float>(size.x) * 0.5f, static_cast<float>(size.y) });
+            }
+            else
+            {
+                Vector2u size = tex->getSize();
+                targetSprite.setOrigin({ 0.f, static_cast<float>(size.y) * 0.5f });
+            }
         }
     }
 }

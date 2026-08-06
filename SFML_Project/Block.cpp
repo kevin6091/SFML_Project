@@ -40,7 +40,8 @@ void Block::draw(RenderTarget& target, RenderStates states) const
 
     debugBox.setOutlineThickness(1.0f);
 
-	target.draw(debugBox);
+	if(GameInstance::GetInstance().GetIsRenderDebug())
+		target.draw(debugBox);
 }
 
 void Block::Release()

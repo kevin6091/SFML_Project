@@ -25,6 +25,8 @@ public:
 	virtual void Release() = 0;
 	virtual void draw(RenderTarget& target, RenderStates states) const override = 0;
 
+	virtual void RestartObject() {};
+
  	__forceinline void Destroy()				{ isDestroy = true; }
 	__forceinline bool GetIsDestroy() const		{ return isDestroy; }
 

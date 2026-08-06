@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "InputManager.h"
+#include "Slash.h"
+#include "Camera.h"
 
 #pragma region Macro
 
@@ -540,6 +542,7 @@ void Player_Attack::Enter()
 	mousePos = INPUT.GetMouseWorldPos();
 	playerPos = context.GetPosition();
 	attackDir = (mousePos - playerPos).normalized();
+
 	Vector2f newVelocity = context.GetVelocity();
 	float decrease = (float)context.GetAttackCount();
 	if (decrease > 1.f)
@@ -553,6 +556,14 @@ void Player_Attack::Enter()
 		context.SetFace(true);
 	else
 		context.SetFace(false);
+
+	// Slash
+	context.SetAttackDir(attackDir);
+	context.GetSlash().PlayerAttack();
+
+	// Camera
+	GAME.GetCamera().Shake(attackDir, 0.2f, 2.0f);
+	//GAME.GetCamera().Shake(attackDir, 0.2f, 10.0f); // ÀÌ°Ç Á×ÀÏ¶§.
 }
 
 uptr<PlayerFSM> Player_Attack::Update(float deltaTime)
@@ -653,6 +664,9 @@ uptr<PlayerFSM> Player_Flip::Update(float deltaTime)
 
 	if (context.GetIsGrounded())
 		return make_unique<Player_Run_To_Idle>(context);
+
+	if (INPUT.GetMouseDown(MOUSE::Left))
+		return make_unique<Player_Attack>(context);
 
 	return nullptr;
 }

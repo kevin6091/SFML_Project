@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Animator.h"
 #include "PlayerFSM.h"
+#include "RewindTracker.h"
 
 enum class EPlayerState
 {
@@ -21,6 +22,25 @@ enum class EPlayerState
 	End
 };
 
+class Slash;
+
+struct TrailInfo
+{
+	Sprite sprite;  
+	float lifeTime;     
+	float maxLifeTime;  
+};
+
+struct PlayerSnapshot 
+{
+	Vector2f position;
+	Vector2f velocity;
+	Vector2f scale;
+	EPlayerState fsmState;
+	IntRect textureRect;
+	const Texture* texture;
+};
+
 class Player : public GameObject
 {
 public:
@@ -36,38 +56,71 @@ public:
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
 
 	virtual void CollisionEvent(GameObject& other);
+	virtual void RestartObject() override;
 
 public:
 	__forceinline Animator& GetAnimator()				{ return animator; }
 	__forceinline EPlayerState GetState()				{ return  curState; }
 	__forceinline void SetState(EPlayerState eState)	{ curState = eState; }
 
-	__forceinline void AddAttackCount()			{ attackCount++; }
-	__forceinline void ResetAttackCount()		{ attackCount = 0; }
-	__forceinline int GetAttackCount()			{ return attackCount; }
-	__forceinline float GetAttackCool()			{ return accAttackCool; }
-	__forceinline void ResetAttackCool()		{ accAttackCool = 0.0f; }
+	__forceinline void AddAttackCount()					{ attackCount++; }
+	__forceinline void ResetAttackCount()				{ attackCount = 0; }
+	__forceinline int GetAttackCount()					{ return attackCount; }
+	__forceinline float GetAttackCool()					{ return accAttackCool; }
+	__forceinline void ResetAttackCool()				{ accAttackCool = 0.0f; }
+	__forceinline Vector2f GetAttackDir()				{ return attackDir; }
+	__forceinline void SetAttackDir(Vector2f dir)		{ attackDir = dir; }
 
 	__forceinline void SetGravityFactor(float _factor)	{ gravityFactor = _factor; } // 중력 조절
 
 	__forceinline void SetIsGrippable(bool boolean)		{ isGrippable = boolean; }	
 	__forceinline bool GetIsGrippable()					{ return isGrippable; }	// 벽타기 벽에 출동중인지
 
+	__forceinline Slash& GetSlash()						{ return *pSlash; }
+
 private:
 	void ForceChangeFSM(uptr<PlayerFSM> fsm);
+	void TrailUpdate(float deltaTime);
+	void TrailRender(RenderTarget& target) const;
 
 private:
 	uptr<PlayerFSM> curFSM;
 	EPlayerState curState = EPlayerState::End;
-
 	Animator animator;
+	
+	Slash* pSlash;
 
-	int		attackCount = 0;
-	float	accAttackCool = 0.0f;
+
+#pragma region Trail
+	
+	list<TrailInfo> trails;
+	float trailSpawnTimer = 0.f;
+	float trail_SpawnInteval = 0.01f; // 잔상이 생성되는 간격 (초)
+	float trail_LifeTime = 0.2f;       // 잔상이 지속되는 시간 (초)
+
+#pragma endregion
+
+#pragma region Rewind
+
+	RewindTracker<PlayerSnapshot> rewinder;
+	float rewindSpeed = 1.f;
+	float	rewinderTime = 0.f;
+
+#pragma endregion
+
+#pragma region Attack
+
+	int			attackCount = 0;
+	float		accAttackCool = 0.0f;
+	Vector2f	attackDir;
+
+#pragma endregion
+
 	float	gravityFactor = 1.0f;
 
 	float	grippableEnd = 0.f;
 	bool	isGrippable = false;
+
 };
 
 

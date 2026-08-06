@@ -29,6 +29,7 @@ void SceneManager::ChangeScene(ESceneType _eSceneType, float fadeDuration)
         isChangingScene = true;
         break;
     case ESceneType::Stage1:
+        FadeOutScene(1.0f);
         uNextScene = move(make_unique<SceneStage1>());
         isChangingScene = true;
         break;
@@ -60,6 +61,8 @@ void SceneManager::Update(float deltaTime)
 
         uCurrentScene = move(uNextScene);
 
+        FadeInScene(2.0f);
+
         if (uCurrentScene) uCurrentScene->Initialize();
 
         isChangingScene = false;
@@ -87,6 +90,8 @@ void SceneManager::Render()
     {
         uCurrentScene->Render();
     }
+
+    uFadeManager->Render();
 }
 
 void SceneManager::RenderUI()

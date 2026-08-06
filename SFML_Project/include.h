@@ -8,9 +8,10 @@
 #include <set>
 #include <list>
 #include <array>
-#include <vector>	
 #include <queue>
 #include <stack>
+#include <deque>
+#include <vector>	
 #include <string>
 #include <algorithm>
 #include <unordered_map>

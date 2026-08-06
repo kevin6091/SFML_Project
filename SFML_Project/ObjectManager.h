@@ -19,6 +19,8 @@ public:
     void AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> obj);
     void ReleaseScene();
 
+    void RestartObject();
+
 private:
     unordered_map<EObjectTag, list<sptr<GameObject>>> objects;
     unordered_map<ERenderLayer, list<sptr<GameObject>>> renderObjects;
