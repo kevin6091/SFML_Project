@@ -29,7 +29,7 @@ void Grippable::LateUpdate(float deltaTime)
 
 void Grippable::Render()
 {
-    GameInstance::GetInstance().Draw(*this, RenderStates::Default);
+    GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, RenderStates::Default);
 }
 
 void Grippable::Release()

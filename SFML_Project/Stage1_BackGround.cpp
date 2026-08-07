@@ -27,7 +27,7 @@ void Stage1_BackGround::LateUpdate(float deltaTime)
 
 void Stage1_BackGround::Render()
 {
-	GameInstance::GetInstance().Draw(*this, RenderStates::Default);
+	GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, BlendAlpha);
 }
 
 void Stage1_BackGround::draw(RenderTarget& target, RenderStates states) const

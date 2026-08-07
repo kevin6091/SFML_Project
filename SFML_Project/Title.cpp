@@ -129,7 +129,7 @@ void Title::LateUpdate(float deltaTime)
 
 void Title::Render()
 {
-    GameInstance::GetInstance().Draw(*this, BlendAlpha);
+    GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, BlendAlpha);
 }
 
 void Title::Release()

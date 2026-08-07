@@ -29,7 +29,7 @@ void Block::LateUpdate(float deltaTime)
 
 void Block::Render()
 {
-	GameInstance::GetInstance().Draw(*this, RenderStates::Default);
+	GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, RenderStates::Default);
 }
 
 void Block::draw(RenderTarget& target, RenderStates states) const

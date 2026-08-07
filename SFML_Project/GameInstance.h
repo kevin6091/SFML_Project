@@ -48,6 +48,7 @@ public:
     __forceinline RenderWindow& GetWindow()                         { return window; }
     __forceinline RenderTexture& GetRenderTarget_BG()               { return renderTarget_BG; }
     __forceinline RenderTexture& GetRenderTarget_Actor()            { return renderTarget_Actor; }
+    __forceinline RenderTexture& GetRenderTarget_Player()           { return renderTarget_Player; }
     __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
 
     void Initialize(uint width, uint height, const string& title);
@@ -57,7 +58,7 @@ public:
     __forceinline float GetTimeScale() const            { return timeScale; }
     __forceinline void  SetTimeScale(float scale)       { timeScale = scale; }
 
-    void Draw(const GameObject& gameObject, RenderStates states = RenderStates::Default);
+    //void Draw(const GameObject& gameObject, RenderStates states = RenderStates::Default);
 
     __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
 
@@ -67,9 +68,13 @@ private:
     bool   isRenderDebug = false;
     RenderTexture renderTarget_BG;
     RenderTexture renderTarget_Actor;
+    RenderTexture renderTarget_Player;
     RenderTexture renderTarget_Effect;
 
-    Shader shader;
+    RenderTexture renderTarget_Final;
+
+    Shader postShader;
+    Shader compositeShader;
 
     float accTime1;
     float accTime2;

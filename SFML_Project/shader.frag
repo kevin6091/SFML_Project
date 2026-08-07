@@ -1,5 +1,5 @@
 // rewind.frag
-uniform sampler2D currentTexture; // 현재 화면
+uniform sampler2D textureFinal; // 현재 화면
 uniform float time;               // 찌그러짐을 움직이게 할 시간 값
 uniform float accTime1;
 uniform float accTime2;
@@ -16,9 +16,9 @@ void main()
 
     // 색상 분리
     float shift = 0.008;
-    float r = texture2D(currentTexture, uv + vec2(shift, 0.0)).r;
-    float g = texture2D(currentTexture, uv).g;
-    float b = texture2D(currentTexture, uv - vec2(shift, 0.0)).b;
+    float r = texture2D(textureFinal, uv + vec2(shift, 0.0)).r;
+    float g = texture2D(textureFinal, uv).g;
+    float b = texture2D(textureFinal, uv - vec2(shift, 0.0)).b;
 
     // 필름 그레인
     float noise = (fract(sin(dot(uv + vec2(time), vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.3;

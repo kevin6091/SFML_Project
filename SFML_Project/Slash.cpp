@@ -116,7 +116,7 @@ void Slash::Render()
 {
 	if(isPlayerAttack)
 	{
-		GameInstance::GetInstance().Draw(*this, BlendAlpha);
+		GameInstance::GetInstance().GetRenderTarget_Effect().draw(*this, BlendAlpha);
 	}
 }
 

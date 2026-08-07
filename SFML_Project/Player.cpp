@@ -38,7 +38,7 @@ void Player::Initialize()
 	animator.AddClip(PLAYER_JUMP, 0.1f, true);
 	animator.AddClip(PLAYER_FALL, 0.1f, true);
 	animator.AddClip(PLAYER_WALLSLIDE, 0.1f, true);
-	animator.AddClip(PLAYER_FLIP, 0.05f, false);
+	animator.AddClip(PLAYER_FLIP, 0.03f, false);
 	
 	animator.AddClip(PLAYER_ATTACK, 0.02f, false);
 
@@ -170,9 +170,7 @@ void Player::LateUpdate(float deltaTime)
 
 void Player::Render()
 {
-	RenderStates states = BlendAlpha;
-
-	GameInstance::GetInstance().Draw(*this, states);
+	GameInstance::GetInstance().GetRenderTarget_Player().draw(*this, BlendAlpha);
 }
 
 void Player::draw(RenderTarget& target, RenderStates states) const
@@ -227,7 +225,7 @@ void Player::TrailUpdate(float deltaTime)
 		GameInstance::GetInstance().GetIsSlow())
 	{
 		trail_SpawnInteval = 0.005f;
-		trail_LifeTime = 0.3f;
+		trail_LifeTime = 0.4f;
 	}
 	else if (accAttackCool <= 1.0f)
 	{

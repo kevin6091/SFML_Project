@@ -53,5 +53,5 @@ void FadeManager::Update(float deltaTime)
 
 void FadeManager::Render()
 {
-    GameInstance::GetInstance().GetRenderTarget().draw(m_fadeOverlay, BlendAlpha);
+    GameInstance::GetInstance().GetRenderTarget_Effect().draw(m_fadeOverlay, BlendAlpha);
 }
