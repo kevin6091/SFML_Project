@@ -4,11 +4,12 @@
 #include "ResourceManager.h"
 #include "Player.h"
 #include "RewindManager.h"
+#include "Collider.h"
 
 Slash::Slash(Player* _player)
 {
 	player = _player;
-	eObjectTag = EObjectTag::Slash;
+	eObjectTag = EObjectTag::PlayerAttack;
 	eRenderLayer = ERenderLayer::Effect;
 }
 
@@ -31,6 +32,15 @@ void Slash::Initialize()
 	animator_sub.UpdateSpriteTexture(*sprite_sub);
 
 	isPlayerAttack = false;
+
+#pragma region Collider
+
+	uCollider = make_unique<Collider>(this);
+	ColliderDesc desc = { "", EColliderType::LineAttack, FloatRect({0.f, -22.f}, {0.f, 0.f}) };
+	uCollider->Initialize(desc);
+
+#pragma endregion
+
 }
 
 void Slash::Update(float deltaTime)
@@ -76,7 +86,7 @@ void Slash::Update(float deltaTime)
 	
 	sprite->setPosition(player->GetPosition() + offset);
 	sprite_sub->setPosition(player->GetPosition() + offset_sub);
-
+	
 	animator_main.Update(deltaTime, *sprite, false);
 	animator_sub.Update(deltaTime, *sprite_sub, true);
 	
@@ -110,6 +120,7 @@ void Slash::Update(float deltaTime)
 
 void Slash::LateUpdate(float deltaTime)
 {
+	uCollider->SetColliderType(EColliderType::End);
 }
 
 void Slash::Render()
@@ -124,6 +135,22 @@ void Slash::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(*sprite, BlendAlpha);
 	target.draw(*sprite_sub, BlendAlpha);
+
+	Vector2f points[] =
+	{
+		Vector2f(uCollider->GetBounds().position),
+		Vector2f(uCollider->GetBounds().size)
+	};
+	Vertex line[2];
+
+	for (int i = 0; i < 2; i++)
+	{
+		line[i].position = points[i];
+		line[i].color = Color::Red;
+	}
+
+	if (GameInstance::GetInstance().GetIsRenderDebug())
+		target.draw(line, 2, PrimitiveType::Lines);
 }
 
 void Slash::RestartObject()
@@ -154,6 +181,10 @@ void Slash::PlayerAttack()
 		sprite->setScale({ 1.3f, -1.3f });
 		sprite_sub->setScale({ 1.3f, -1.3f });
 	}
+
+	SetPosition(player->GetPosition());
+	uCollider->GetBounds().size = uCollider->GetBounds().position + (dir * 110.f);
+	uCollider->SetColliderType(EColliderType::LineAttack);
 }
 
 void Slash::Release()

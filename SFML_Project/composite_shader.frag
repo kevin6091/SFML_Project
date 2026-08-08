@@ -3,14 +3,15 @@ uniform sampler2D textureBG;
 uniform sampler2D textureActor;
 uniform sampler2D texturePlayer;
 uniform sampler2D textureEffect;
-uniform float time;
+uniform float accSlow;
+uniform bool isSlow;
+
 
 void main()
 {
     vec2 uv = gl_TexCoord[0].xy;
     uv.y = 1.0 - uv.y;
 
-    // 1. 각 도화지(타겟)에서 현재 픽셀의 색상을 뽑아옵니다.
     vec4 bg = texture2D(textureBG, uv);
     vec4 actor = texture2D(textureActor, uv);
     vec4 player = texture2D(texturePlayer, uv);
@@ -23,12 +24,15 @@ void main()
     // bg = texture2D(textureBG, distortedUV);
     // ----------------------------------------------------
 
-    // 2. 기본 알파 블렌딩 (수동으로 덮어씌우기)
-    // 배경 위에 액터를 얹음
+    if(isSlow)
+    {
+        vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+        bg = mix(bg, black, accSlow);
+        actor = mix(actor, black, accSlow);
+    }
+
     vec4 finalColor = mix(bg, actor, actor.a); 
     finalColor = mix(finalColor, player, player.a);
-    
-    // 그 위에 이펙트를 얹음 (보통 이펙트는 더 밝게 빛나는 Additive 블렌딩을 하기도 함)
     finalColor = mix(finalColor, effect, effect.a); 
 
     gl_FragColor = finalColor;

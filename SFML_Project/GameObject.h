@@ -58,6 +58,8 @@ public:
     
 public:
 	virtual void CollisionEvent(GameObject& other) {}
+	virtual void CollisionBounce() {}
+	virtual void CollisionBounceEnd() {}
 
 protected:
 	Sprite CenterAlign_Sprite(Sprite sprite);
@@ -75,6 +77,7 @@ protected:
 	bool isActive = true;		// 그리거나 연산할지 말지
 	bool isDestroy = false;		// Delete할지 말지
 	bool isGrounded = false;	// 땅에 있는지
+	int	bounceCount = 0;
 
 	optional<Sprite> sprite;
 	StatusDesc descStatus;

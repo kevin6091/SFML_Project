@@ -17,8 +17,12 @@ public:
 	__forceinline FloatRect& GetBounds()			{ return bounds; }
 	__forceinline GameObject* GetContext()			{ return pContext; }
 
+	__forceinline void SetColliderType(EColliderType eType) { eColliderType = eType; }
+
 private:
 	EColliderType eColliderType = EColliderType::End;
+	
+	// LineCollider의 경우 Position을 시작, Scacle을 끝.
 	FloatRect bounds;
 	GameObject* pContext;
 };

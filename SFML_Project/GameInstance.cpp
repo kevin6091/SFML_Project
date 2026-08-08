@@ -82,10 +82,13 @@ void GameInstance::Run()
         {
             isSlow = false; 
             timeScale = 1.f;
+            accSlow = 0.0f;
         }
 
         float rawDeltaTime = clock.restart().asSeconds();
         float gameDeltaTime = rawDeltaTime * timeScale;
+        if ((accSlow += gameDeltaTime) >= 0.5f)
+            accSlow = 0.5f;
 
         uInputManager->Update();
         uSceneManager->Update(gameDeltaTime);
@@ -131,6 +134,8 @@ void GameInstance::Run()
         compositeShader.setUniform("textureActor", renderTarget_Actor.getTexture());
         compositeShader.setUniform("texturePlayer", renderTarget_Player.getTexture());
         compositeShader.setUniform("textureEffect", renderTarget_Effect.getTexture());
+        compositeShader.setUniform("isSlow", isSlow);
+        compositeShader.setUniform("accSlow", accSlow);
 
         Sprite spriteTemp(renderTarget_BG.getTexture());
         RenderStates compositeStates(&compositeShader);
@@ -171,11 +176,11 @@ void GameInstance::Run()
 
     }
 }
-//
-//void GameInstance::Draw(const GameObject& gameObject, RenderStates states)
-//{
-//    renderTarget_BG.draw(gameObject, states);
-//}
+
+Player* GameInstance::GetPlayer()
+{
+    return uObjectManager->GetPlayer();
+}
 
 void GameInstance::Release()
 {

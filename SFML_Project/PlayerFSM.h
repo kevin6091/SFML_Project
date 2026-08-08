@@ -1,11 +1,6 @@
 #pragma once
 #include "FSM.h"
 
-#define GRAVITY 1200.f
-#define MAX_FALL 1000.0f
-#define JUMP_FORCE 450.f
-#define ATTACK_FORCE 550.0f
-
 class Player;
 
 class PlayerFSM : public FSM

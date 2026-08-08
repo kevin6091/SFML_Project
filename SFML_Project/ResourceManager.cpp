@@ -124,13 +124,13 @@ bool ResourceManager::LoadMap(const string& filePath,
             }
             else if(layerName == "objects")
             {
-                //MapObjectInfo objInfo;
-                //objInfo.objectName = objName;
-                //objInfo.layerName = layerName;
-                //objInfo.position = Vector2f(x, y);
-                //objInfo.scale = Vector2f(scaleX, scaleY);
-                //
-                //outObjects.push_back(objInfo);
+                MapObjectInfo objInfo;
+                objInfo.objectName = objName;
+                objInfo.layerName = layerName;
+                objInfo.position = Vector2f(x, y);
+                objInfo.scale = Vector2f(scaleX, scaleY);
+                
+                outObjects.push_back(objInfo);
             }
             else if (layerName == "player")
             {

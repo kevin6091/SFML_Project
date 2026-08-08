@@ -8,6 +8,7 @@ class InputManager;
 class CollisionManager;
 class GameObject;
 class Camera;
+class Player;
 
 class GameInstance 
 {
@@ -58,11 +59,12 @@ public:
     __forceinline float GetTimeScale() const            { return timeScale; }
     __forceinline void  SetTimeScale(float scale)       { timeScale = scale; }
 
-    //void Draw(const GameObject& gameObject, RenderStates states = RenderStates::Default);
-
     __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
 
     __forceinline bool GetIsSlow() { return isSlow; }
+
+
+    Player* GetPlayer();
 
 private:
     bool   isRenderDebug = false;
@@ -76,8 +78,18 @@ private:
     Shader postShader;
     Shader compositeShader;
 
+#pragma region Slow
+
+    bool    isSlow = false;
+    float   accSlow = 0.0f;
+
+#pragma endregion
+
+
+#pragma region Rewinding
+
     float accTime1;
     float accTime2;
 
-    bool    isSlow = false;
+#pragma endregion
 };

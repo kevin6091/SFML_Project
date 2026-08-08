@@ -65,7 +65,7 @@ void Player::Initialize()
 	uptr<Slash> slash = make_unique<Slash>(this);
 	pSlash = slash.get();
 	auto& objectManager = GameInstance::GetInstance().GetObjectManager();
-	objectManager.AddObject(EObjectTag::Slash, ERenderLayer::Effect, move(slash));
+	objectManager.AddObject(EObjectTag::PlayerAttack, ERenderLayer::Effect, move(slash));
 }
 
 void Player::Update(float deltaTime)

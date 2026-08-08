@@ -16,8 +16,8 @@ enum class EObjectTag
     Default,
     Player,
     Enemy,
-    Bullet,
-    Slash,
+    EnemyAttack,
+    PlayerAttack,
     Wall,
     Hazard,
     End
@@ -36,8 +36,9 @@ enum class EColliderType
     Grippable,      // 벽 타기/달리기 가능한 수직 벽 (obj_grippable)
     Jumpthrough,    // 일방통행(위로 뚫고 점프 가능) 발판 (obj_jumpthrough)
     EndBlock,       // 스테이지 클리어/이동 구역 (obj_end_block)
-    Attack,         // 공격
-    DynamicObject,   // 플레이어, 몬스터, 총알 등 움직이는 충돌체
+    LineAttack,     // 직선 공격
+    RectAttack,     // 사각형 공격
+    DynamicObject,  // 플레이어, 몬스터, 총알 등 움직이는 충돌체
     End
 };
 

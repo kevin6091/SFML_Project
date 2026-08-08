@@ -2,6 +2,8 @@
 #include "include.h"
 #include "GameObject.h"
 
+class Player;
+
 class ObjectManager
 {
 public:
@@ -21,6 +23,7 @@ public:
 
     void RestartObject();
 
+    Player* GetPlayer();
 private:
     unordered_map<EObjectTag, list<sptr<GameObject>>> objects;
     unordered_map<ERenderLayer, list<sptr<GameObject>>> renderObjects;

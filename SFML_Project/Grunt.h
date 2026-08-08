@@ -11,7 +11,6 @@ enum class EGruntState
 	Run,
 	Attack,
 	Hit,
-	Hit_Fly,
 	Hit_Roll,
 	Hit_Ground,
 	End,
@@ -40,14 +39,18 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
-
-	virtual void CollisionEvent(GameObject& other) override;
 	virtual void RestartObject() override;
 
+	virtual void CollisionEvent(GameObject& other) override;
+	virtual void CollisionBounce() override;
+	virtual void CollisionBounceEnd() override;
 public:
-	__forceinline Animator& GetAnimator() { return animator; }
-	__forceinline EGruntState GetState() { return  curState; }
+	__forceinline Animator& GetAnimator()			{ return animator; }
+	__forceinline EGruntState GetState()			{ return  curState; }
 	__forceinline void SetState(EGruntState eState) { curState = eState; }
+
+	__forceinline Vector2f GetDirToPlayer()			{ return dirToPlayer; }
+	__forceinline Vector2f GetDirHit()				{ return dirHit; }
 
 private:
 	void ForceChangeFSM(uptr<GruntFSM> fsm);
@@ -56,6 +59,9 @@ private:
 	uptr<GruntFSM> curFSM;
 	EGruntState curState = EGruntState::End;
 	Animator animator;
+
+	Vector2f	dirToPlayer;
+	Vector2f	dirHit;
 
 #pragma region Rewind
 

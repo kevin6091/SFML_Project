@@ -1,4 +1,5 @@
 #pragma once
+
 #define PLAYER_IDLE				"anim_player_idle"
 #define PLAYER_RUN				"anim_player_run"
 #define PLAYER_IDLE_TO_RUN		"anim_player_idle_to_run"
@@ -18,9 +19,19 @@
 #define SLASH_SUB				"anim_slash_sub"
 #define SLASH_SUB2				"anim_slash_sub2"
 
+#define GRUNT_IDLE				"anim_grunt_idle"
+#define GRUNT_RUN				"anim_grunt_run"
+#define GRUNT_ATTACK			"anim_grunt_attack"
+#define GRUNT_HIT				"anim_grunt_hit"
+#define GRUNT_HIT_ROLL			"anim_grunt_hit_roll"
+#define GRUNT_HIT_GROUND		"anim_grunt_hit_ground"
+
 
 #define MAP_STAGE1				"map_stage1"
-//#define GRAVITY 98.f
-//#define MAX_FALL 300.0f
-//#define JUMP_FORCE 200.0f
-//#define ATTACK_FORCE 300.0f
+
+
+
+#define GRAVITY 1200.f
+#define MAX_FALL 1000.0f
+#define JUMP_FORCE 450.f
+#define ATTACK_FORCE 550.0f

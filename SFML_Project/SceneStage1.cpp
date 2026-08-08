@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "Player.h"
+#include "Grunt.h"
 #include "Block.h"
 #include "Stage1_BackGround.h"
 #include "Grippable.h"
@@ -27,6 +28,8 @@ void SceneStage1::Initialize()
 	//************** Texture, Anim **************//
 #pragma region Texture. Anim
 
+#pragma region Player
+
 	// idle, moving
 	resourceManager.LoadTextureSequence(PLAYER_IDLE, "resource/textures/player/idle", 11);
 	resourceManager.LoadTextureSequence(PLAYER_RUN, "resource/textures/player/run", 10);
@@ -46,6 +49,20 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(PLAYER_ATTACK, "resource/textures/player/attack", 7);
 	resourceManager.LoadTextureSequence(SLASH_MAIN, "resource/textures/player/slash/slash_main", 7);
 	resourceManager.LoadTextureSequence(SLASH_SUB, "resource/textures/player/slash/slash_sub", 5);
+
+#pragma endregion
+
+#pragma region Grunt
+
+	resourceManager.LoadTextureSequence(GRUNT_IDLE, "resource/textures/grunt/Idle", 8);
+	resourceManager.LoadTextureSequence(GRUNT_RUN, "resource/textures/grunt/run", 10);
+	resourceManager.LoadTextureSequence(GRUNT_ATTACK, "resource/textures/grunt/attack", 8);
+	resourceManager.LoadTextureSequence(GRUNT_HIT, "resource/textures/grunt/hit", 2);
+	resourceManager.LoadTextureSequence(GRUNT_HIT_ROLL, "resource/textures/grunt/hit_roll", 13);
+	resourceManager.LoadTextureSequence(GRUNT_HIT_GROUND, "resource/textures/grunt/hit_ground", 16);
+
+#pragma endregion
+
 
 	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
@@ -88,6 +105,12 @@ void SceneStage1::Initialize()
 			gameInstance.GetCamera().SetTarget(player.get());
 			player->GetDesc().vSpawnPoint = obj.position;
 			objectManager.AddObject(EObjectTag::Player, ERenderLayer::Actor, move(player));
+		}
+		else if (obj.objectName == "obj_enemy_grunt")
+		{
+			auto grunt = make_unique<Grunt>();
+			grunt->GetDesc().vSpawnPoint = obj.position;
+			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 	}
 

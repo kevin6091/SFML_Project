@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
-
+#include "Player.h"
 
 void ObjectManager::Initialize()
 {
@@ -20,8 +20,13 @@ void ObjectManager::Update(float deltaTime)
         }
     }
 
-    GameInstance::GetInstance().GetCollisionManager()
-        .UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
+    auto& collisionManager = GameInstance::GetInstance().GetCollisionManager();
+
+    collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
+
+    collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Enemy], objects[EObjectTag::Wall]);
+
+    collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Enemy]);
 }
 
 void ObjectManager::LateUpdate(float deltaTime)
@@ -62,10 +67,7 @@ void ObjectManager::Render()
     {
         for (auto& obj : renderObjects[(ERenderLayer)i])
         {
-            if (obj->IsActive())
-                obj->Render();
-            else
-                continue;
+            obj->Render();
         }
     }
 }
@@ -122,6 +124,12 @@ void ObjectManager::RestartObject()
             obj->RestartObject();
         }
     }
+}
+
+Player* ObjectManager::GetPlayer()
+{
+    const auto& iter = objects[EObjectTag::Player].begin();
+    return static_cast<Player*>((*iter).get());
 }
 
 void ObjectManager::Release()
