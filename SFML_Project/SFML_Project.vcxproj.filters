@@ -114,6 +114,12 @@
     <Filter Include="10. Shader">
       <UniqueIdentifier>{61bcb688-8369-4542-9d48-d9f7390e43d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Effect">
+      <UniqueIdentifier>{a594e619-9ada-4603-a4e6-60aea0965840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\SlashImpact">
+      <UniqueIdentifier>{be7f4d9e-af6a-4a1a-8a39-66971086eb0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="GruntFSM.cpp">
       <Filter>07. FSM\Grunt_FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="SlashImpact.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,12 +304,18 @@
     <ClInclude Include="GruntFSM.h">
       <Filter>07. FSM\Grunt_FSM</Filter>
     </ClInclude>
+    <ClInclude Include="SlashImpact.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="composite_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
     <None Include="shader.frag">
+      <Filter>10. Shader</Filter>
+    </None>
+    <None Include="slashimpact_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
   </ItemGroup>

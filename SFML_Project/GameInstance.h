@@ -52,6 +52,8 @@ public:
     __forceinline RenderTexture& GetRenderTarget_Player()           { return renderTarget_Player; }
     __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
 
+    __forceinline Shader& GetSlashImpactShader()                    { return slashImpactShader; }
+
     void Initialize(uint width, uint height, const string& title);
     void Run();
     void Release();
@@ -77,6 +79,7 @@ private:
 
     Shader postShader;
     Shader compositeShader;
+    Shader slashImpactShader;
 
 #pragma region Slow
 

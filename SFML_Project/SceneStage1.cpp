@@ -50,6 +50,11 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(SLASH_MAIN, "resource/textures/player/slash/slash_main", 7);
 	resourceManager.LoadTextureSequence(SLASH_SUB, "resource/textures/player/slash/slash_sub", 5);
 
+	// slash impact
+	resourceManager.LoadTextureSequence(SLASH_IMPACT1, "resource/textures/impact/slash_impact1", 6);
+	resourceManager.LoadTextureSequence(SLASH_IMPACT2, "resource/textures/impact/slash_impact2", 5);
+
+
 #pragma endregion
 
 #pragma region Grunt

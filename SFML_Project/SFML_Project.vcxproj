@@ -162,6 +162,7 @@
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SFML_Project.cpp" />
     <ClCompile Include="Slash.cpp" />
+    <ClCompile Include="SlashImpact.cpp" />
     <ClCompile Include="Stage1_BackGround.cpp" />
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
@@ -194,6 +195,7 @@
     <ClInclude Include="SceneStage1.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Slash.h" />
+    <ClInclude Include="SlashImpact.h" />
     <ClInclude Include="Stage1_BackGround.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="using.h" />
@@ -202,6 +204,7 @@
   <ItemGroup>
     <None Include="composite_shader.frag" />
     <None Include="shader.frag" />
+    <None Include="slashimpact_shader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

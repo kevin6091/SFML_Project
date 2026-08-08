@@ -40,6 +40,9 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
    
     if (!compositeShader.loadFromFile("composite_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
+   
+    if (!slashImpactShader.loadFromFile("slashimpact_shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
 
     uCamera = uptr<Camera>(new Camera());
     uResourceManager = uptr<ResourceManager>(new ResourceManager());

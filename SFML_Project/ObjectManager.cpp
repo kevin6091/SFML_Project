@@ -51,7 +51,7 @@ void ObjectManager::LateUpdate(float deltaTime)
             {
                 (*it)->Release();
 
-                auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].begin(), (*it));
+                auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].end(), (*it));
                 renderObjects[(*it)->GetLayer()].erase(renderIter);
                 it = tag.second.erase(it);
             }

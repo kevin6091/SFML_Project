@@ -19,6 +19,9 @@
 #define SLASH_SUB				"anim_slash_sub"
 #define SLASH_SUB2				"anim_slash_sub2"
 
+#define SLASH_IMPACT1			"anim_slash_impact1"
+#define SLASH_IMPACT2			"anim_slash_impact2"
+
 #define GRUNT_IDLE				"anim_grunt_idle"
 #define GRUNT_RUN				"anim_grunt_run"
 #define GRUNT_ATTACK			"anim_grunt_attack"
