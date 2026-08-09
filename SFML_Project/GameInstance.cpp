@@ -29,6 +29,12 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     if (!renderTarget_Effect.resize(Vector2u(width, height)))
         cout << "렌더타겟 생성실패!!!" << endl;
 
+    if (!renderTarget_Effect_Glow.resize(Vector2u(width, height)))
+        cout << "렌더타겟 생성실패!!!" << endl;
+
+    if (!renderTarget_Composite.resize(Vector2u(width, height)))
+        cout << "렌더타겟 생성실패!!!" << endl;
+
     if (!renderTarget_Final.resize(Vector2u(width, height)))
         cout << "렌더타겟 생성실패!!!" << endl;
 
@@ -41,7 +47,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     if (!compositeShader.loadFromFile("composite_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
    
-    if (!slashImpactShader.loadFromFile("slashimpact_shader.frag", Shader::Type::Fragment))
+    if (!glowShader.loadFromFile("glow_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
 
     uCamera = uptr<Camera>(new Camera());
@@ -111,11 +117,13 @@ void GameInstance::Run()
         renderTarget_BG.clear(Color(0, 0, 0));
         renderTarget_Actor.clear(Color::Transparent);
         renderTarget_Player.clear(Color::Transparent);
+        renderTarget_Effect_Glow.clear(Color::Transparent);
         renderTarget_Effect.clear(Color::Transparent);
 
         renderTarget_BG.setView(uCamera->GetView());
         renderTarget_Actor.setView(uCamera->GetView());
         renderTarget_Player.setView(uCamera->GetView());
+        renderTarget_Effect_Glow.setView(uCamera->GetView());
         renderTarget_Effect.setView(uCamera->GetView());
 
         // Target에 Render
@@ -128,9 +136,13 @@ void GameInstance::Run()
         renderTarget_BG.display();
         renderTarget_Actor.display();
         renderTarget_Player.display();
+        renderTarget_Effect_Glow.display();
         renderTarget_Effect.display();
 
+        renderTarget_Composite.clear(Color(0, 0, 0));
         renderTarget_Final.clear(Color(0, 0, 0));
+
+#pragma region Composite
 
         // 전처리 Target들 합치기 -> Final
         compositeShader.setUniform("textureBG", renderTarget_BG.getTexture());
@@ -142,7 +154,21 @@ void GameInstance::Run()
 
         Sprite spriteTemp(renderTarget_BG.getTexture());
         RenderStates compositeStates(&compositeShader);
-        renderTarget_Final.draw(spriteTemp, compositeStates);
+        renderTarget_Composite.draw(spriteTemp, compositeStates);
+
+#pragma endregion
+
+#pragma region Glow
+
+        glowShader.setUniform("resolution", Vector2f{ (float)WIDTH, (float)HEIGHT });
+        glowShader.setUniform("radius", 4.0f);
+        glowShader.setUniform("textureGlow", renderTarget_Effect_Glow.getTexture());
+        glowShader.setUniform("textureComposite", renderTarget_Composite.getTexture());
+
+        RenderStates glowStates(&glowShader);
+        renderTarget_Final.draw(spriteTemp, glowStates);
+
+#pragma endregion
 
         Sprite spriteFinal(renderTarget_Final.getTexture());
 
@@ -159,7 +185,7 @@ void GameInstance::Run()
             postShader.setUniform("accTime1", accTime1);
             postShader.setUniform("accTime2", accTime2);
 
-            postShader.setUniform("textureFinal", renderTarget_Final.getTexture());
+            postShader.setUniform("textureFinal", renderTarget_Composite.getTexture());
 
             RenderStates states(&postShader);
             window.draw(spriteFinal, states);
@@ -170,6 +196,7 @@ void GameInstance::Run()
             // 평상시
             accTime1 = 0.0f;
             accTime2 = 0.0f;
+
             window.draw(spriteFinal);
         }
 

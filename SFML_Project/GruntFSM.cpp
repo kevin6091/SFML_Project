@@ -6,6 +6,7 @@
 #include "SlashImpact.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Collider.h"
 
 #pragma region Macro
 
@@ -163,18 +164,6 @@ void Grunt_Hit::Enter()
 		dirHit.y = clamp(dirHit.y, -1.f, -0.5f);
 
 	context.SetVelocity(dirHit * 700.f);
-
-	uptr<SlashImpact> slashImpact = make_unique<SlashImpact>();
-	/*slashImpact->SetPosition(context.GetPosition() + Vector2f(0.f, -20.f));
-	slashImpact->SetHitDir(dirHit);
-	slashImpact->SetImpactNum(1);
-	GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(slashImpact));*/
-
-	slashImpact = make_unique<SlashImpact>();
-	slashImpact->SetPosition(context.GetPosition() + Vector2f(0.f, -20.f));
-	slashImpact->SetHitDir(dirHit);
-	slashImpact->SetImpactNum(2);
-	GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(slashImpact));
 }
 
 uptr<GruntFSM> Grunt_Hit::Update(float deltaTime)

@@ -120,6 +120,12 @@
     <Filter Include="03. GameObject\Effect\SlashImpact">
       <UniqueIdentifier>{be7f4d9e-af6a-4a1a-8a39-66971086eb0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Effect\BloodDecal">
+      <UniqueIdentifier>{a5677c75-676b-4ad8-ae18-2b977539ff2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Blood">
+      <UniqueIdentifier>{6798178e-c632-4240-b13a-dcec198a6b63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -204,6 +210,12 @@
       <Filter>07. FSM\Grunt_FSM</Filter>
     </ClCompile>
     <ClCompile Include="SlashImpact.cpp">
+      <Filter>03. GameObject\Effect\SlashImpact</Filter>
+    </ClCompile>
+    <ClCompile Include="Blood.cpp">
+      <Filter>03. GameObject\Effect\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodDecal.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -305,6 +317,12 @@
       <Filter>07. FSM\Grunt_FSM</Filter>
     </ClInclude>
     <ClInclude Include="SlashImpact.h">
+      <Filter>03. GameObject\Effect\SlashImpact</Filter>
+    </ClInclude>
+    <ClInclude Include="Blood.h">
+      <Filter>03. GameObject\Effect\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodDecal.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -315,7 +333,7 @@
     <None Include="shader.frag">
       <Filter>10. Shader</Filter>
     </None>
-    <None Include="slashimpact_shader.frag">
+    <None Include="glow_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
   </ItemGroup>

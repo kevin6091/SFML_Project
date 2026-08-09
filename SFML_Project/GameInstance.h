@@ -50,9 +50,8 @@ public:
     __forceinline RenderTexture& GetRenderTarget_BG()               { return renderTarget_BG; }
     __forceinline RenderTexture& GetRenderTarget_Actor()            { return renderTarget_Actor; }
     __forceinline RenderTexture& GetRenderTarget_Player()           { return renderTarget_Player; }
+    __forceinline RenderTexture& GetRenderTarget_Effect_Glow()      { return renderTarget_Effect_Glow; }
     __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
-
-    __forceinline Shader& GetSlashImpactShader()                    { return slashImpactShader; }
 
     void Initialize(uint width, uint height, const string& title);
     void Run();
@@ -73,13 +72,15 @@ private:
     RenderTexture renderTarget_BG;
     RenderTexture renderTarget_Actor;
     RenderTexture renderTarget_Player;
+    RenderTexture renderTarget_Effect_Glow;
     RenderTexture renderTarget_Effect;
 
+    RenderTexture renderTarget_Composite;
     RenderTexture renderTarget_Final;
 
     Shader postShader;
     Shader compositeShader;
-    Shader slashImpactShader;
+    Shader glowShader;
 
 #pragma region Slow
 

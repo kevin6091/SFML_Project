@@ -140,6 +140,8 @@
     <ClCompile Include="AnimationClip.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Blood.cpp" />
+    <ClCompile Include="BloodDecal.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Blood.h" />
+    <ClInclude Include="BloodDecal.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -203,8 +207,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="composite_shader.frag" />
+    <None Include="glow_shader.frag" />
     <None Include="shader.frag" />
-    <None Include="slashimpact_shader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

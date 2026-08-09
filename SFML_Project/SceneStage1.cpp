@@ -51,7 +51,7 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(SLASH_SUB, "resource/textures/player/slash/slash_sub", 5);
 
 	// slash impact
-	resourceManager.LoadTextureSequence(SLASH_IMPACT1, "resource/textures/impact/slash_impact1", 6);
+	resourceManager.LoadTextureSequence(SLASH_IMPACT1, "resource/textures/impact/slash_impact1", 7);
 	resourceManager.LoadTextureSequence(SLASH_IMPACT2, "resource/textures/impact/slash_impact2", 5);
 
 
@@ -67,7 +67,6 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(GRUNT_HIT_GROUND, "resource/textures/grunt/hit_ground", 16);
 
 #pragma endregion
-
 
 	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
