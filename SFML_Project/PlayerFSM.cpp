@@ -563,7 +563,6 @@ void Player_Attack::Enter()
 
 	// Camera
 	GAME.GetCamera().Shake(attackDir, 0.2f, 2.0f);
-	//GAME.GetCamera().Shake(attackDir, 0.2f, 10.0f); // ÀÌ°Ç Á×ÀÏ¶§.
 }
 
 uptr<PlayerFSM> Player_Attack::Update(float deltaTime)
@@ -621,11 +620,6 @@ uptr<PlayerFSM> Player_WallSlide::Update(float deltaTime)
 void Player_WallSlide::Exit()
 {
 	context.SetGravityFactor(1.0f);
-	
-	if(context.GetDesc().bFace)
-		context.SetFace(false);
-	else
-		context.SetFace(true);
 }
 
 #pragma endregion
@@ -645,6 +639,11 @@ void Player_Flip::Enter()
 {
 	context.SetState(EPlayerState::Flip);
 	Play(PLAYER_FLIP, true);
+
+	if (context.GetDesc().bFace)
+		context.SetFace(false);
+	else
+		context.SetFace(true);
 
 	if (context.GetDesc().bFace)
 		context.SetVelocity({ ATTACK_FORCE, -JUMP_FORCE});
@@ -672,6 +671,133 @@ uptr<PlayerFSM> Player_Flip::Update(float deltaTime)
 }
 
 void Player_Flip::Exit()
+{
+}
+
+#pragma endregion
+
+#pragma region Player_Hit_Begin
+
+Player_Hit_Begin::Player_Hit_Begin(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Hit_Begin::~Player_Hit_Begin()
+{
+}
+
+void Player_Hit_Begin::Enter()
+{
+	context.SetState(EPlayerState::Hit_Begin);
+	Play(PLAYER_HIT_BEGIN, true);
+
+	Vector2f hitDir = context.GetHitDir();
+ 	context.SetVelocity(hitDir * 500.f);
+}
+
+uptr<PlayerFSM> Player_Hit_Begin::Update(float deltaTime)
+{
+	if (ANIM.IsFinished())
+		return make_unique<Player_Hit_Loop>(context);
+
+	return nullptr;
+}
+
+void Player_Hit_Begin::Exit()
+{
+}
+
+#pragma endregion
+
+#pragma region Player_Hit_Loop
+
+Player_Hit_Loop::Player_Hit_Loop(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Hit_Loop::~Player_Hit_Loop()
+{
+}
+
+void Player_Hit_Loop::Enter()
+{
+	context.SetState(EPlayerState::Hit_Loop);
+	Play(PLAYER_HIT_LOOP, true);
+}
+
+uptr<PlayerFSM> Player_Hit_Loop::Update(float deltaTime)
+{
+	if (context.GetIsGrounded())
+		return make_unique<Player_Hit_Ground>(context);
+
+	return nullptr;
+}
+
+void Player_Hit_Loop::Exit()
+{
+}
+
+#pragma endregion
+
+#pragma region Player_Hit_Ground
+
+Player_Hit_Ground::Player_Hit_Ground(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Hit_Ground::~Player_Hit_Ground()
+{
+}
+
+void Player_Hit_Ground::Enter()
+{
+	context.SetState(EPlayerState::Hit_Ground);
+	Play(PLAYER_HIT_GROUND, true);
+}
+
+uptr<PlayerFSM> Player_Hit_Ground::Update(float deltaTime)
+{
+	if (!context.GetIsDead() && ANIM.IsFinished())
+		return make_unique<Player_Hit_Recover>(context);
+
+	return nullptr;
+}
+
+void Player_Hit_Ground::Exit()
+{
+}
+
+#pragma endregion
+
+#pragma region Player_Hit_Recorver
+
+Player_Hit_Recover::Player_Hit_Recover(Player& context)
+	:PlayerFSM(context)
+{
+}
+
+Player_Hit_Recover::~Player_Hit_Recover()
+{
+}
+
+void Player_Hit_Recover::Enter()
+{
+	context.SetState(EPlayerState::Hit_Recover);
+	Play(PLAYER_HIT_RECOVER, true);
+}
+
+uptr<PlayerFSM> Player_Hit_Recover::Update(float deltaTime)
+{
+	if (ANIM.IsFinished())
+		return make_unique<Player_Idle>(context);
+
+	return nullptr;
+}
+
+void Player_Hit_Recover::Exit()
 {
 }
 

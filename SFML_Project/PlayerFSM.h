@@ -160,3 +160,47 @@ public:
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;
 	virtual void Exit() override;
 };
+
+class Player_Hit_Begin : public PlayerFSM
+{
+public:
+	Player_Hit_Begin(Player& context);
+	virtual ~Player_Hit_Begin();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_Hit_Loop : public PlayerFSM
+{
+public:
+	Player_Hit_Loop(Player& context);
+	virtual ~Player_Hit_Loop();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_Hit_Ground : public PlayerFSM
+{
+public:
+	Player_Hit_Ground(Player& context);
+	virtual ~Player_Hit_Ground();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};
+
+class Player_Hit_Recover : public PlayerFSM
+{
+public:
+	Player_Hit_Recover(Player& context);
+	virtual ~Player_Hit_Recover();
+
+	virtual void Enter() override;
+	virtual uptr<PlayerFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};

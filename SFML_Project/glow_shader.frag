@@ -31,7 +31,7 @@ void main()
         for (int y = -2; y <= 2; ++y)
         {
             float weight = weights[x + 2] * weights[y + 2];
-            vec2 sampleUV = uv + vec2(float(x), float(y)) * offset;
+            vec2 sampleUV = uv2 + vec2(float(x), float(y)) * offset;
             
             sum += texture2D(textureGlow, sampleUV) * weight;
         }

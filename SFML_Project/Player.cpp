@@ -39,6 +39,11 @@ void Player::Initialize()
 	animator.AddClip(PLAYER_FALL, 0.1f, true);
 	animator.AddClip(PLAYER_WALLSLIDE, 0.1f, true);
 	animator.AddClip(PLAYER_FLIP, 0.03f, false);
+
+	animator.AddClip(PLAYER_HIT_BEGIN, 0.05f, false);
+	animator.AddClip(PLAYER_HIT_LOOP, 0.05f, true);
+	animator.AddClip(PLAYER_HIT_GROUND, 0.05f, false);
+	animator.AddClip(PLAYER_HIT_RECOVER, 0.05f, false);
 	
 	animator.AddClip(PLAYER_ATTACK, 0.02f, false);
 

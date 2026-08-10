@@ -17,5 +17,16 @@ public:
 	virtual void Release() override;
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
 
+	__forceinline void	SetBloodNum(int n) { bloodNum = n; }
+	__forceinline void	SetAttackDir(Vector2f dir) { attackDir = dir; }
+	__forceinline void	SetIsSingle(bool b) { isSingle = b; }
+
+private:
+	int			bloodNum = 0;
+	optional<Sprite> sprite2;
+
+	Vector2f	attackDir;
+
+	bool	isSingle = false;
 };
 

@@ -63,6 +63,8 @@ private:
 	Vector2f	dirToPlayer;
 	Vector2f	dirHit;
 
+	float	accBloodTime = 1.f;
+
 #pragma region Rewind
 
 	RewindTracker<GruntSnapshot> rewinder;

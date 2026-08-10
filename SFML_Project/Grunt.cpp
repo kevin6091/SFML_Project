@@ -8,6 +8,8 @@
 #include "RewindManager.h"
 #include "RewindTracker.h"
 #include "Player.h"
+#include "Blood.h"
+#include "BloodDecal.h"
 
 Grunt::Grunt()
 {
@@ -82,6 +84,18 @@ void Grunt::Update(float deltaTime)
 		SetFace(false);
 
 	animator.Update(deltaTime, *sprite);
+
+	/*if (curState == EGruntState::Hit || curState == EGruntState::Hit_Roll)
+	{
+		if ((accBloodTime += deltaTime) >= 0.05f)
+		{
+			accBloodTime = 0.f;
+			uptr<Blood> blood = make_unique<Blood>();
+			blood->SetDir(velocity.normalized());
+			blood->GetDesc().vSpawnPoint = position;
+			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(blood));
+		}
+	}*/
 }
 
 void Grunt::LateUpdate(float deltaTime)
@@ -123,7 +137,23 @@ void Grunt::CollisionEvent(GameObject& other)
 
 void Grunt::CollisionBounce()
 {
-	if(curState != EGruntState::Hit_Ground) bounceCount++;
+	if(curState != EGruntState::Hit_Ground) 
+	{
+		if(bounceCount <= 5)
+		{
+			uptr<Blood> blood = make_unique<Blood>();
+			blood->SetDir(velocity.normalized());
+			blood->GetDesc().vSpawnPoint = position;
+			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(blood));
+
+			uptr<BloodDecal> bloodDecal = make_unique<BloodDecal>();
+			bloodDecal->GetDesc().vSpawnPoint = position + Vector2f(0.f, -22.f);
+			bloodDecal->SetAttackDir(velocity.normalized());
+			bloodDecal->SetIsSingle(true);
+			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Decal, move(bloodDecal));
+		}
+		bounceCount++;
+	}
 	if (bounceCount == 1 && isGrounded == true)	return;
 
 	if (curState == EGruntState::Hit) ForceChangeFSM(make_unique<Grunt_Hit_Roll>(*this));

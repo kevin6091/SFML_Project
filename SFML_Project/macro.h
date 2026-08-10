@@ -15,12 +15,34 @@
 #define PLAYER_WALLSLIDE		"anim_player_wallslide"
 #define PLAYER_FLIP				"anim_player_filp"
 
+#define HIT_LINE				"hitline"
+
+#define PLAYER_HIT_BEGIN		"anim_player_hit_begine"
+#define PLAYER_HIT_LOOP			"anim_player_hit_loop"
+#define PLAYER_HIT_GROUND		"anim_player_hit_ground"
+#define PLAYER_HIT_RECOVER		"anim_player_hit_recover"
+
 #define SLASH_MAIN				"anim_slash_main"
 #define SLASH_SUB				"anim_slash_sub"
 #define SLASH_SUB2				"anim_slash_sub2"
 
 #define SLASH_IMPACT1			"anim_slash_impact1"
 #define SLASH_IMPACT2			"anim_slash_impact2"
+
+#define FANBLADE				"anim_fanblade"
+
+#define BLOOD_0					"anim_blood_0"
+#define BLOOD_1					"anim_blood_1"
+#define BLOOD_2					"anim_blood_2"
+
+#define BLOOD_DECAL_0			"blood_decal_0"
+#define BLOOD_DECAL_1			"blood_decal_1"
+#define BLOOD_DECAL_2			"blood_decal_2"
+#define BLOOD_DECAL_3			"blood_decal_3"
+#define BLOOD_DECAL_4			"blood_decal_4"
+
+#define	BLOOD_DECAL_SMALL_0		"blood_decal_small_0"
+#define BLOOD_DECAL_SMALL_1		"blood_decal_small_1"
 
 #define GRUNT_IDLE				"anim_grunt_idle"
 #define GRUNT_RUN				"anim_grunt_run"

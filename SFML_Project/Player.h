@@ -18,7 +18,10 @@ enum class EPlayerState
 	Attack,
 	WallSlide,
 	Flip,
-
+	Hit_Begin,
+	Hit_Loop,
+	Hit_Ground,
+	Hit_Recover,
 	End
 };
 
@@ -77,9 +80,14 @@ public:
 	__forceinline bool GetIsGrippable()					{ return isGrippable; }	// 벽타기 벽에 출동중인지
 
 	__forceinline Slash& GetSlash()						{ return *pSlash; }
+	__forceinline void SetIsDead(bool b)				{ isDead = b; }
+	__forceinline bool GetIsDead()						{ return isDead; }
 
-private:
+	__forceinline void SetHitDir(Vector2f dir)			{ hitDir = dir; }
+	__forceinline Vector2f GetHitDir()					{ return hitDir; }
+
 	void ForceChangeFSM(uptr<PlayerFSM> fsm);
+private:
 	void TrailUpdate(float deltaTime);
 	void TrailRender(RenderTarget& target) const;
 
@@ -88,8 +96,9 @@ private:
 	EPlayerState curState = EPlayerState::End;
 	Animator animator;
 	
-	Slash* pSlash;
+	Slash* pSlash = nullptr;
 
+	Vector2f hitDir;
 
 #pragma region Trail
 	
@@ -116,10 +125,16 @@ private:
 
 #pragma endregion
 
+#pragma region Contents
+
 	float	gravityFactor = 1.0f;
 
 	float	grippableEnd = 0.f;
 	bool	isGrippable = false;
+
+	bool	isDead = false;
+
+#pragma endregion
 
 };
 

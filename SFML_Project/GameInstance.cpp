@@ -49,6 +49,9 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
    
     if (!glowShader.loadFromFile("glow_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
+   
+    if (!bloodShader.loadFromFile("blood_shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
 
     uCamera = uptr<Camera>(new Camera());
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
@@ -123,13 +126,13 @@ void GameInstance::Run()
         renderTarget_BG.setView(uCamera->GetView());
         renderTarget_Actor.setView(uCamera->GetView());
         renderTarget_Player.setView(uCamera->GetView());
-        renderTarget_Effect_Glow.setView(uCamera->GetView());
         renderTarget_Effect.setView(uCamera->GetView());
+        renderTarget_Effect_Glow.setView(uCamera->GetView());
 
         // Target에 Render
         uSceneManager->Render();
 
-        renderTarget_BG.setView(renderTarget_BG.getDefaultView());
+        //renderTarget_BG.setView(renderTarget_BG.getDefaultView());
         uSceneManager->RenderUI();
 
         // Target 완성
@@ -160,6 +163,7 @@ void GameInstance::Run()
 
 #pragma region Glow
 
+        renderTarget_Final.setView(renderTarget_Final.getDefaultView());
         glowShader.setUniform("resolution", Vector2f{ (float)WIDTH, (float)HEIGHT });
         glowShader.setUniform("radius", 4.0f);
         glowShader.setUniform("textureGlow", renderTarget_Effect_Glow.getTexture());

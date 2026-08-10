@@ -126,6 +126,12 @@
     <Filter Include="03. GameObject\Effect\Blood">
       <UniqueIdentifier>{6798178e-c632-4240-b13a-dcec198a6b63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Fan">
+      <UniqueIdentifier>{7c9990c7-8954-4a36-8e5a-b03d6d526b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\HitLine">
+      <UniqueIdentifier>{dc838670-e35e-4de0-a5a9-c3d65dcfb83a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -216,6 +222,12 @@
       <Filter>03. GameObject\Effect\Blood</Filter>
     </ClCompile>
     <ClCompile Include="BloodDecal.cpp">
+      <Filter>03. GameObject\Effect\BloodDecal</Filter>
+    </ClCompile>
+    <ClCompile Include="Fan.cpp">
+      <Filter>03. GameObject\Fan</Filter>
+    </ClCompile>
+    <ClCompile Include="HitLine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -323,6 +335,12 @@
       <Filter>03. GameObject\Effect\Blood</Filter>
     </ClInclude>
     <ClInclude Include="BloodDecal.h">
+      <Filter>03. GameObject\Effect\BloodDecal</Filter>
+    </ClInclude>
+    <ClInclude Include="Fan.h">
+      <Filter>03. GameObject\Fan</Filter>
+    </ClInclude>
+    <ClInclude Include="HitLine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -334,6 +352,9 @@
       <Filter>10. Shader</Filter>
     </None>
     <None Include="glow_shader.frag">
+      <Filter>10. Shader</Filter>
+    </None>
+    <None Include="blood_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
   </ItemGroup>

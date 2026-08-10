@@ -53,6 +53,8 @@ public:
     __forceinline RenderTexture& GetRenderTarget_Effect_Glow()      { return renderTarget_Effect_Glow; }
     __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
 
+    __forceinline Shader& GetBloodShader()                          { return bloodShader; }
+
     void Initialize(uint width, uint height, const string& title);
     void Run();
     void Release();
@@ -63,7 +65,11 @@ public:
     __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
 
     __forceinline bool GetIsSlow() { return isSlow; }
-
+    
+    __forceinline bool SetIsShake(bool b) { isShake = b; }
+    __forceinline bool SetIsHitLine(bool b) { isHitLine = b; }
+    __forceinline bool GetIsShake() { return isShake; }
+    __forceinline bool GetIsHitLine() { return isHitLine; }
 
     Player* GetPlayer();
 
@@ -81,6 +87,7 @@ private:
     Shader postShader;
     Shader compositeShader;
     Shader glowShader;
+    Shader bloodShader;
 
 #pragma region Slow
 
@@ -88,6 +95,10 @@ private:
     float   accSlow = 0.0f;
 
 #pragma endregion
+
+
+    bool isShake = false;   
+    bool isHitLine = false;
 
 
 #pragma region Rewinding

@@ -11,6 +11,7 @@
 #include "Block.h"
 #include "Stage1_BackGround.h"
 #include "Grippable.h"
+#include "Fan.h"
 
 
 void SceneStage1::Initialize()
@@ -50,10 +51,30 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(SLASH_MAIN, "resource/textures/player/slash/slash_main", 7);
 	resourceManager.LoadTextureSequence(SLASH_SUB, "resource/textures/player/slash/slash_sub", 5);
 
-	// slash impact
-	resourceManager.LoadTextureSequence(SLASH_IMPACT1, "resource/textures/impact/slash_impact1", 7);
-	resourceManager.LoadTextureSequence(SLASH_IMPACT2, "resource/textures/impact/slash_impact2", 5);
+	// hit
+	resourceManager.LoadTextureSequence(PLAYER_HIT_BEGIN, "resource/textures/player/hit_begin", 2);
+	resourceManager.LoadTextureSequence(PLAYER_HIT_LOOP, "resource/textures/player/hit_loop", 4);
+	resourceManager.LoadTextureSequence(PLAYER_HIT_GROUND, "resource/textures/player/hit_ground", 6);
+	resourceManager.LoadTextureSequence(PLAYER_HIT_RECOVER, "resource/textures/player/hit_recover", 9);
 
+	resourceManager.LoadTexture(HIT_LINE, "resource/textures/hitline/line");
+
+	// blood
+	resourceManager.LoadTextureSequence(BLOOD_0, "resource/textures/blood/blood_0", 6);
+	resourceManager.LoadTextureSequence(BLOOD_1, "resource/textures/blood/blood_1", 6);
+	resourceManager.LoadTextureSequence(BLOOD_2, "resource/textures/blood/blood_2", 6);
+
+	resourceManager.LoadTexture(BLOOD_DECAL_0, "resource/textures/blood/blood_decal/blood_0");
+	resourceManager.LoadTexture(BLOOD_DECAL_1, "resource/textures/blood/blood_decal/blood_1");
+	resourceManager.LoadTexture(BLOOD_DECAL_2, "resource/textures/blood/blood_decal/blood_2");
+	resourceManager.LoadTexture(BLOOD_DECAL_3, "resource/textures/blood/blood_decal/blood_3");
+	resourceManager.LoadTexture(BLOOD_DECAL_4, "resource/textures/blood/blood_decal/blood_4");
+
+	resourceManager.LoadTexture(BLOOD_DECAL_SMALL_0, "resource/textures/blood/blood_decal/small_blood_0");
+	resourceManager.LoadTexture(BLOOD_DECAL_SMALL_1, "resource/textures/blood/blood_decal/small_blood_1");
+
+	resourceManager.LoadTexture(BLOOD_DECAL_4, "resource/textures/blood/blood_decal/blood_4");
+	resourceManager.LoadTexture(BLOOD_DECAL_4, "resource/textures/blood/blood_decal/blood_4");
 
 #pragma endregion
 
@@ -67,6 +88,15 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(GRUNT_HIT_GROUND, "resource/textures/grunt/hit_ground", 16);
 
 #pragma endregion
+
+#pragma region Fan
+
+	resourceManager.LoadTexture("fan_fg", "resource/textures/fan/fan_fg");
+	resourceManager.LoadTexture("fan_bg", "resource/textures/fan/fan_bg");
+	resourceManager.LoadTextureSequence(FANBLADE, "resource/textures/fan/fanblade", 32);
+
+#pragma endregion
+
 
 	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
@@ -115,6 +145,12 @@ void SceneStage1::Initialize()
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
+		}
+		else if (obj.objectName == "obj_fanblade")
+		{
+			auto fan = make_unique<Fan>();
+			fan->GetDesc().vSpawnPoint = obj.position;
+			objectManager.AddObject(EObjectTag::Default, ERenderLayer::Background, move(fan));
 		}
 	}
 

@@ -3,10 +3,12 @@
 #include "GameInstance.h"
 #include "InputManager.h"
 #include "ObjectManager.h"	
-#include "SlashImpact.h"
+#include "BloodDecal.h"
+#include "Blood.h"
 #include "Camera.h"
 #include "Player.h"
 #include "Collider.h"
+#include "HitLine.h"
 
 #pragma region Macro
 
@@ -164,6 +166,29 @@ void Grunt_Hit::Enter()
 		dirHit.y = clamp(dirHit.y, -1.f, -0.5f);
 
 	context.SetVelocity(dirHit * 700.f);
+
+	uptr<BloodDecal> bloodDecal = make_unique<BloodDecal>();
+	bloodDecal->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -22.f);
+	bloodDecal->SetAttackDir(context.GetDirHit().normalized());
+	GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Decal, move(bloodDecal));
+
+	uptr<Blood> blood = make_unique<Blood>();
+	blood->SetDir(context.GetVelocity().normalized());
+	blood->GetDesc().vSpawnPoint = context.GetPosition();
+	GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(blood));
+
+	blood = make_unique<Blood>();
+	blood->SetDir(context.GetVelocity().normalized());
+	blood->GetDesc().vSpawnPoint = context.GetPosition() + context.GetDirToPlayer().normalized() * 1.5f;
+	GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(blood));
+
+	if (!GAME.GetIsHitLine())
+	{
+		uptr<HitLine> line = make_unique<HitLine>();
+		line->SetDir(context.GetDirHit().normalized());
+		line->GetDesc().vSpawnPoint = context.GetPosition();
+		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(line));
+	}
 }
 
 uptr<GruntFSM> Grunt_Hit::Update(float deltaTime)
