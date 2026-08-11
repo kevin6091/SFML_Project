@@ -42,5 +42,5 @@ private:
     float shakeIntensity = 0.f;       
 
     Vector2f vShakeTargetOffset;      
-    Vector2f vShakeOffset;            
+    Vector2f vShakeOffset;
 };

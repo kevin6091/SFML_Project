@@ -17,13 +17,6 @@ void main()
     vec4 player = texture2D(texturePlayer, uv);
     vec4 effect = texture2D(textureEffect, uv);
 
-    // ----------------------------------------------------
-    // [여기에 원하는 특수 효과 수학 공식을 넣습니다!]
-    // 예시: 이펙트 레이어의 색상만큼 배경을 꿀렁이게 만들기 (아지랑이)
-    // vec2 distortedUV = uv + (effect.rg * 0.05 * sin(time * 10.0));
-    // bg = texture2D(textureBG, distortedUV);
-    // ----------------------------------------------------
-
     if(isSlow)
     {
         vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
@@ -31,9 +24,17 @@ void main()
         actor = mix(actor, black, accSlow);
     }
 
-    vec4 finalColor = mix(bg, actor, actor.a); 
-    finalColor = mix(finalColor, player, player.a);
-    finalColor = mix(finalColor, effect, effect.a); 
+    vec4 finalColor = bg;
 
-    gl_FragColor = finalColor;
+    // 1. Actor 합성 (배경을 Actor의 불투명도만큼 가리고, 그 위에 Actor 색상을 얹음)
+    finalColor.rgb = finalColor.rgb * (1.0 - actor.a) + actor.rgb;
+    
+    // 2. Player 합성
+    finalColor.rgb = finalColor.rgb * (1.0 - player.a) + player.rgb;
+    
+    // 3. Effect 합성 (이펙트가 알파 블렌딩일 경우 완벽하게 조화됩니다)
+    finalColor.rgb = finalColor.rgb * (1.0 - effect.a) + effect.rgb;
+
+    // 최종 출력 (화면에 그릴 때는 알파값이 1.0(불투명)이어야 합니다)
+    gl_FragColor = vec4(finalColor.rgb, 1.0);
 }

@@ -99,6 +99,9 @@ public:
 	virtual void Enter() override;
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;
 	virtual void Exit() override;
+
+private:
+	float accDustTime = 0.2f;
 };
 
 class Player_Attack : public PlayerFSM
@@ -148,6 +151,9 @@ public:
 	virtual void Enter() override;
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;
 	virtual void Exit() override;
+
+private:
+	float accDustTime = 0.2f;
 };
 
 class Player_Flip : public PlayerFSM
@@ -192,6 +198,9 @@ public:
 	virtual void Enter() override;
 	virtual uptr<PlayerFSM> Update(float deltaTime) override;
 	virtual void Exit() override;
+
+private:
+	float accRewind = 0.f;
 };
 
 class Player_Hit_Recover : public PlayerFSM

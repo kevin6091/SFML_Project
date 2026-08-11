@@ -55,11 +55,15 @@ public:
 	_forceinline void SetIsGrounded(bool boolean)				{ isGrounded = boolean; }
 
 	void SetFace(bool face);
-    
+	bool GetIsOnSlope() const { return isOnSlope; }
+	void SetIsOnSlope(bool val) { isOnSlope = val; }
+
 public:
 	virtual void CollisionEvent(GameObject& other) {}
 	virtual void CollisionBounce() {}
 	virtual void CollisionBounceEnd() {}
+
+	virtual void FanHit() {}
 
 protected:
 	Sprite CenterAlign_Sprite(Sprite sprite);
@@ -83,5 +87,16 @@ protected:
 	StatusDesc descStatus;
 
 	uptr<Collider>		uCollider;
+
+	Vector2f	dirToPlayer;
+	Vector2f	dirHit;
+
+	float	accBloodTime = 1.f;
+	float	accAttackCool = 0.f;
+
+	bool	isFindPlayer = false;
+	bool	bFirstFace = false;
+
+	bool isOnSlope = false;
 };
 

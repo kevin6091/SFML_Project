@@ -21,5 +21,7 @@ private:
 	Animator animator;
 	optional<Sprite> spriteFront;
 	optional<Sprite> spriteBack;
+
+	bool isRed = false;
 };
 

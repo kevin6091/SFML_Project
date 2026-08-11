@@ -2,8 +2,14 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "InputManager.h"
+#include "ObjectManager.h"
 #include "Slash.h"
 #include "Camera.h"
+#include "RewindManager.h"
+#include "Sprint_Dust.h"
+#include "Land_Dust.h"
+#include "WallSlide_Dust.h"
+#include "Jump_Dust.h"
 
 #pragma region Macro
 
@@ -97,6 +103,9 @@ void Player_Idle::Enter()
 
 uptr<PlayerFSM> Player_Idle::Update(float deltaTime)
 {
+	if (!context.GetIsGrounded())
+		return make_unique<Player_Fall>(context);
+
 	if(INPUT.GetKeyPress(KEY::A) || INPUT.GetKeyPress(KEY::D))
 	{
 		return make_unique<Player_Idle_To_Run>(context);
@@ -143,10 +152,31 @@ void Player_Run::Enter()
 
 uptr<PlayerFSM> Player_Run::Update(float deltaTime)
 {
+	if (!context.GetIsGrounded())
+		return make_unique<Player_Fall>(context);
+
 	if (INPUT.GetKeyPress(KEY::A))
+	{
+		if (context.GetVelocity().x > 0)
+		{
+			auto dust = make_unique<Sprint_Dust>();
+			dust->GetDesc().bFace = true;
+			dust->GetDesc().vSpawnPoint = context.GetPosition();
+			GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+		}
 		MoveLeft();
+	}
 	else if (INPUT.GetKeyPress(KEY::D))
+	{
+		if (context.GetVelocity().x < 0)
+		{
+			auto dust = make_unique<Sprint_Dust>();
+			dust->GetDesc().bFace = false;
+			dust->GetDesc().vSpawnPoint = context.GetPosition();
+			GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+		}
 		MoveRight();
+	}
 	
 	if (INPUT.GetKeyPress(KEY::W))
 		return make_unique<Player_Jump>(context);
@@ -184,14 +214,36 @@ void Player_Idle_To_Run::Enter()
 {
 	context.SetState(EPlayerState::Idle_To_Run);
 	context.GetAnimator().Play(PLAYER_IDLE_TO_RUN, true);
+
+	if (INPUT.GetKeyPress(KEY::A))
+	{
+		auto dust = make_unique<Sprint_Dust>();
+		dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition();
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+	}
+	else
+	{
+		auto dust = make_unique<Sprint_Dust>();
+		dust->GetDesc().bFace = false;
+		dust->GetDesc().vSpawnPoint = context.GetPosition();
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+	}
 }
 
 uptr<PlayerFSM> Player_Idle_To_Run::Update(float deltaTime)
 {
+	if (!context.GetIsGrounded())
+		return make_unique<Player_Fall>(context);
+
 	if (INPUT.GetKeyPress(KEY::A))
+	{
 		MoveLeft();
+	}
 	else if (INPUT.GetKeyPress(KEY::D))
+	{
 		MoveRight();
+	}
 	else if (INPUT.GetKeyPress(KEY::S))
 		return make_unique<Player_Roll>(context);
 	else if (INPUT.GetKeyPress(KEY::W))
@@ -234,6 +286,9 @@ void Player_Run_To_Idle::Enter()
 
 uptr<PlayerFSM> Player_Run_To_Idle::Update(float deltaTime)
 {
+	if (!context.GetIsGrounded())
+		return make_unique<Player_Fall>(context);
+
 	// 브레이크, 바로 멈추진 않음
 	BreakX(deltaTime);
 
@@ -298,6 +353,9 @@ uptr<PlayerFSM> Player_Crouch::Update(float deltaTime)
 
 	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
+
+	if (!context.GetIsGrounded())
+		return make_unique<Player_Fall>(context);
 
 	return nullptr;
 }
@@ -385,6 +443,9 @@ uptr<PlayerFSM> Player_Roll::Update(float deltaTime)
 
 	if (ANIM.IsFinished())
 	{
+		if (!context.GetIsGrounded())
+			return make_unique<Player_Fall>(context);
+
 		if (INPUT.GetKeyPress(KEY::A) || INPUT.GetKeyPress(KEY::D))
 			return make_unique<Player_Idle_To_Run>(context);
 		else
@@ -393,6 +454,36 @@ uptr<PlayerFSM> Player_Roll::Update(float deltaTime)
 
 	if (INPUT.GetMouseDown(MOUSE::Left) && context.GetAttackCool() >= 0.3f)
 		return make_unique<Player_Attack>(context);
+
+	int frame = ANIM.GetCurrentFrameIndex();
+
+	if ((accDustTime += deltaTime) >= 0.02f && frame <= 3)
+	{
+		accDustTime = 0.0f;
+		auto dust = make_unique<WallSlide_Dust>();
+		if(context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+
+		dust = make_unique<WallSlide_Dust>();
+		if (context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+
+		dust = make_unique<WallSlide_Dust>();
+		if (context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+	}
 
 	return nullptr;
 }
@@ -420,6 +511,11 @@ void Player_Jump::Enter()
 	Play(PLAYER_JUMP, true);
 	context.SetIsGrounded(false);
 	context.SetVelocity({ context.GetVelocity().x, context.GetVelocity().y - JUMP_FORCE });
+
+	auto dust = make_unique<Jump_Dust>();
+	dust->GetDesc().bFace = true;
+	dust->GetDesc().vSpawnPoint = context.GetPosition();
+	GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
 }
 
 uptr<PlayerFSM> Player_Jump::Update(float deltaTime)
@@ -507,6 +603,11 @@ uptr<PlayerFSM> Player_Fall::Update(float deltaTime)
 			return make_unique<Player_Roll>(context);
 		}
 		context.ResetAttackCount();
+
+		auto dust = make_unique<Land_Dust>();
+		dust->GetDesc().vSpawnPoint = context.GetPosition();
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+
 		return make_unique<Player_Run_To_Idle>(context);
 	}
 
@@ -613,6 +714,33 @@ uptr<PlayerFSM> Player_WallSlide::Update(float deltaTime)
 		return make_unique<Player_Flip>(context);
 
 	context.SetGravityFactor(0.4f);
+
+	if ((accDustTime += deltaTime) >= 0.04f && abs(context.GetVelocity().y) >= 120.f)
+	{
+		accDustTime = 0.0f;
+		auto dust = make_unique<WallSlide_Dust>();
+		if (context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+
+		dust = make_unique<WallSlide_Dust>();
+		if (context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+
+		dust = make_unique<WallSlide_Dust>();
+		if (context.GetDesc().bFace)
+			dust->GetDesc().bFace = false;
+		else
+			dust->GetDesc().bFace = true;
+		dust->GetDesc().vSpawnPoint = context.GetPosition() + Vector2f(0.f, -RandomFloat(-3.f, 5.f));
+		GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+	}
 
 	return nullptr;
 }
@@ -762,6 +890,13 @@ uptr<PlayerFSM> Player_Hit_Ground::Update(float deltaTime)
 {
 	if (!context.GetIsDead() && ANIM.IsFinished())
 		return make_unique<Player_Hit_Recover>(context);
+
+	if (context.GetIsDead() && ANIM.IsFinished())
+	{
+		accRewind += deltaTime;
+		if(accRewind >= 1.5f && !RewindManager::GetInstance().IsRewinding())
+			RewindManager::GetInstance().SetRewinding(true);
+	}
 
 	return nullptr;
 }

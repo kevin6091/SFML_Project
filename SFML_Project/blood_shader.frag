@@ -1,4 +1,3 @@
-// rewind.frag
 uniform sampler2D currentTexture;
 
 void main()

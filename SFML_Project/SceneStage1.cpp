@@ -12,6 +12,7 @@
 #include "Stage1_BackGround.h"
 #include "Grippable.h"
 #include "Fan.h"
+#include "EndBlock.h"
 
 
 void SceneStage1::Initialize()
@@ -23,11 +24,11 @@ void SceneStage1::Initialize()
 	//gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH * 5.5f, (float)HEIGHT * 5.5f));
 	//gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH / 1.5f, (float)HEIGHT / 1.5f));
 	gameInstance.GetCamera().Initialize(Vector2f((float)WIDTH, (float)HEIGHT));
-
 	gameInstance.GetCamera().SetOffSet(Vector2f(0.f, -60.f)); 
 
 	//************** Texture, Anim **************//
 #pragma region Texture. Anim
+	resourceManager.LoadTexture("default", "resource/textures/default/default");
 
 #pragma region Player
 
@@ -76,6 +77,12 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTexture(BLOOD_DECAL_4, "resource/textures/blood/blood_decal/blood_4");
 	resourceManager.LoadTexture(BLOOD_DECAL_4, "resource/textures/blood/blood_decal/blood_4");
 
+	// dust
+	resourceManager.LoadTextureSequence(SPRINT_DUST, "resource/textures/dust/sprint_dust", 10);
+	resourceManager.LoadTextureSequence(JUMP_DUST, "resource/textures/dust/jump_dust", 4);
+	resourceManager.LoadTextureSequence(LAND_DUST, "resource/textures/dust/land_dust", 7);
+	resourceManager.LoadTextureSequence(WALLSLIDE_DUST, "resource/textures/dust/wallslide_dust", 7);
+
 #pragma endregion
 
 #pragma region Grunt
@@ -86,6 +93,7 @@ void SceneStage1::Initialize()
 	resourceManager.LoadTextureSequence(GRUNT_HIT, "resource/textures/grunt/hit", 2);
 	resourceManager.LoadTextureSequence(GRUNT_HIT_ROLL, "resource/textures/grunt/hit_roll", 13);
 	resourceManager.LoadTextureSequence(GRUNT_HIT_GROUND, "resource/textures/grunt/hit_ground", 16);
+	resourceManager.LoadTextureSequence(GRUNT_SLASH, "resource/textures/grunt/slash", 5);
 
 #pragma endregion
 
@@ -97,9 +105,10 @@ void SceneStage1::Initialize()
 
 #pragma endregion
 
-
 	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
+	auto size = resourceManager.GetTexture(MAP_STAGE1)->getSize();
+	gameInstance.GetCamera().SetBounds(FloatRect({ 0,0 }, { (float)size .x, (float)size.y }));
 
 #pragma endregion
 
@@ -129,6 +138,11 @@ void SceneStage1::Initialize()
 			auto grippable = make_unique<Grippable>(col);
 			objectManager.AddObject(EObjectTag::Wall, ERenderLayer::Background, move(grippable));
 		}
+		else if (col.type == EColliderType::EndBlock)
+		{
+			auto endBlock = make_unique<EndBlock>(col);
+			objectManager.AddObject(EObjectTag::Wall, ERenderLayer::Background, move(endBlock));
+		}
 	}
 
 	for (auto& obj : outObjects) 
@@ -144,6 +158,7 @@ void SceneStage1::Initialize()
 		{
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
+			obj.scale.x >= 0 ? grunt->GetDesc().bFace = true : grunt->GetDesc().bFace = false;
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 		else if (obj.objectName == "obj_fanblade")
@@ -159,6 +174,8 @@ void SceneStage1::Initialize()
 
 void SceneStage1::Update(float deltaTime)
 {
+	if (GameInstance::GetInstance().GetInputManager().GetKeyDown(Keyboard::Key::Enter))
+		GameInstance::GetInstance().GetSceneManager().ChangeScene(ESceneType::Stage2);
 	GameInstance::GetInstance().GetObjectManager().Update(deltaTime);
 }
 

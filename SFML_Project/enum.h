@@ -19,6 +19,7 @@ enum class EObjectTag
     EnemyAttack,
     PlayerAttack,
     Wall,
+    Slope,
     Hazard,
     End
 };
@@ -27,14 +28,17 @@ enum class ESceneType
 {
     Title,
     Stage1,
+    Stage2,
     End
 };
 
 enum class EColliderType
 {
     Block,          // 일반 이동 불가 벽/바닥 (obj_block)
+    SlopBlock1,      // 비탈길. 오른쪽 위
+    SlopBlock2,      // 비탈길. 오른쪽 아래
     Grippable,      // 벽 타기/달리기 가능한 수직 벽 (obj_grippable)
-    Jumpthrough,    // 일방통행(위로 뚫고 점프 가능) 발판 (obj_jumpthrough)
+    JumpThrough,    // 일방통행(위로 뚫고 점프 가능) 발판 (obj_jumpthrough)
     EndBlock,       // 스테이지 클리어/이동 구역 (obj_end_block)
     LineAttack,     // 직선 공격
     RectAttack,     // 사각형 공격

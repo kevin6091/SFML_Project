@@ -15,6 +15,11 @@
 #define PLAYER_WALLSLIDE		"anim_player_wallslide"
 #define PLAYER_FLIP				"anim_player_filp"
 
+#define SPRINT_DUST				"anim_sprint_dust"
+#define LAND_DUST				"anim_land_dust"
+#define JUMP_DUST				"anim_jump_dust"
+#define WALLSLIDE_DUST			"anim_wallslide_dust"
+
 #define HIT_LINE				"hitline"
 
 #define PLAYER_HIT_BEGIN		"anim_player_hit_begine"
@@ -50,9 +55,11 @@
 #define GRUNT_HIT				"anim_grunt_hit"
 #define GRUNT_HIT_ROLL			"anim_grunt_hit_roll"
 #define GRUNT_HIT_GROUND		"anim_grunt_hit_ground"
+#define GRUNT_SLASH				"anim_grunt_slash"
 
 
 #define MAP_STAGE1				"map_stage1"
+#define MAP_STAGE2				"map_stage2"
 
 
 

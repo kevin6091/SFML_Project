@@ -1,6 +1,7 @@
 #include "BloodDecal.h"
 #include "GameInstance.h"
 #include "ResourceManager.h"
+#include "RewindManager.h"
 
 BloodDecal::BloodDecal()
 {
@@ -97,7 +98,7 @@ void BloodDecal::Initialize()
 
 	float scale1 = 0.8f + (rand() % 40) / 100.f;
 	sprite->setScale({ scale1, scale1 });
-	sprite->setPosition(descStatus.vSpawnPoint + (attackDir * (float)RandomInt(15.f, 20.f)));
+	sprite->setPosition(descStatus.vSpawnPoint + (attackDir * (float)RandomInt(15, 20)));
 
 	// ====================================================
 	// [두 번째 피]: 정면 ~ 아래쪽 대각선으로 튀는 피 (Bottom-Diagonal)
@@ -117,13 +118,25 @@ void BloodDecal::Initialize()
 
 	float scale2 = 0.7f + (rand() % 40) / 100.f;
 	sprite2->setScale({ scale2, -scale2 }); // Y축 뒤집기로 우하단 연출
-	sprite2->setPosition(descStatus.vSpawnPoint + (attackDir * (float)RandomInt(30.f, 40.f)));
+	sprite2->setPosition(descStatus.vSpawnPoint + (attackDir * (float)RandomInt(30, 40)));
 
 	// TODO: 렌더 타겟에 그리기
 }
 
 void BloodDecal::Update(float deltaTime)
 {
+	if (RewindManager::GetInstance().IsRewinding())
+		isRewinding = true;
+	if (isRewinding)
+	{
+		if (!RewindManager::GetInstance().IsRewinding())
+			Destroy();
+	}
+
+	if ((accTime += (deltaTime * 0.15f)) >= 1.f)
+	{
+		Destroy();
+	}
 }
 
 void BloodDecal::LateUpdate(float deltaTime)
@@ -132,7 +145,11 @@ void BloodDecal::LateUpdate(float deltaTime)
 
 void BloodDecal::Render()
 {
-	GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, BlendAlpha);
+	GameInstance::GetInstance().GetYShader().setUniform("currentTexture", Shader::CurrentTexture);
+	GameInstance::GetInstance().GetYShader().setUniform("alpha", 1.f - accTime);
+	RenderStates states(&GameInstance::GetInstance().GetYShader());
+
+	GameInstance::GetInstance().GetRenderTarget_BG().draw(*this, states);
 }
 
 void BloodDecal::draw(RenderTarget& target, RenderStates states) const

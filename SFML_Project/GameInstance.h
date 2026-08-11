@@ -54,6 +54,8 @@ public:
     __forceinline RenderTexture& GetRenderTarget_Effect()           { return renderTarget_Effect; }
 
     __forceinline Shader& GetBloodShader()                          { return bloodShader; }
+    __forceinline Shader& GetFanShader()                            { return fanShader; }
+    __forceinline Shader& GetYShader()                              { return yShader; }
 
     void Initialize(uint width, uint height, const string& title);
     void Run();
@@ -65,13 +67,16 @@ public:
     __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
 
     __forceinline bool GetIsSlow() { return isSlow; }
+    __forceinline void SetIsSlow(bool b) { isSlow = b; }
     
-    __forceinline bool SetIsShake(bool b) { isShake = b; }
-    __forceinline bool SetIsHitLine(bool b) { isHitLine = b; }
+    __forceinline void SetIsShake(bool b) { isShake = b; }
+    __forceinline void SetIsHitLine(bool b) { isHitLine = b; }
     __forceinline bool GetIsShake() { return isShake; }
     __forceinline bool GetIsHitLine() { return isHitLine; }
 
     Player* GetPlayer();
+    void SetIsReverse(bool b) { isReverse = b; }
+    bool GetIsReverse() { return isReverse; }
 
 private:
     bool   isRenderDebug = false;
@@ -88,6 +93,8 @@ private:
     Shader compositeShader;
     Shader glowShader;
     Shader bloodShader;
+    Shader fanShader;
+    Shader yShader;
 
 #pragma region Slow
 
@@ -100,11 +107,12 @@ private:
     bool isShake = false;   
     bool isHitLine = false;
 
-
+    float accColorReverseTime = 0.f;
+    bool isReverse = false;
 #pragma region Rewinding
 
-    float accTime1;
-    float accTime2;
+    float accTime1 = 0.0f;
+    float accTime2 = 0.0f;
 
 #pragma endregion
 };

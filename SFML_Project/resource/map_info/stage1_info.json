@@ -29,8 +29,8 @@
       "layer_name": "objects",
       "instances": [
         { "object_name": "obj_fanblade", "x": 1344, "y": 256, "scale_x": 2, "scale_y": 2 },
-        { "object_name": "obj_enemy_grunt", "x": 704, "y": 768, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_enemy_grunt", "x": 1216, "y": 480, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 904, "y": 768, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 1216, "y": 480, "scale_x": -1, "scale_y": 1 },
         { "object_name": "obj_ceiling_laser", "x": 944, "y": 256, "scale_x": 1, "scale_y": 1 },
         { "object_name": "obj_ceiling_laser", "x": 480, "y": 544, "scale_x": 1, "scale_y": 1 }
       ]

@@ -132,6 +132,33 @@
     <Filter Include="03. GameObject\HitLine">
       <UniqueIdentifier>{dc838670-e35e-4de0-a5a9-c3d65dcfb83a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Enemy\Grunt\Slash">
+      <UniqueIdentifier>{84c0d4fe-bff0-4b8e-8243-0a5be8b6e9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\SceneStage2">
+      <UniqueIdentifier>{b0540488-dd68-4fe8-a4f3-557ee8daf97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\BackGrounds\Stage2">
+      <UniqueIdentifier>{dd8582a4-5c8b-40e6-b895-44a2a7249728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Dust">
+      <UniqueIdentifier>{6cebed65-203a-461e-ab8e-de0651472f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Dust\Sprint">
+      <UniqueIdentifier>{44e9e7bc-98b3-4501-b16e-60e85dc85572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Dust\Land">
+      <UniqueIdentifier>{d0326027-ffc9-4c0d-a528-31f3579050d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Dust\Jump">
+      <UniqueIdentifier>{f187199f-6f92-4bce-ade9-2a3eb73cb013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\Dust\WallSlide">
+      <UniqueIdentifier>{31cd756d-3cf7-4fce-9567-a4df9913daea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Blocks\SlopeBlock">
+      <UniqueIdentifier>{80adffeb-8825-4a5c-a71a-cd612eb50ae7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -228,7 +255,37 @@
       <Filter>03. GameObject\Fan</Filter>
     </ClCompile>
     <ClCompile Include="HitLine.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>03. GameObject\HitLine</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneStage2.cpp">
+      <Filter>04. Scene\SceneStage2</Filter>
+    </ClCompile>
+    <ClCompile Include="GruntSlash.cpp">
+      <Filter>03. GameObject\Enemy\Grunt\Slash</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2_BackGround.cpp">
+      <Filter>03. GameObject\BackGrounds\Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="EndBlock.cpp">
+      <Filter>03. GameObject\Blocks\EndBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="Jump_Dust.cpp">
+      <Filter>03. GameObject\Effect\Dust\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprint_Dust.cpp">
+      <Filter>03. GameObject\Effect\Dust\Sprint</Filter>
+    </ClCompile>
+    <ClCompile Include="Land_Dust.cpp">
+      <Filter>03. GameObject\Effect\Dust\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="WallSlide_Dust.cpp">
+      <Filter>03. GameObject\Effect\Dust\WallSlide</Filter>
+    </ClCompile>
+    <ClCompile Include="SlopeBlock.cpp">
+      <Filter>03. GameObject\Blocks\SlopeBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpThrough.cpp">
+      <Filter>03. GameObject\Blocks\JumpThrough</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,7 +398,37 @@
       <Filter>03. GameObject\Fan</Filter>
     </ClInclude>
     <ClInclude Include="HitLine.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>03. GameObject\HitLine</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneStage2.h">
+      <Filter>04. Scene\SceneStage2</Filter>
+    </ClInclude>
+    <ClInclude Include="GruntSlash.h">
+      <Filter>03. GameObject\Enemy\Grunt\Slash</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2_BackGround.h">
+      <Filter>03. GameObject\BackGrounds\Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="EndBlock.h">
+      <Filter>03. GameObject\Blocks\EndBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="Jump_Dust.h">
+      <Filter>03. GameObject\Effect\Dust\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprint_Dust.h">
+      <Filter>03. GameObject\Effect\Dust\Sprint</Filter>
+    </ClInclude>
+    <ClInclude Include="Land_Dust.h">
+      <Filter>03. GameObject\Effect\Dust\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="WallSlide_Dust.h">
+      <Filter>03. GameObject\Effect\Dust\WallSlide</Filter>
+    </ClInclude>
+    <ClInclude Include="SlopeBlock.h">
+      <Filter>03. GameObject\Blocks\SlopeBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpThrough.h">
+      <Filter>03. GameObject\Blocks\JumpThrough</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +442,12 @@
       <Filter>10. Shader</Filter>
     </None>
     <None Include="blood_shader.frag">
+      <Filter>10. Shader</Filter>
+    </None>
+    <None Include="fan_shader.frag">
+      <Filter>10. Shader</Filter>
+    </None>
+    <None Include="y_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
   </ItemGroup>

@@ -53,11 +53,43 @@ void Grunt::Initialize()
 	uCollider->Initialize(desc);
 
 	SetPosition(descStatus.vSpawnPoint);
-	sprite->setScale({ 1.5f,1.5f });
+	descStatus.bFace ? sprite->setScale({ 1.5f,1.5f }) : sprite->setScale({ -1.5f,1.5f });
+	bFirstFace = descStatus.bFace;
 }
 
 void Grunt::Update(float deltaTime)
 {
+#pragma region Rewind
+
+	if (RewindManager::GetInstance().IsRewinding())
+	{
+		GruntSnapshot snap;
+		rewindSpeed += deltaTime * 0.5f;
+
+		if (rewinder.Rewind((int)rewindSpeed, snap))
+
+		{
+			SetPosition(snap.position);
+			velocity = snap.velocity;
+			sprite->setScale(snap.scale);
+
+			if (snap.texture != nullptr)
+				sprite->setTexture(*snap.texture);
+
+			sprite->setTextureRect(snap.textureRect);
+			curState = snap.fsmState;
+		}
+		else
+		{
+			rewindSpeed = 1.0f;
+			RewindManager::GetInstance().SetRewinding(false); // 전체동기화필요.
+		}
+
+		return;
+	}
+
+#pragma endregion
+
 #pragma region Velocity
 
 	velocity.y += GRAVITY * deltaTime;
@@ -65,6 +97,8 @@ void Grunt::Update(float deltaTime)
 		velocity.y = MAX_FALL;
 
 #pragma endregion
+
+	accAttackCool += deltaTime;
 
 	dirToPlayer = GameInstance::GetInstance().GetPlayer()->GetPosition() - position;
 
@@ -77,25 +111,36 @@ void Grunt::Update(float deltaTime)
 			curFSM->Enter();
 		}
 	}
-
-	if (velocity.x > 0)
-		SetFace(true);
-	else
-		SetFace(false);
-
+	
+	if (!(abs(velocity.x - 0.0f) <= FLT_EPSILON))
+	{
+		if (velocity.x > 0)
+			SetFace(true);
+		else
+			SetFace(false);
+	}
+	
 	animator.Update(deltaTime, *sprite);
 
-	/*if (curState == EGruntState::Hit || curState == EGruntState::Hit_Roll)
+#pragma region Rewind
+
+	GruntSnapshot currentSnap
 	{
-		if ((accBloodTime += deltaTime) >= 0.05f)
-		{
-			accBloodTime = 0.f;
-			uptr<Blood> blood = make_unique<Blood>();
-			blood->SetDir(velocity.normalized());
-			blood->GetDesc().vSpawnPoint = position;
-			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(blood));
-		}
-	}*/
+		GetPosition(),
+		velocity,
+		sprite->getScale(),
+		curState,
+		sprite->getTextureRect(),
+		&sprite->getTexture()
+	};
+
+	if ((rewinderTime += deltaTime) >= deltaTime * 3.f)
+	{
+		rewinderTime = 0.f;
+		rewinder.Record(currentSnap);
+	}
+
+#pragma endregion
 }
 
 void Grunt::LateUpdate(float deltaTime)
@@ -168,19 +213,28 @@ void Grunt::CollisionBounceEnd()
 	}
 }
 
+void Grunt::FanHit()
+{
+	ForceChangeFSM(make_unique<Grunt_Hit_Roll>(*this));
+}
+
 void Grunt::RestartObject()
 {
 	SetPosition(descStatus.vSpawnPoint);
 	velocity = { 0.0f,0.0f };
-	descStatus.bFace = true;
-	if (sprite->getScale().x <= 0.f)
-		sprite->setScale({ -1.f,1.f });
+	descStatus.bFace = bFirstFace;
+
+	SetFace(bFirstFace);
 
 	ForceChangeFSM(make_unique<Grunt_Idle>(*this));
 
 	rewindSpeed = 1.0f;
 	rewinder.Clear();
 	isGrounded = true;
+	isActive = true;
+	isFindPlayer = false;
+	accAttackCool = 0.0f;
+	accBloodTime = 1.f;
 }
 
 void Grunt::ForceChangeFSM(uptr<GruntFSM> fsm)

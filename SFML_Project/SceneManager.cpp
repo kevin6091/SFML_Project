@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "SceneTitle.h"
 #include "SceneStage1.h"
+#include "SceneStage2.h"
 
 
 SceneManager::SceneManager()
@@ -29,8 +30,13 @@ void SceneManager::ChangeScene(ESceneType _eSceneType, float fadeDuration)
         isChangingScene = true;
         break;
     case ESceneType::Stage1:
-        FadeOutScene(1.0f);
         uNextScene = move(make_unique<SceneStage1>());
+        FadeOutScene(1.0f);
+        isChangingScene = true;
+        break;
+    case ESceneType::Stage2:
+        FadeOutScene(1.0f);
+        uNextScene = move(make_unique<SceneStage2>());
         isChangingScene = true;
         break;
     case ESceneType::End:
@@ -61,7 +67,7 @@ void SceneManager::Update(float deltaTime)
 
         uCurrentScene = move(uNextScene);
 
-        FadeInScene(2.0f);
+        FadeInScene(3.0f);
 
         if (uCurrentScene) uCurrentScene->Initialize();
 

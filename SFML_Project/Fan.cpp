@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Player.h"
 #include "PlayerFSM.h"
+#include "ObjectManager.h"
 
 Fan::Fan()
 {
@@ -49,18 +50,40 @@ void Fan::Update(float deltaTime)
 	sprite->setOrigin({ -18.f, -16.f });
 
 	auto& game = GameInstance::GetInstance();
+	
+	const auto& objList = game.GetObjectManager().GetObjects(EObjectTag::Enemy);
+	for (auto& iter : objList)
+	{
+		float dis = abs(iter.get()->GetPosition().x - (descStatus.vSpawnPoint.x + 38.f));
+		if (dis <= 30.f)
+		{
+			iter.get()->SetVelocity(Vector2f(-1.f, -1.f).normalized() * 600.f);
+			iter.get()->FanHit();
+		}
+	}
+
 	Vector2f playerPos = game.GetPlayer()->GetPosition();
 	float dis = abs(playerPos.x - (descStatus.vSpawnPoint.x + 38.f));
 
-	if (dis <= 40.f)
-	{
-		int frame = animator.GetCurrentFrameIndex();
+	int frame = (int)animator.GetCurrentFrameIndex();
+	bool isHitFrame = (frame <= 6 || (frame <= 31 && frame >= 27));
 
-		if (!(game.GetIsSlow() && frame <= 4 || (frame <= 31 && frame >= 26)))
+	if (isHitFrame && game.GetIsSlow())
+		isRed = true;
+	else
+		isRed = false;	
+
+	if (dis <= 20.f)
+	{
+		if (game.GetIsSlow() && !isHitFrame && game.GetPlayer()->GetState() == EPlayerState::Roll)
 		{
-			if(game.GetPlayer()->GetState() != EPlayerState::Hit_Begin && 
-				game.GetPlayer()->GetState() != EPlayerState::Hit_Loop && 
-				game.GetPlayer()->GetState() != EPlayerState::Hit_Ground && 
+			// Åë°ú
+		}
+		else
+		{
+			if (game.GetPlayer()->GetState() != EPlayerState::Hit_Begin &&
+				game.GetPlayer()->GetState() != EPlayerState::Hit_Loop &&
+				game.GetPlayer()->GetState() != EPlayerState::Hit_Ground &&
 				game.GetPlayer()->GetState() != EPlayerState::Hit_Recover)
 			{
 				game.GetPlayer()->SetHitDir(Vector2f(-1.f, -1.f).normalized());
@@ -77,8 +100,13 @@ void Fan::LateUpdate(float deltaTime)
 
 void Fan::Render()
 {
+
+	RenderStates states(&GameInstance::GetInstance().GetFanShader());
+	GameInstance::GetInstance().GetFanShader().setUniform("isRed", isRed);
+	GameInstance::GetInstance().GetBloodShader().setUniform("currentTexture", Shader::CurrentTexture);
+
 	GameInstance::GetInstance().GetRenderTarget_BG().draw(*spriteBack, BlendAlpha);
-	GameInstance::GetInstance().GetRenderTarget_Effect().draw(*sprite, BlendAlpha);
+	GameInstance::GetInstance().GetRenderTarget_Effect().draw(*sprite, states);
 	GameInstance::GetInstance().GetRenderTarget_Effect().draw(*spriteFront, BlendAlpha);
 }
 

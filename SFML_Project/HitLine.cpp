@@ -5,6 +5,8 @@
 
 HitLine::HitLine()
 {
+	eObjectTag = EObjectTag::Default;
+	eRenderLayer = ERenderLayer::Effect;
 }
 
 HitLine::~HitLine()
@@ -23,14 +25,14 @@ void HitLine::Initialize()
 	sprite->setRotation(targetAngle);
 	sprite->setPosition(descStatus.vSpawnPoint + Vector2f(0.f,-20.f) + dir * -30.f);
 	RandomInt(0,1) ? sprite->getColor() = Color::Cyan : sprite->getColor() = Color::Magenta;
-	GameInstance::GetInstance().GetCamera().Shake(dir, 0.2f, 15.0f);
+	GameInstance::GetInstance().GetCamera().Shake(dir, 0.2f, 18.0f);
 }
 
 void HitLine::Update(float deltaTime)
 {
 	Vector2f pos = sprite->getPosition() + dir * deltaTime * 6000.f;
 	sprite->setPosition(pos);
-
+	
 	if ((accTime += deltaTime) >= 0.02f)
 	{
 		accTime = 0.f;
@@ -38,6 +40,12 @@ void HitLine::Update(float deltaTime)
 			sprite->setColor(Color::Magenta);
 		else
 			sprite->setColor(Color::Cyan);
+	}
+
+	if ((accLifeTime += deltaTime) >= 0.2f)
+	{
+		GameInstance::GetInstance().SetIsHitLine(false);
+		Destroy();
 	}
 }
 

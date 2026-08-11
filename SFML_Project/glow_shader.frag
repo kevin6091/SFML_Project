@@ -2,6 +2,7 @@ uniform sampler2D textureGlow;      // 빛나는 오브젝트들만 모인 텍�
 uniform sampler2D textureComposite; // 배경+캐릭터가 이미 합성된 원본 텍스처
 uniform vec2 resolution;            // 렌더 타겟의 해상도
 uniform float radius;               // 빛 번짐 강도 (예: 4.0)
+uniform bool isReverse;
 
 void main()
 {
@@ -51,19 +52,16 @@ void main()
     // 3. 최종 출력
     // ----------------------------------------------------
     
-    // [주의 및 선택 사항]
-    // 현재 C++ 코드에서 'glowStates.blendMode = BlendAdd;' 를 사용하셨습니다.
-    // 
-    // 상황 A: 만약 renderTarget_Final이 까맣게 비워져 있는 상태라면
-    // 아래처럼 baseColor와 glowColor를 셰이더 안에서 더해서 출력하는 것이 맞습니다.
     vec3 finalColor = baseColor.rgb + glowColor;
-    gl_FragColor = vec4(finalColor, baseColor.a);
     
-    /*
-    상황 B: 만약 앞선 코드에서 renderTarget_Final에 이미 Composite 화면을 그려두셨다면,
-    여기서 baseColor를 또 출력하면 C++의 BlendAdd 때문에 화면이 2배로 밝아져(하얗게 타버림) 버립니다.
-    그럴 때는 위 두 줄을 지우고, 순수하게 글로우만 반환하도록 아래처럼 사용하셔야 합니다.
     
-    gl_FragColor = vec4(glowColor, sum.a);
-    */
+    if(isReverse)
+    {
+        gl_FragColor = vec4(0.8 - finalColor.r, 0.8 - finalColor.g, 0.8 - finalColor.b, baseColor.a);
+    }
+    else
+    {
+        gl_FragColor = vec4(finalColor, baseColor.a);
+    }
+ 
 }

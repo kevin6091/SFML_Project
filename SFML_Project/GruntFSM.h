@@ -84,3 +84,15 @@ public:
 	virtual uptr<GruntFSM> Update(float deltaTime) override;
 	virtual void Exit() override;
 };
+
+class Grunt_Attack : public GruntFSM
+{
+public:
+	Grunt_Attack() = delete;
+	Grunt_Attack(Grunt& context);
+	virtual ~Grunt_Attack();
+
+	virtual void Enter() override;
+	virtual uptr<GruntFSM> Update(float deltaTime) override;
+	virtual void Exit() override;
+};

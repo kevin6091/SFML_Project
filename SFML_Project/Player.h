@@ -134,6 +134,9 @@ private:
 
 	bool	isDead = false;
 
+	float accReverseTime = 0.20f;
+	int reverseCount = 0;
+
 #pragma endregion
 
 };

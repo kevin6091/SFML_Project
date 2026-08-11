@@ -28,6 +28,10 @@ public:
 
     void Release();
 
+    ESceneType GetSceneType() { return eSceneType; }
+    bool GetIsChangingScene() { return isChangingScene; }
+    FadeManager* GetFadeManager() { return uFadeManager.get(); }
+
 private:
     uptr<Scene> uCurrentScene;
     uptr<Scene> uNextScene;

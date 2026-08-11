@@ -22,9 +22,9 @@ void FadeManager::Update(float deltaTime)
 {
     if (m_fadeState == FadeState::None) return;
 
-    m_fadeOverlay.setSize({ WIDTH * 2.f, HEIGHT * 2.f });
+    m_fadeOverlay.setSize({ WIDTH * 10.f, HEIGHT * 10.f });
     m_fadeOverlay.setPosition(GameInstance::GetInstance().GetCamera().GetPosition());
-    m_fadeOverlay.setOrigin({ WIDTH / 2.f, HEIGHT / 2.f });
+    m_fadeOverlay.setOrigin({ WIDTH * 5.f, HEIGHT * 5.f });
 
     if (m_fadeState == FadeState::FadeIn)
     {

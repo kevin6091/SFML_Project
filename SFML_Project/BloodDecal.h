@@ -28,5 +28,8 @@ private:
 	Vector2f	attackDir;
 
 	bool	isSingle = false;
+	bool	isRewinding = false;
+
+	float accTime = 0.f;
 };
 

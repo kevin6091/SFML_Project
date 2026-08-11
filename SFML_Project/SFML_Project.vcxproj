@@ -145,6 +145,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="EndBlock.cpp" />
     <ClCompile Include="FadeManager.cpp" />
     <ClCompile Include="Fan.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -153,8 +154,12 @@
     <ClCompile Include="Grippable.cpp" />
     <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="GruntFSM.cpp" />
+    <ClCompile Include="GruntSlash.cpp" />
     <ClCompile Include="HitLine.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="JumpThrough.cpp" />
+    <ClCompile Include="Jump_Dust.cpp" />
+    <ClCompile Include="Land_Dust.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />
@@ -163,12 +168,17 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneStage1.cpp" />
+    <ClCompile Include="SceneStage2.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SFML_Project.cpp" />
     <ClCompile Include="Slash.cpp" />
     <ClCompile Include="SlashImpact.cpp" />
+    <ClCompile Include="SlopeBlock.cpp" />
+    <ClCompile Include="Sprint_Dust.cpp" />
     <ClCompile Include="Stage1_BackGround.cpp" />
+    <ClCompile Include="Stage2_BackGround.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="WallSlide_Dust.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationClip.h" />
@@ -179,6 +189,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="EndBlock.h" />
     <ClInclude Include="FadeManager.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="Fan.h" />
@@ -188,9 +199,13 @@
     <ClInclude Include="Grippable.h" />
     <ClInclude Include="Grunt.h" />
     <ClInclude Include="GruntFSM.h" />
+    <ClInclude Include="GruntSlash.h" />
     <ClInclude Include="HitLine.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="JumpThrough.h" />
+    <ClInclude Include="Jump_Dust.h" />
+    <ClInclude Include="Land_Dust.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
@@ -201,19 +216,26 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneStage1.h" />
+    <ClInclude Include="SceneStage2.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Slash.h" />
     <ClInclude Include="SlashImpact.h" />
+    <ClInclude Include="SlopeBlock.h" />
+    <ClInclude Include="Sprint_Dust.h" />
     <ClInclude Include="Stage1_BackGround.h" />
+    <ClInclude Include="Stage2_BackGround.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="using.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="WallSlide_Dust.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="blood_shader.frag" />
     <None Include="composite_shader.frag" />
+    <None Include="fan_shader.frag" />
     <None Include="glow_shader.frag" />
     <None Include="shader.frag" />
+    <None Include="y_shader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

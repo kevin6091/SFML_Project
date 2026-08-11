@@ -4,6 +4,8 @@
 
 Title::Title()
 {
+    eObjectTag = EObjectTag::Default;
+    eRenderLayer = ERenderLayer::Background;
 }
 
 Title::~Title() {}

@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "RewindManager.h"
+#include "Player.h" 
 
 GameInstance::GameInstance() = default;
 GameInstance::~GameInstance() = default;
@@ -51,6 +52,12 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
         cout << "셰이더 로드 실패!!!" << endl;
    
     if (!bloodShader.loadFromFile("blood_shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
+   
+    if (!fanShader.loadFromFile("fan_Shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
+   
+    if (!yShader.loadFromFile("y_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
 
     uCamera = uptr<Camera>(new Camera());
@@ -109,7 +116,7 @@ void GameInstance::Run()
         
         if (uInputManager->GetKeyDown(Keyboard::Key::Tab))
             isRenderDebug = !isRenderDebug;
-        if (uInputManager->GetKeyDown(Keyboard::Key::R))
+        if (uInputManager->GetKeyDown(Keyboard::Key::R) && !RewindManager::GetInstance().IsRewinding())
             RewindManager::GetInstance().SetRewinding(true); 
 
 #pragma endregion
@@ -164,6 +171,7 @@ void GameInstance::Run()
 #pragma region Glow
 
         renderTarget_Final.setView(renderTarget_Final.getDefaultView());
+        glowShader.setUniform("isReverse", isReverse);
         glowShader.setUniform("resolution", Vector2f{ (float)WIDTH, (float)HEIGHT });
         glowShader.setUniform("radius", 4.0f);
         glowShader.setUniform("textureGlow", renderTarget_Effect_Glow.getTexture());

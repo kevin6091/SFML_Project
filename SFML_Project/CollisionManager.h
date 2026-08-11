@@ -15,4 +15,5 @@ public:
 
 private:
 	bool LineCollisionTest(Vector2f start, Vector2f end, Vector2f pos, float thickness);
+	bool SlopeCollision(const FloatRect& objBounds, const FloatRect& slopeBounds, bool isSlopeUp, float& outNewY);
 };

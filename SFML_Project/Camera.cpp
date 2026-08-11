@@ -17,8 +17,9 @@ void Camera::Initialize(Vector2f viewSize)
 void Camera::Update(float deltaTime)
 {
     if (followTarget) 
-    {
-        vTargetPos = followTarget->GetPosition() + vOffset;
+    {   
+        Vector2f pos = followTarget->GetPosition() + vOffset;
+        vTargetPos = pos;
     }
 
     // 2. 부드러운 카메라 이동

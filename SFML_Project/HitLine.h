@@ -22,5 +22,6 @@ public:
 private:
 	Vector2f dir;
 	float accTime = 0.f; 
+	float accLifeTime = 0.f; 
 };
 

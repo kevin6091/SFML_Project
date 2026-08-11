@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "Player.h"
+#include "RewindManager.h"
 
 void ObjectManager::Initialize()
 {
@@ -12,128 +13,134 @@ void ObjectManager::Initialize()
 
 void ObjectManager::Update(float deltaTime)
 {
-    for (auto& tag : objects)
-    {
-        for (auto& obj : tag.second)
-        {
-            obj->Update(deltaTime);
-        }
-    }
+	for (auto& tag : objects)
+	{
+		for (auto& obj : tag.second)
+		{
+			obj->Update(deltaTime);
+		}
+	}
 
-    auto& collisionManager = GameInstance::GetInstance().GetCollisionManager();
+	if (!RewindManager::GetInstance().IsRewinding())
+	{
+		auto& collisionManager = GameInstance::GetInstance().GetCollisionManager();
 
-    collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
+		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
 
-    collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Enemy], objects[EObjectTag::Wall]);
+		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Enemy], objects[EObjectTag::Wall]);
 
-    collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Enemy]);
+		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Enemy]);
+		collisionManager.CollisionTest(objects[EObjectTag::EnemyAttack], objects[EObjectTag::Player]);
+	}
 }
 
 void ObjectManager::LateUpdate(float deltaTime)
 {
-    for (auto& tag : objects)
-    {
-        for (auto& obj : tag.second)
-        {
-            obj->LateUpdate(deltaTime);
-        }
-    }
+	for (auto& tag : objects)
+	{
+		for (auto& obj : tag.second)
+		{
+			obj->LateUpdate(deltaTime);
+		}
+	}
 
-    // 삭제
-    for (auto& tag : objects)
-    {
-        if (tag.first == EObjectTag::Player)
-            continue;
+	// 삭제
+	for (auto& tag : objects)
+	{
+		if (tag.first == EObjectTag::Player)
+			continue;
 
-        for (auto it = tag.second.begin(); it != tag.second.end();)
-        {
-            if ((*it)->GetIsDestroy())
-            {
-                (*it)->Release();
+		for (auto it = tag.second.begin(); it != tag.second.end();)
+		{
+			if ((*it)->GetIsDestroy())
+			{
+				(*it)->Release();
 
-                auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].end(), (*it));
-                renderObjects[(*it)->GetLayer()].erase(renderIter);
-                it = tag.second.erase(it);
-            }
-            else
-                it++;
-        }
-    }
+				auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].end(), (*it));
+				renderObjects[(*it)->GetLayer()].erase(renderIter);
+				it = tag.second.erase(it);
+			}
+			else
+				it++;
+		}
+	}
 }
 
 void ObjectManager::Render()
 {
-    for (int i = 0; i < (int)ERenderLayer::UI; i++)
-    {
-        for (auto& obj : renderObjects[(ERenderLayer)i])
-        {
-            obj->Render();
-        }
-    }
+	for (int i = 0; i < (int)ERenderLayer::UI; i++)
+	{
+		for (auto& obj : renderObjects[(ERenderLayer)i])
+		{
+			obj->Render();
+		}
+	}
 }
 
 void ObjectManager::RenderUI()
 {
-    for (int i = (int)ERenderLayer::UI; i < (int)ERenderLayer::End; i++)
-    {
-        for (auto& obj : renderObjects[(ERenderLayer)i])
-        {
-            if (obj->IsActive())
-                obj->Render();
-            else
-                continue;
-        }
-    }
+	for (int i = (int)ERenderLayer::UI; i < (int)ERenderLayer::End; i++)
+	{
+		for (auto& obj : renderObjects[(ERenderLayer)i])
+		{
+			if (obj->IsActive())
+				obj->Render();
+			else
+				continue;
+		}
+	}
 }
 
 void ObjectManager::AddObject(EObjectTag eTag, ERenderLayer eLayer, sptr<GameObject> uObj)
 {
-    objects[eTag].push_back(uObj);
-    renderObjects[eLayer].push_back(uObj);
-    uObj->Initialize();
+	objects[eTag].push_back(uObj);
+	renderObjects[eLayer].push_back(uObj);
+	uObj->Initialize();
 }
 
 void ObjectManager::ReleaseScene()
 {
-    for (int i = (int)EObjectTag::Default; i < (int)EObjectTag::End; i++)
-    {
-        if ((EObjectTag)i == EObjectTag::Player)
-            continue;
+	for (auto& tag : objects)
+	{
+		if (tag.first == EObjectTag::Player || tag.first == EObjectTag::PlayerAttack)
+			continue;
 
-        for (auto& obj : objects[(EObjectTag)i])
-        {
-            obj->Release();
-        }
-        objects[(EObjectTag)i].clear();
-    }
+		for (auto it = tag.second.begin(); it != tag.second.end();)
+		{
+			(*it)->Release();
 
-    for (int i = (int)ERenderLayer::Background; i < (int)ERenderLayer::End; i++)
-    {
-        if ((ERenderLayer)i == ERenderLayer::Actor)
-            continue;
-        renderObjects[(ERenderLayer)i].clear();
-    }
+			auto renderIter = find(renderObjects[(*it)->GetLayer()].begin(), renderObjects[(*it)->GetLayer()].end(), (*it));
+			renderObjects[(*it)->GetLayer()].erase(renderIter);
+			it = tag.second.erase(it);
+		}
+	}
 }
 
 void ObjectManager::RestartObject()
 {
-    for (int i = (int)EObjectTag::Default; i < (int)EObjectTag::End; i++)
-    {
-        for (auto& obj : objects[(EObjectTag)i])
-        {
-            obj->RestartObject();
-        }
-    }
+	for (int i = (int)EObjectTag::Default; i < (int)EObjectTag::End; i++)
+	{
+		for (auto& obj : objects[(EObjectTag)i])
+		{
+			obj->RestartObject();
+		}
+	}
 }
 
 Player* ObjectManager::GetPlayer()
 {
-    const auto& iter = objects[EObjectTag::Player].begin();
-    return static_cast<Player*>((*iter).get());
+	const auto& iter = objects[EObjectTag::Player].begin();
+	return static_cast<Player*>((*iter).get());
+}
+
+list<sptr<GameObject>> ObjectManager::GetObjects(EObjectTag tag)
+{
+	const auto& list = objects[tag];
+	return list;
 }
 
 void ObjectManager::Release()
 {
-    objects.clear();
-    renderObjects.clear();
+	objects.clear();
+	renderObjects.clear();
 }

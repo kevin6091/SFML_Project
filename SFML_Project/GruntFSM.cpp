@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Collider.h"
 #include "HitLine.h"
+#include "GruntSlash.h"
 
 #pragma region Macro
 
@@ -96,8 +97,11 @@ void Grunt_Idle::Enter()
 
 uptr<GruntFSM> Grunt_Idle::Update(float deltaTime)
 {
-	if (context.GetDirToPlayer().length() <= 100)
+	if ((context.GetIsFindPlayer() || context.GetDirToPlayer().length() <= 200) &&
+		context.GetAttackCool() >= 2.f)
+	{
 		return make_unique<Grunt_Run>(context);
+	}
 
 	return nullptr;
 }
@@ -128,6 +132,12 @@ void Grunt_Run::Enter()
 uptr<GruntFSM> Grunt_Run::Update(float deltaTime)
 {
 	context.GetDirToPlayer().x >= 0 ? MoveRight() : MoveLeft();
+
+	if (context.GetDirToPlayer().length() <= 70.f)
+	{
+		context.SetIsFindPlayer(true);
+		return make_unique<Grunt_Attack>(context);
+	}
 
 	return nullptr;
 }
@@ -188,6 +198,7 @@ void Grunt_Hit::Enter()
 		line->SetDir(context.GetDirHit().normalized());
 		line->GetDesc().vSpawnPoint = context.GetPosition();
 		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(line));
+		GAME.SetIsHitLine(true);
 	}
 }
 
@@ -257,3 +268,43 @@ void Grunt_Hit_Ground::Exit()
 }
 
 #pragma endregion
+
+#pragma region Grunt_Attack
+
+Grunt_Attack::Grunt_Attack(Grunt& context)
+	:GruntFSM(context)
+{
+}
+
+Grunt_Attack::~Grunt_Attack()
+{
+}
+
+void Grunt_Attack::Enter()
+{
+	context.SetState(EGruntState::Attack);
+	Play(GRUNT_ATTACK, true); 
+
+	context.SetVelocity({0.f,0.f});
+
+	auto slash = make_unique<GruntSlash>();
+	slash->GetDesc().bFace = context.GetDesc().bFace;
+	slash->GetDesc().vSpawnPoint = context.GetPosition();
+	GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::EnemyAttack, ERenderLayer::Effect, move(slash));
+}
+
+uptr<GruntFSM> Grunt_Attack::Update(float deltaTime)
+{
+	if (ANIM.IsFinished())
+		return make_unique<Grunt_Idle>(context);
+
+	return nullptr;
+}
+
+void Grunt_Attack::Exit()
+{
+	context.SetAttackCool(0.f);
+}
+
+#pragma endregion
+

@@ -24,6 +24,8 @@ public:
     void RestartObject();
 
     Player* GetPlayer();
+    list<sptr<GameObject>>  GetObjects(EObjectTag tag);
+    
 private:
     unordered_map<EObjectTag, list<sptr<GameObject>>> objects;
     unordered_map<ERenderLayer, list<sptr<GameObject>>> renderObjects;

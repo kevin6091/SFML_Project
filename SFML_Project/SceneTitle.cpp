@@ -14,8 +14,6 @@ void SceneTitle::Initialize()
 	auto& resourceManager = gameInstance.GetResourceManager();
 	auto& objectManager = gameInstance.GetObjectManager();
 
-	resourceManager.LoadTexture("default", "resource/textures/default/default");
-
 #pragma region Zero
 
 	resourceManager.LoadTexture("title_zero", "resource/textures/title/zero/zero");

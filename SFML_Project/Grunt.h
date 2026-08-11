@@ -44,6 +44,8 @@ public:
 	virtual void CollisionEvent(GameObject& other) override;
 	virtual void CollisionBounce() override;
 	virtual void CollisionBounceEnd() override;
+
+	virtual void FanHit() override;
 public:
 	__forceinline Animator& GetAnimator()			{ return animator; }
 	__forceinline EGruntState GetState()			{ return  curState; }
@@ -52,19 +54,16 @@ public:
 	__forceinline Vector2f GetDirToPlayer()			{ return dirToPlayer; }
 	__forceinline Vector2f GetDirHit()				{ return dirHit; }
 
-private:
-	void ForceChangeFSM(uptr<GruntFSM> fsm);
+	__forceinline void SetAttackCool(float f)		{ accAttackCool = f; }
+	__forceinline float GetAttackCool()				{ return accAttackCool; }
+	__forceinline void SetIsFindPlayer(bool b)		{ isFindPlayer = b;}
+	__forceinline bool GetIsFindPlayer()			{ return isFindPlayer;}
 
+	void ForceChangeFSM(uptr<GruntFSM> fsm);
 private:
 	uptr<GruntFSM> curFSM;
 	EGruntState curState = EGruntState::End;
 	Animator animator;
-
-	Vector2f	dirToPlayer;
-	Vector2f	dirHit;
-
-	float	accBloodTime = 1.f;
-
 #pragma region Rewind
 
 	RewindTracker<GruntSnapshot> rewinder;

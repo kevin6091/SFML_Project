@@ -15,11 +15,18 @@ GameObject::~GameObject()
 
 void GameObject::SetFace(bool face)
 {
-    if (descStatus.bFace != face)
+    descStatus.bFace = face;
+    if (face)
     {
-        descStatus.bFace = face;
         Vector2f originScale = (*sprite).getScale();
-        (*sprite).setScale(Vector2f(originScale.x * -1.0f, originScale.y * 1.0f));
+        if(originScale.x < 0)
+            sprite->setScale(Vector2f(originScale.x * -1.0f, originScale.y * 1.0f));
+    }
+    else
+    {
+        Vector2f originScale = (*sprite).getScale();
+        if (originScale.x > 0)
+            sprite->setScale(Vector2f(originScale.x * -1.0f, originScale.y * 1.0f));
     }
 }
 

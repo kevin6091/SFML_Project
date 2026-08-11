@@ -8,6 +8,7 @@
 #include "ObjectManager.h"
 #include "RewindManager.h"
 #include "RewindTracker.h"
+#include "Camera.h"
 
 Player::Player()
 {
@@ -65,6 +66,7 @@ void Player::Initialize()
 	uCollider->Initialize(desc);
 
 	SetPosition(descStatus.vSpawnPoint);
+	
 	sprite->setScale({ 1.5f,1.5f });
 
 	uptr<Slash> slash = make_unique<Slash>(this);
@@ -128,6 +130,23 @@ void Player::Update(float deltaTime)
 
 #pragma endregion
 
+	if (isDead)
+	{
+		if ((accReverseTime += deltaTime) >= 0.04f && reverseCount <= 1)
+		{
+			accReverseTime = 0.f;
+			if (GameInstance::GetInstance().GetIsReverse())
+			{
+				GameInstance::GetInstance().SetIsReverse(false);
+				reverseCount++;
+			}
+			else
+			{
+				GameInstance::GetInstance().SetIsReverse(true);
+			}
+		}
+	}
+
 	if ((accAttackCool += deltaTime) >= 1.0f)
 		attackCount = 0;
 
@@ -176,13 +195,13 @@ void Player::LateUpdate(float deltaTime)
 void Player::Render()
 {
 	GameInstance::GetInstance().GetRenderTarget_Player().draw(*this, BlendAlpha);
+	TrailRender(GameInstance::GetInstance().GetRenderTarget_Player());
 }
 
 void Player::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(*sprite, states);
-	TrailRender(target);
-
+	
 	RectangleShape debugBox(uCollider->GetBounds().size);
 	debugBox.setPosition(uCollider->GetBounds().position);
 	debugBox.setFillColor(Color(0, 0, 255, 10));
@@ -200,21 +219,36 @@ void Player::CollisionEvent(GameObject& other)
 		if ((grippableEnd = other.GetCollider().GetBounds().getCenter().y + (other.GetCollider().GetBounds().size.y / 2.f)) >= position.y)
 			isGrippable = true;
 	}
+
+	if (other.GetTag() == EObjectTag::EnemyAttack)
+	{
+		ForceChangeFSM(make_unique<Player_Hit_Begin>(*this));
+		position.x <= other.GetPosition().x ? hitDir.x = -1.f : hitDir.x = 1.f;
+		hitDir.y = -1.f;
+		hitDir = hitDir.normalized();
+
+		isDead = true;
+		GameInstance::GetInstance().GetCamera().Shake({ hitDir.x, 0.f}, 0.06f, 20.0f);
+	}
 }
 
 void Player::RestartObject()
 {
 	SetPosition(descStatus.vSpawnPoint);
 	velocity = { 0.0f,0.0f };
-	descStatus.bFace = true;
-	if (sprite->getScale().x <= 0.f)
-		sprite->setScale({ -1.f,1.f });
+	SetFace(true);
 
 	ForceChangeFSM(make_unique<Player_Idle>(*this));
 
 	rewindSpeed = 1.0f;
 	rewinder.Clear();
 	isGrounded = true;
+	isDead = false;
+	accReverseTime = 0.2f;
+	reverseCount = 0;
+	gravityFactor = 1.0f;
+
+	pSlash->RestartObject();
 }
 
 void Player::ForceChangeFSM(uptr<PlayerFSM> fsm)
@@ -240,7 +274,7 @@ void Player::TrailUpdate(float deltaTime)
 	else
 	{
 		trail_SpawnInteval = 0.01f;
-		trail_LifeTime = 0.2f;
+		trail_LifeTime = 0.3f;
 	}
 
 	if (curState == EPlayerState::Roll ||

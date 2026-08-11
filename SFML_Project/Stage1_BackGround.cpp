@@ -4,6 +4,8 @@
 
 Stage1_BackGround::Stage1_BackGround()
 {
+	eObjectTag = EObjectTag::Default;
+	eRenderLayer = ERenderLayer::Background;
 }
 
 Stage1_BackGround::~Stage1_BackGround()

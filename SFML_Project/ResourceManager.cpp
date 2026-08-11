@@ -117,9 +117,10 @@ bool ResourceManager::LoadMap(const string& filePath,
 
                 if (objName == "obj_block")             collider.type = EColliderType::Block;
                 else if (objName == "obj_grippable")    collider.type = EColliderType::Grippable;
-                else if (objName == "obj_jumpthrough")  collider.type = EColliderType::Jumpthrough;
+                else if (objName == "obj_jumpthrough")  collider.type = EColliderType::JumpThrough;
                 else if (objName == "obj_end_block")    collider.type = EColliderType::EndBlock;
-
+                else if (objName == "obj_slope")        collider.type = EColliderType::SlopBlock1;
+                else if (objName == "obj_slope2")       collider.type = EColliderType::SlopBlock2;
                 outColliders.push_back(collider);
             }
             else if(layerName == "objects")

@@ -1,6 +1,8 @@
 #include "InputManager.h"
 #include "GameInstance.h"
 #include "Camera.h"
+#include "SceneManager.h"
+#include "FadeManager.h"
 
 InputManager::InputManager()
 {
@@ -14,6 +16,13 @@ void InputManager::Initialize()
 
 void InputManager::Update()
 {
+    if (GameInstance::GetInstance().GetSceneManager().GetFadeManager()->IsFading())
+    {
+        keyStates.fill(EKeyState::None);
+        mouseStates.fill(EKeyState::None);
+        return;
+    }
+
     RenderWindow& window = GameInstance::GetInstance().GetWindow();
 
     for (int i = 0; i < 256; ++i)
