@@ -20,7 +20,7 @@ enum class EObjectTag
     PlayerAttack,
     Wall,
     Slope,
-    Hazard,
+    Door,
     End
 };
 

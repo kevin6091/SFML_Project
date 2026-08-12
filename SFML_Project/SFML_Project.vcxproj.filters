@@ -159,6 +159,27 @@
     <Filter Include="03. GameObject\Blocks\SlopeBlock">
       <UniqueIdentifier>{80adffeb-8825-4a5c-a71a-cd612eb50ae7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Enemy\Gangster">
+      <UniqueIdentifier>{cda3b380-1099-4540-a015-10b8d06796e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. FSM\Gangster_FSM">
+      <UniqueIdentifier>{1a582c2c-d1cd-4264-a10a-55a6656cecc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Bullet">
+      <UniqueIdentifier>{f50848c0-c741-412d-b7ad-2636710d24d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Effect\SingleEffect">
+      <UniqueIdentifier>{ead6e0bf-58d9-4af7-9e2e-3bda7bde8a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\Door">
+      <UniqueIdentifier>{232d4c82-d25b-48c4-9004-9d843dd2afdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\SceneStage3">
+      <UniqueIdentifier>{51f77217-092b-4deb-81f4-f1201470c6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\BackGrounds\Stage3">
+      <UniqueIdentifier>{564d07f7-268d-463d-ae02-6219a827d3c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -286,6 +307,27 @@
     </ClCompile>
     <ClCompile Include="JumpThrough.cpp">
       <Filter>03. GameObject\Blocks\JumpThrough</Filter>
+    </ClCompile>
+    <ClCompile Include="GangsterFSM.cpp">
+      <Filter>07. FSM\Gangster_FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="Gangster.cpp">
+      <Filter>03. GameObject\Enemy\Gangster</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>03. GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleEffect.cpp">
+      <Filter>03. GameObject\Effect\SingleEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>03. GameObject\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneStage3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3_BackGround.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -429,6 +471,27 @@
     </ClInclude>
     <ClInclude Include="JumpThrough.h">
       <Filter>03. GameObject\Blocks\JumpThrough</Filter>
+    </ClInclude>
+    <ClInclude Include="GangsterFSM.h">
+      <Filter>07. FSM\Gangster_FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Gangster.h">
+      <Filter>03. GameObject\Enemy\Gangster</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>03. GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleEffect.h">
+      <Filter>03. GameObject\Effect\SingleEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>03. GameObject\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneStage3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage3_BackGround.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

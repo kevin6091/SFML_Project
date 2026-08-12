@@ -32,6 +32,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
 
     if (!renderTarget_Effect_Glow.resize(Vector2u(width, height)))
         cout << "·»´õÅ¸°Ù »ý¼º½ÇÆÐ!!!" << endl;
+    renderTarget_Effect_Glow.setSmooth(true);
 
     if (!renderTarget_Composite.resize(Vector2u(width, height)))
         cout << "·»´õÅ¸°Ù »ý¼º½ÇÆÐ!!!" << endl;
@@ -73,7 +74,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     uSceneManager->Initialize();
     uInputManager->Initialize();
 
-    uSceneManager->ChangeScene(ESceneType::Title, 0.0f);
+    uSceneManager->ChangeScene(ESceneType::Stage1, 0.0f);
 }
 
 void GameInstance::Run()
@@ -195,7 +196,6 @@ void GameInstance::Run()
 
             postShader.setUniform("time", gameDeltaTime);
             postShader.setUniform("accTime1", accTime1);
-            postShader.setUniform("accTime2", accTime2);
 
             postShader.setUniform("textureFinal", renderTarget_Composite.getTexture());
 

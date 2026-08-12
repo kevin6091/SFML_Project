@@ -83,7 +83,7 @@ void Slash::Update(float deltaTime)
 	Vector2f offset{ 0.f, -40.f };
 	Vector2f offset_sub{ 0.f, -20.f };
 	offset_sub += player->GetAttackDir() * 20.f;
-	
+	SetPosition(player->GetPosition());
 	sprite->setPosition(player->GetPosition() + offset);
 	sprite_sub->setPosition(player->GetPosition() + offset_sub);
 	
@@ -182,8 +182,7 @@ void Slash::PlayerAttack()
 		sprite_sub->setScale({ 1.3f, -1.3f });
 	}
 
-	SetPosition(player->GetPosition());
-	uCollider->GetBounds().size = uCollider->GetBounds().position + (dir * 110.f);
+	uCollider->GetBounds().size = uCollider->GetBounds().position + (dir * 90.f);
 	uCollider->SetColliderType(EColliderType::LineAttack);
 }
 

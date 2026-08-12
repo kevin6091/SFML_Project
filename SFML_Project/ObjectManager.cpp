@@ -26,9 +26,12 @@ void ObjectManager::Update(float deltaTime)
 		auto& collisionManager = GameInstance::GetInstance().GetCollisionManager();
 
 		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
-
 		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Enemy], objects[EObjectTag::Wall]);
+		
+		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Wall]);
 
+		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::EnemyAttack]);
+		collisionManager.CollisionTest(objects[EObjectTag::EnemyAttack], objects[EObjectTag::Enemy]);
 		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Enemy]);
 		collisionManager.CollisionTest(objects[EObjectTag::EnemyAttack], objects[EObjectTag::Player]);
 	}

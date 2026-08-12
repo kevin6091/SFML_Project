@@ -223,7 +223,7 @@ void Player::CollisionEvent(GameObject& other)
 	if (other.GetTag() == EObjectTag::EnemyAttack)
 	{
 		ForceChangeFSM(make_unique<Player_Hit_Begin>(*this));
-		position.x <= other.GetPosition().x ? hitDir.x = -1.f : hitDir.x = 1.f;
+		position.x <= other.GetPrePosition().x ? hitDir.x = -1.f : hitDir.x = 1.f;
 		hitDir.y = -1.f;
 		hitDir = hitDir.normalized();
 

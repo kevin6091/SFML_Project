@@ -329,9 +329,18 @@ void CollisionManager::CollisionTest(list<sptr<GameObject>> lObjs, list<sptr<Gam
         {
             FloatRect lBounds = lObj->GetCollider().GetBounds();
             FloatRect rBounds = rObj->GetCollider().GetBounds();
+            if (lObj->GetCollider().GetColliderType() == EColliderType::End)
+                continue;
+
             if (lObj->GetCollider().GetColliderType() == EColliderType::LineAttack)
             {
-                if (LineCollisionTest(lBounds.position, lBounds.size, rBounds.position, 80.f))
+                Vector2f offset;
+                if (rObj->GetIsDoor())
+                {
+                    offset = Vector2f{ 0.f, 64.f };
+                }
+
+                if (LineCollisionTest(lBounds.position, lBounds.size, rBounds.position + offset, 60.f))
                 {
                     lObj->CollisionEvent(*rObj);
                     rObj->CollisionEvent(*lObj);

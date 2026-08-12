@@ -113,6 +113,12 @@ bool ResourceManager::LoadMap(const string& filePath,
                 float width = round(scaleX * BASE_TILE_SIZE);
                 float height = round(scaleY * BASE_TILE_SIZE);
 
+                if (objName == "obj_door")
+                {
+                    height *= 2.f;
+                    width /= 2.f;
+                }
+
                 collider.bounds = FloatRect({ x, y }, { width, height });
 
                 if (objName == "obj_block")             collider.type = EColliderType::Block;
@@ -121,6 +127,7 @@ bool ResourceManager::LoadMap(const string& filePath,
                 else if (objName == "obj_end_block")    collider.type = EColliderType::EndBlock;
                 else if (objName == "obj_slope")        collider.type = EColliderType::SlopBlock1;
                 else if (objName == "obj_slope2")       collider.type = EColliderType::SlopBlock2;
+                else if(objName == "obj_door")          collider.type = EColliderType::Block;
                 outColliders.push_back(collider);
             }
             else if(layerName == "objects")

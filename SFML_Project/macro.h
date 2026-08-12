@@ -57,10 +57,30 @@
 #define GRUNT_HIT_GROUND		"anim_grunt_hit_ground"
 #define GRUNT_SLASH				"anim_grunt_slash"
 
+#define GANGSTER_IDLE			"anim_gangster_idle"
+#define GANGSTER_ATTACK			"anim_gangster_attack"
+#define GANGSTER_RUN			"anim_gangster_run"
+#define GANGSTER_HIT			"anim_gangster_hit"
+#define GANGSTER_HIT_ROLL		"anim_gangster_hit_roll"
+#define GANGSTER_HIT_GROUND		"anim_gangster_hit_ground"
+
+#define POMP_IDLE				"anim_pomp_idle"
+#define POMP_ATTACK				"anim_pomp_attack"
+#define POMP_RUN				"anim_pomp_run"
+#define POMP_HIT				"anim_pomp_hit"
+#define POMP_HIT_ROLL			"anim_pomp_hit_roll"
+#define POMP_HIT_GROUND			"anim_pomp_hit_ground"
+
+#define BULLET					"bullet"
+#define BULLET_PARRY			"anim_bullet_parry"
+#define BULLET_SMOKE			"anim_bullet_smoke"
+#define BULLET_SPARK			"anim_bullet_spark"
+
+#define DOOR_OPEN				"anim_door_open"
 
 #define MAP_STAGE1				"map_stage1"
 #define MAP_STAGE2				"map_stage2"
-
+#define MAP_STAGE3				"map_stage3"
 
 
 #define GRAVITY 1200.f

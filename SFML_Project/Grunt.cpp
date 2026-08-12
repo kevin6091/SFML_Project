@@ -15,7 +15,7 @@ Grunt::Grunt()
 {
 	eObjectTag = EObjectTag::Enemy;
 	eRenderLayer = ERenderLayer::Actor;
-	speed = 200.f;
+	speed = 150.f;
 }
 
 Grunt::~Grunt()
@@ -27,13 +27,25 @@ void Grunt::Initialize()
 #pragma region Resource
 
 	auto& resource = GameInstance::GetInstance().GetResourceManager();
-
-	animator.AddClip(GRUNT_IDLE, 0.08f, true);
-	animator.AddClip(GRUNT_RUN, 0.05f, true);
-	animator.AddClip(GRUNT_ATTACK, 0.05f, false);
-	animator.AddClip(GRUNT_HIT, 0.05f, false);
-	animator.AddClip(GRUNT_HIT_ROLL, 0.05f, true);
-	animator.AddClip(GRUNT_HIT_GROUND, 0.05f, false);
+	
+	if(isGrunt)
+	{
+		animator.AddClip(GRUNT_IDLE, 0.08f, true);
+		animator.AddClip(GRUNT_RUN, 0.05f, true);
+		animator.AddClip(GRUNT_ATTACK, 0.05f, false);
+		animator.AddClip(GRUNT_HIT, 0.05f, false);
+		animator.AddClip(GRUNT_HIT_ROLL, 0.05f, true);
+		animator.AddClip(GRUNT_HIT_GROUND, 0.05f, false);
+	}
+	else
+	{
+		animator.AddClip(POMP_IDLE, 0.08f, true);
+		animator.AddClip(POMP_RUN, 0.05f, true);
+		animator.AddClip(POMP_ATTACK, 0.05f, false);
+		animator.AddClip(POMP_HIT, 0.05f, false);
+		animator.AddClip(POMP_HIT_ROLL, 0.05f, true);
+		animator.AddClip(POMP_HIT_GROUND, 0.05f, false);
+	}
 
 	sprite.emplace(*resource.GetTexture("default"));
 
@@ -176,6 +188,11 @@ void Grunt::CollisionEvent(GameObject& other)
 	if (other.GetTag() == EObjectTag::PlayerAttack && other.GetCollider().GetColliderType() == EColliderType::LineAttack)
 	{
 		dirHit = (other.GetCollider().GetBounds().size - other.GetCollider().GetBounds().position).normalized();
+		ForceChangeFSM(make_unique<Grunt_Hit>(*this));
+	}
+	else if (other.GetTag() == EObjectTag::PlayerAttack && other.GetCollider().GetColliderType() == EColliderType::RectAttack)
+	{
+		-dirToPlayer.x >= 0 ? dirHit = Vector2f(1.f, -0.1f) : dirHit = Vector2f(-1.f, -0.1f);
 		ForceChangeFSM(make_unique<Grunt_Hit>(*this));
 	}
 }

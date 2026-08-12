@@ -6,7 +6,7 @@ class RewindTracker
 {
 private:
     deque<T> history;
-    const size_t MAX_HISTORY = 2000;
+    const size_t MAX_HISTORY = 1500;
 
 public:
     // 과거 기록 추가

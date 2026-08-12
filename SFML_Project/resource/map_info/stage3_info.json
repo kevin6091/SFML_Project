@@ -1,0 +1,179 @@
+{
+  "room_name": "room_bunker2_3",
+  "width": 4000,
+  "height": 1300,
+  "layers": [
+    {
+      "layer_name": "block_layer",
+      "instances": [
+        { "object_name": "obj_respawn_point", "x": 96, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_temp_block", "x": -32, "y": 608, "scale_x": 1, "scale_y": 9 },
+        { "object_name": "obj_end_block", "x": 3968, "y": 640, "scale_x": 1, "scale_y": 6 },
+        { "object_name": "obj_door", "x": 736, "y": 448, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_block", "x": -256, "y": 832, "scale_x": 33, "scale_y": 13 },
+        { "object_name": "obj_block", "x": 384, "y": 576, "scale_x": 1, "scale_y": 4 },
+        { "object_name": "obj_slope2", "x": 800, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 832, "y": 864, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 864, "y": 896, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 896, "y": 928, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 928, "y": 960, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 960, "y": 992, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 992, "y": 1024, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 1024, "y": 1056, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 1056, "y": 1088, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_door", "x": 416, "y": 704, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_block", "x": -32, "y": 576, "scale_x": 13, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 1088, "y": 1120, "scale_x": 80, "scale_y": 6 },
+        { "object_name": "obj_block", "x": 1184, "y": 832, "scale_x": 50, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 1600, "y": 576, "scale_x": 21, "scale_y": 8 },
+        { "object_name": "obj_slope", "x": 1344, "y": 800, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1376, "y": 768, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1408, "y": 736, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1440, "y": 704, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1472, "y": 672, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1504, "y": 640, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_block", "x": -64, "y": 96, "scale_x": 91, "scale_y": 9 },
+        { "object_name": "obj_block", "x": 608, "y": 576, "scale_x": 19, "scale_y": 2 },
+        { "object_name": "obj_slope2", "x": 2272, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2304, "y": 608, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2336, "y": 640, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2368, "y": 672, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2400, "y": 704, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2432, "y": 736, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2464, "y": 768, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 2976, "y": 832, "scale_x": 9, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 3648, "y": 832, "scale_x": 17, "scale_y": 15 },
+        { "object_name": "obj_slope", "x": 3616, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3584, "y": 864, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3552, "y": 896, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3520, "y": 928, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3488, "y": 960, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3456, "y": 992, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3424, "y": 1024, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3392, "y": 1056, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 3360, "y": 1088, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_jumpthrough", "x": 448, "y": 576, "scale_x": 4, "scale_y": 1 },
+        { "object_name": "obj_jumpthrough", "x": 768, "y": 832, "scale_x": 13, "scale_y": 1 },
+        { "object_name": "obj_jumpthrough", "x": 1152, "y": 576, "scale_x": 14, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1536, "y": 608, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1568, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 2496, "y": 800, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_jumpthrough", "x": 2272, "y": 576, "scale_x": 12, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 2656, "y": 576, "scale_x": 43, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 3072, "y": 320, "scale_x": 16, "scale_y": 2 },
+        { "object_name": "obj_jumpthrough", "x": 2912, "y": 320, "scale_x": 4, "scale_y": 1 },
+        { "object_name": "obj_jumpthrough", "x": 3616, "y": 320, "scale_x": 4, "scale_y": 1 },
+        { "object_name": "obj_grippable", "x": 3744, "y": -32, "scale_x": 8, "scale_y": 19 },
+        { "object_name": "obj_block", "x": 2912, "y": -32, "scale_x": 26, "scale_y": 5 },
+        { "object_name": "obj_grippable", "x": 2848, "y": 0, "scale_x": 2, "scale_y": 14 },
+        { "object_name": "obj_grippable", "x": 416, "y": 576, "scale_x": 1, "scale_y": 4 },
+        { "object_name": "obj_grippable", "x": -128, "y": 384, "scale_x": 10, "scale_y": 6 },
+        { "object_name": "obj_slope", "x": 1152, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1120, "y": 864, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 1216, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 1248, "y": 608, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_grippable", "x": 576, "y": 576, "scale_x": 1, "scale_y": 2 },
+        { "object_name": "obj_slope", "x": 2624, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 2592, "y": 608, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_door", "x": 1728, "y": 448, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 704, "y": 384, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 1696, "y": 384, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_door", "x": 2880, "y": 448, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 2112, "y": 384, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_door", "x": 2144, "y": 448, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_jumpthrough", "x": 2816, "y": 832, "scale_x": 4, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 2432, "y": 896, "scale_x": 2, "scale_y": 3 },
+        { "object_name": "obj_block", "x": 1536, "y": 896, "scale_x": 2, "scale_y": 3 },
+        { "object_name": "obj_door", "x": 1568, "y": 992, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_door", "x": 2464, "y": 992, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_jumpthrough", "x": 3264, "y": 832, "scale_x": 12, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 3264, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 3296, "y": 864, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 3264, "y": 864, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_floor", "x": -320, "y": 0, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_grippable", "x": 3040, "y": 320, "scale_x": 1, "scale_y": 2 },
+        { "object_name": "obj_grippable", "x": 3584, "y": 320, "scale_x": 1, "scale_y": 2 },
+        { "object_name": "obj_grippable", "x": 2784, "y": 832, "scale_x": 1, "scale_y": 2 },
+        { "object_name": "obj_grippable", "x": 2944, "y": 832, "scale_x": 1, "scale_y": 2 },
+        { "object_name": "obj_block", "x": 3072, "y": 640, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_door", "x": 3104, "y": 704, "scale_x": 2, "scale_y": 2 }
+      ]
+    },
+    {
+      "layer_name": "Enemies",
+      "instances": [
+        { "object_name": "obj_enemy_shotgun", "x": 3136, "y": 320, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 1056, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 1408, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 1184, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 320, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 3488, "y": 320, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 3520, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 1056, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_shotgun", "x": 1312, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 2048, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 3392, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_shotgun", "x": 2720, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_shotgun", "x": 2272, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 2976, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 2592, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_shotgun", "x": 1824, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 2784, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 2016, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 576, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 3136, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 1408, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 3264, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_shotgun", "x": 3488, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1888, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 992, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt2", "x": 2432, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 3264, "y": 320, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 3392, "y": 320, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 800, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 3040, "y": 832, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 2944, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 1760, "y": 1120, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 3328, "y": 1120, "scale_x": 1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "background_stuff",
+      "instances": [
+        { "object_name": "obj_set_stand", "x": 1936, "y": 544, "scale_x": 1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "Doors",
+      "instances": [
+        { "object_name": "obj_aidoor", "x": 3344, "y": 576, "scale_x": 2, "scale_y": 2 },
+        { "object_name": "obj_aidoor", "x": 3344, "y": 320, "scale_x": 2, "scale_y": 2 }
+      ]
+    },
+    {
+      "layer_name": "Assets_2",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "fg_layer",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "bg_layer",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Assets_1",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Backgrounds_1",
+      "instances": [
+      ]
+    }
+  ]
+}

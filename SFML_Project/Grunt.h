@@ -58,12 +58,18 @@ public:
 	__forceinline float GetAttackCool()				{ return accAttackCool; }
 	__forceinline void SetIsFindPlayer(bool b)		{ isFindPlayer = b;}
 	__forceinline bool GetIsFindPlayer()			{ return isFindPlayer;}
+	__forceinline void SetIsGrunt(bool b)			{ isGrunt = b; }
+	__forceinline bool GetIsGrunt()					{ return isGrunt; }
 
 	void ForceChangeFSM(uptr<GruntFSM> fsm);
+
 private:
 	uptr<GruntFSM> curFSM;
 	EGruntState curState = EGruntState::End;
 	Animator animator;
+
+	bool isGrunt = true;
+
 #pragma region Rewind
 
 	RewindTracker<GruntSnapshot> rewinder;

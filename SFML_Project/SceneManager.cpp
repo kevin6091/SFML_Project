@@ -39,6 +39,7 @@ void SceneManager::ChangeScene(ESceneType _eSceneType, float fadeDuration)
         uNextScene = move(make_unique<SceneStage2>());
         isChangingScene = true;
         break;
+
     case ESceneType::End:
         break;
     default:

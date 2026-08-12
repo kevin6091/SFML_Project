@@ -22,10 +22,11 @@
         { "object_name": "obj_slope", "x": 832, "y": 608, "scale_x": 1, "scale_y": 1 },
         { "object_name": "obj_slope", "x": 800, "y": 640, "scale_x": 1, "scale_y": 1 },
         { "object_name": "obj_block", "x": 576, "y": 160, "scale_x": 2, "scale_y": 3 },
-        { "object_name": "obj_temp_block", "x": 0, "y": 448, "scale_x": 1, "scale_y": 7 },
+        { "object_name": "obj_block", "x": 0, "y": 448, "scale_x": 1, "scale_y": 7 },
         { "object_name": "obj_end_block", "x": 1792, "y": 160, "scale_x": 1, "scale_y": 7 },
         { "object_name": "obj_slope2", "x": 608, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_slope2", "x": 640, "y": 416, "scale_x": 1, "scale_y": 1 }
+        { "object_name": "obj_slope2", "x": 640, "y": 416, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_door", "x": 608, "y": 256, "scale_x": -2, "scale_y": 2 }
       ]
     },
     {
@@ -38,11 +39,10 @@
       "instances": [
         { "object_name": "obj_enemy_grunt", "x": 640, "y": 672, "scale_x": -1, "scale_y": 1 },
         { "object_name": "obj_enemy_grunt", "x": 336, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_enemy", "x": 544, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 544, "y": 384, "scale_x": 1, "scale_y": 1 },
         { "object_name": "obj_ghost_enemy_shotgun", "x": 96, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_ghost_enemy", "x": 1280, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_ghost_enemy", "x": 1440, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_door", "x": 608, "y": 256, "scale_x": -2, "scale_y": 2 }
+        { "object_name": "obj_enemy_gangster", "x": 1280, "y": 384, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1480, "y": 384, "scale_x": -1, "scale_y": 1 }
       ]
     },
     {

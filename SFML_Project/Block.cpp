@@ -44,6 +44,17 @@ void Block::draw(RenderTarget& target, RenderStates states) const
 		target.draw(debugBox);
 }
 
+void Block::CollisionEvent(GameObject& other)
+{
+	if (!GetIsDoor())
+		return;
+
+	if (other.GetTag() == EObjectTag::PlayerAttack && other.GetCollider().GetColliderType() == EColliderType::LineAttack)
+	{
+		Destroy();
+	}
+}
+
 void Block::Release()
 {
 }

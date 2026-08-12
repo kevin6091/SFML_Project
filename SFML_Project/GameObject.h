@@ -36,6 +36,8 @@ public:
 	__forceinline Vector2f GetPosition() const					{ return position; }
 	virtual void SetPosition(const Vector2f& pos);
 
+	__forceinline Vector2f GetPrePosition() const				{ return prePosition; }
+
 	__forceinline ERenderLayer GetLayer() const					{ return eRenderLayer; }
 	__forceinline void SetLayer(ERenderLayer _layer)			{ eRenderLayer = _layer; }
 
@@ -64,12 +66,13 @@ public:
 	virtual void CollisionBounceEnd() {}
 
 	virtual void FanHit() {}
-
+	virtual bool IsInDoor();
 protected:
 	Sprite CenterAlign_Sprite(Sprite sprite);
 
 protected:
 	Vector2f position{ 0.0f, 0.0f };
+	Vector2f prePosition{ 0.0f, 0.0f };
 	Vector2f scale{ 1.0f, 1.0f };
 
 	Vector2f velocity{ 0.0f,0.0f };
@@ -98,5 +101,13 @@ protected:
 	bool	bFirstFace = false;
 
 	bool isOnSlope = false;
+	bool isDoorOpen = false;
+
+public:
+	void SetIsDoor(bool b) { isDoor = b; }
+	bool GetIsDoor() { return isDoor; }
+
+private:
+	bool isDoor = false;
 };
 

@@ -92,14 +92,23 @@ Grunt_Idle::~Grunt_Idle()
 void Grunt_Idle::Enter()
 {
 	context.SetState(EGruntState::Idle);
-	Play(GRUNT_IDLE, true);
+	context.GetIsGrunt() ? Play(GRUNT_IDLE, true) : Play(POMP_IDLE, true);
 }
 
 uptr<GruntFSM> Grunt_Idle::Update(float deltaTime)
 {
-	if ((context.GetIsFindPlayer() || context.GetDirToPlayer().length() <= 200) &&
+	float disY = abs(context.GetDirToPlayer().y);
+	float disX = abs(context.GetDirToPlayer().x);
+
+	if (!context.GetIsGrunt())
+		int a = 0;
+	if (context.IsInDoor())
+		return nullptr;
+
+	if ((context.GetIsFindPlayer() || (disX <= 300 && disY <= 50)) &&
 		context.GetAttackCool() >= 2.f)
 	{
+		context.SetIsFindPlayer(true);
 		return make_unique<Grunt_Run>(context);
 	}
 
@@ -126,7 +135,7 @@ Grunt_Run::~Grunt_Run()
 void Grunt_Run::Enter()
 {
 	context.SetState(EGruntState::Run);
-	Play(GRUNT_RUN, true);
+	context.GetIsGrunt() ? Play(GRUNT_RUN, true) : Play(POMP_RUN, true);
 }
 
 uptr<GruntFSM> Grunt_Run::Update(float deltaTime)
@@ -135,7 +144,6 @@ uptr<GruntFSM> Grunt_Run::Update(float deltaTime)
 
 	if (context.GetDirToPlayer().length() <= 70.f)
 	{
-		context.SetIsFindPlayer(true);
 		return make_unique<Grunt_Attack>(context);
 	}
 
@@ -162,7 +170,7 @@ Grunt_Hit::~Grunt_Hit()
 void Grunt_Hit::Enter()
 {
 	context.SetState(EGruntState::Hit);
-	Play(GRUNT_HIT, true);
+	context.GetIsGrunt() ? Play(GRUNT_HIT, true) : Play(POMP_HIT, true);
 	context.SetActive(false);
 	
 	Vector2f dirHit = context.GetDirHit();
@@ -227,7 +235,7 @@ Grunt_Hit_Roll::~Grunt_Hit_Roll()
 void Grunt_Hit_Roll::Enter()
 {
 	context.SetState(EGruntState::Hit_Roll);
-	Play(GRUNT_HIT_ROLL, true);
+	context.GetIsGrunt() ? Play(GRUNT_HIT_ROLL, true) : Play(POMP_HIT_ROLL, true);
 }
 
 uptr<GruntFSM> Grunt_Hit_Roll::Update(float deltaTime)
@@ -255,7 +263,7 @@ Grunt_Hit_Ground::~Grunt_Hit_Ground()
 void Grunt_Hit_Ground::Enter()
 {
 	context.SetState(EGruntState::Hit_Ground);
-	Play(GRUNT_HIT_GROUND, true);
+	context.GetIsGrunt() ? Play(GRUNT_HIT_GROUND, true) : Play(POMP_HIT_GROUND, true);
 }
 
 uptr<GruntFSM> Grunt_Hit_Ground::Update(float deltaTime)
@@ -283,7 +291,7 @@ Grunt_Attack::~Grunt_Attack()
 void Grunt_Attack::Enter()
 {
 	context.SetState(EGruntState::Attack);
-	Play(GRUNT_ATTACK, true); 
+	context.GetIsGrunt() ? Play(GRUNT_ATTACK, true) : Play(POMP_ATTACK, true);
 
 	context.SetVelocity({0.f,0.f});
 

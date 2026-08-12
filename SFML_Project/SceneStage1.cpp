@@ -159,6 +159,7 @@ void SceneStage1::Initialize()
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
 			obj.scale.x >= 0 ? grunt->GetDesc().bFace = true : grunt->GetDesc().bFace = false;
+			grunt->SetIsGrunt(true);
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 		else if (obj.objectName == "obj_fanblade")

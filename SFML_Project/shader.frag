@@ -2,7 +2,6 @@
 uniform sampler2D textureFinal; // 현재 화면
 uniform float time;               // 찌그러짐을 움직이게 할 시간 값
 uniform float accTime1;
-uniform float accTime2;
 
 void main()
 {
@@ -12,7 +11,6 @@ void main()
     // 디스토션
     float wave = cos(uv.y * 50.0 + time * 15.0) * 0.01;
     uv.x += wave * accTime1;
-    uv.y += wave * accTime2;
 
     // 색상 분리
     float shift = 0.008;

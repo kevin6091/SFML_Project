@@ -9,7 +9,7 @@ class GruntFSM : public FSM
 public:
 	GruntFSM() = delete;
 	GruntFSM(Grunt& context);
-	virtual ~GruntFSM();
+	virtual ~GruntFSM() override;
 
 	virtual void Enter() override;
 	virtual uptr<GruntFSM> Update(float deltaTime);

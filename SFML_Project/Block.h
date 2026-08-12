@@ -17,5 +17,9 @@ public:
 	virtual void Render() override;
 	virtual void Release() override;
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
+
+	virtual void CollisionEvent(GameObject& other) override;
+
+
 };
 

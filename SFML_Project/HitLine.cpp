@@ -19,6 +19,7 @@ void HitLine::Initialize()
 	sprite.emplace(*resource.GetTexture(HIT_LINE));
 
 	Angle targetAngle = radians(atan2(dir.y, dir.x));
+	sprite->setScale({ 1.f,0.7f });
 	Vector2u size = sprite->getTexture().getSize();
 
 	sprite->setOrigin({ (float)size.x * 0.5f, (float)size.y * 0.5f });
