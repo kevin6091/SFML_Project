@@ -9,6 +9,7 @@
 #include "RewindManager.h"
 #include "RewindTracker.h"
 #include "Camera.h"
+#include "InputManager.h"
 
 Player::Player()
 {
@@ -77,6 +78,9 @@ void Player::Initialize()
 
 void Player::Update(float deltaTime)
 {
+	if (GameInstance::GetInstance().GetInputManager().GetKeyDown(Keyboard::Key::G))
+		isUnDead = !isUnDead;
+
 #pragma region Rewind
 
 	if (RewindManager::GetInstance().IsRewinding())
@@ -220,15 +224,21 @@ void Player::CollisionEvent(GameObject& other)
 			isGrippable = true;
 	}
 
-	if (other.GetTag() == EObjectTag::EnemyAttack)
+	if (!isUnDead)
 	{
-		ForceChangeFSM(make_unique<Player_Hit_Begin>(*this));
-		position.x <= other.GetPrePosition().x ? hitDir.x = -1.f : hitDir.x = 1.f;
-		hitDir.y = -1.f;
-		hitDir = hitDir.normalized();
+		if (other.GetTag() == EObjectTag::EnemyAttack &&
+			curState != EPlayerState::Hit_Begin &&
+			curState != EPlayerState::Hit_Loop &&
+			curState != EPlayerState::Hit_Ground)
+		{
+			ForceChangeFSM(make_unique<Player_Hit_Begin>(*this));
+			position.x <= other.GetPrePosition().x ? hitDir.x = -1.f : hitDir.x = 1.f;
+			hitDir.y = -1.f;
+			hitDir = hitDir.normalized();
 
-		isDead = true;
-		GameInstance::GetInstance().GetCamera().Shake({ hitDir.x, 0.f}, 0.06f, 20.0f);
+			isDead = true;
+			GameInstance::GetInstance().GetCamera().Shake({ hitDir.x, 0.f }, 0.06f, 20.0f);
+		}
 	}
 }
 

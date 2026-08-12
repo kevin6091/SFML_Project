@@ -9,6 +9,7 @@ class CollisionManager;
 class GameObject;
 class Camera;
 class Player;
+class HitLine;
 
 class GameInstance 
 {
@@ -67,6 +68,7 @@ public:
     __forceinline bool GetIsRenderDebug() { return isRenderDebug; }
 
     __forceinline bool GetIsSlow() { return isSlow; }
+    __forceinline bool GetIsEnd() { return isEnd; }
     __forceinline void SetIsSlow(bool b) { isSlow = b; }
     
     __forceinline void SetIsShake(bool b) { isShake = b; }
@@ -95,11 +97,13 @@ private:
     Shader bloodShader;
     Shader fanShader;
     Shader yShader;
+    Shader endShader;
 
 #pragma region Slow
 
     bool    isSlow = false;
     float   accSlow = 0.0f;
+    float   accSlowSound = 0.0f;
 
 #pragma endregion
 
@@ -109,6 +113,16 @@ private:
 
     float accColorReverseTime = 0.f;
     bool isReverse = false;
+
+
+#pragma region Ending
+
+    bool isEnd = false;
+    float accEndTime = 0.0f;
+    float shatterAmount = 0.0f;
+
+#pragma endregion
+
 #pragma region Rewinding
 
     float accTime1 = 0.0f;

@@ -180,6 +180,12 @@
     <Filter Include="03. GameObject\BackGrounds\Stage3">
       <UniqueIdentifier>{564d07f7-268d-463d-ae02-6219a827d3c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Cursor">
+      <UniqueIdentifier>{50a9f846-a6ea-42bc-9a3a-90acf43969f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Managers\SoundManager">
+      <UniqueIdentifier>{f49e659f-4a92-4cdb-986a-8e18d2f11fff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -323,11 +329,17 @@
     <ClCompile Include="Door.cpp">
       <Filter>03. GameObject\Door</Filter>
     </ClCompile>
-    <ClCompile Include="SceneStage3.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Stage3_BackGround.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>03. GameObject\BackGrounds\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneStage3.cpp">
+      <Filter>04. Scene\SceneStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseCursor.cpp">
+      <Filter>03. GameObject\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>01. Managers\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -487,11 +499,17 @@
     <ClInclude Include="Door.h">
       <Filter>03. GameObject\Door</Filter>
     </ClInclude>
-    <ClInclude Include="SceneStage3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Stage3_BackGround.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>03. GameObject\BackGrounds\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneStage3.h">
+      <Filter>04. Scene\SceneStage3</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseCursor.h">
+      <Filter>03. GameObject\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>01. Managers\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +529,9 @@
       <Filter>10. Shader</Filter>
     </None>
     <None Include="y_shader.frag">
+      <Filter>10. Shader</Filter>
+    </None>
+    <None Include="end_shader.frag">
       <Filter>10. Shader</Filter>
     </None>
   </ItemGroup>

@@ -87,7 +87,7 @@ void Fan::Update(float deltaTime)
 				game.GetPlayer()->GetState() != EPlayerState::Hit_Recover)
 			{
 				game.GetPlayer()->SetHitDir(Vector2f(-1.f, -1.f).normalized());
-				game.GetPlayer()->SetIsDead(false);
+				game.GetPlayer()->SetIsDead(true);
 				game.GetPlayer()->ForceChangeFSM(make_unique<Player_Hit_Begin>(*game.GetPlayer()));
 			}
 		}

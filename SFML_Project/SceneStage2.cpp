@@ -128,13 +128,14 @@ void SceneStage2::Initialize()
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
 			obj.scale.x >= 0 ? grunt->GetDesc().bFace = true : grunt->GetDesc().bFace = false;
-			grunt->SetIsGrunt(true);
+			grunt->SetGruntType(EGruntType::Grunt1);
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 		else if (obj.objectName == "obj_enemy_gangster")
 		{
 			auto gangster = make_unique<Gangster>();
 			gangster->GetDesc().vSpawnPoint = obj.position;
+			gangster->SetIsGangster(true);
 			obj.scale.x >= 0 ? gangster->GetDesc().bFace = true : gangster->GetDesc().bFace = false;
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(gangster));
 		}
@@ -143,7 +144,7 @@ void SceneStage2::Initialize()
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
 			obj.scale.x >= 0 ? grunt->GetDesc().bFace = true : grunt->GetDesc().bFace = false;
-			grunt->SetIsGrunt(false);
+			grunt->SetGruntType(EGruntType::Pomp);
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 	}
@@ -153,6 +154,8 @@ void SceneStage2::Initialize()
 
 void SceneStage2::Update(float deltaTime)
 {
+	if (GameInstance::GetInstance().GetInputManager().GetKeyDown(Keyboard::Key::Enter))
+		GameInstance::GetInstance().GetSceneManager().ChangeScene(ESceneType::Stage3);
 	GameInstance::GetInstance().GetObjectManager().Update(deltaTime);
 }
 

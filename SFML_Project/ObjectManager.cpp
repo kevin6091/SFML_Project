@@ -105,7 +105,8 @@ void ObjectManager::ReleaseScene()
 {
 	for (auto& tag : objects)
 	{
-		if (tag.first == EObjectTag::Player || tag.first == EObjectTag::PlayerAttack)
+		if (tag.first == EObjectTag::Player || tag.first == EObjectTag::PlayerAttack || 
+			tag.first == EObjectTag::NonDestroy)
 			continue;
 
 		for (auto it = tag.second.begin(); it != tag.second.end();)
@@ -140,6 +141,17 @@ list<sptr<GameObject>> ObjectManager::GetObjects(EObjectTag tag)
 {
 	const auto& list = objects[tag];
 	return list;
+}
+
+bool ObjectManager::IsNoneEnemy()
+{
+	for (auto enemy : objects[EObjectTag::Enemy])
+	{
+		if(enemy->IsActive())
+			return false;
+	}
+
+	return true;
 }
 
 void ObjectManager::Release()

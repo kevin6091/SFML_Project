@@ -154,6 +154,7 @@ public:
 
 private:
 	float accDustTime = 0.2f;
+	bool isSound1 = false;
 };
 
 class Player_Flip : public PlayerFSM
@@ -201,6 +202,7 @@ public:
 
 private:
 	float accRewind = 0.f;
+	bool isSound = false;
 };
 
 class Player_Hit_Recover : public PlayerFSM

@@ -57,6 +57,14 @@
 #define GRUNT_HIT_GROUND		"anim_grunt_hit_ground"
 #define GRUNT_SLASH				"anim_grunt_slash"
 
+#define GRUNT2_IDLE				"anim_grunt2_idle"
+#define GRUNT2_RUN				"anim_grunt2_run"
+#define GRUNT2_ATTACK			"anim_grunt2_attack"
+#define GRUNT2_HIT				"anim_grunt2_hit"
+#define GRUNT2_HIT_ROLL			"anim_grunt2_hit_roll"
+#define GRUNT2_HIT_GROUND		"anim_grunt2_hit_ground"
+#define GRUNT2_SLASH			"anim_grunt2_slash"
+
 #define GANGSTER_IDLE			"anim_gangster_idle"
 #define GANGSTER_ATTACK			"anim_gangster_attack"
 #define GANGSTER_RUN			"anim_gangster_run"
@@ -71,6 +79,13 @@
 #define POMP_HIT_ROLL			"anim_pomp_hit_roll"
 #define POMP_HIT_GROUND			"anim_pomp_hit_ground"
 
+#define SHOTGUN_IDLE			"anim_shotgun_idle"
+#define SHOTGUN_ATTACK			"anim_shotgun_attack"
+#define SHOTGUN_RUN				"anim_shotgun_run"
+#define SHOTGUN_HIT				"anim_shotgun_hit"
+#define SHOTGUN_HIT_ROLL		"anim_shotgun_hit_roll"
+#define SHOTGUN_HIT_GROUND		"anim_shotgun_hit_ground"
+
 #define BULLET					"bullet"
 #define BULLET_PARRY			"anim_bullet_parry"
 #define BULLET_SMOKE			"anim_bullet_smoke"
@@ -82,6 +97,25 @@
 #define MAP_STAGE2				"map_stage2"
 #define MAP_STAGE3				"map_stage3"
 
+#define S_PLAYER_SLASH1			"sound_player_slash1"
+#define S_PLAYER_SLASH2			"sound_player_slash2"
+#define S_PLAYER_SLASH3			"sound_player_slash3"
+
+#define S_PLAYER_JUMP			"sound_player_jump"
+#define S_PLAYER_LAND			"sound_player_land"
+#define S_PLAYER_ROLL			"sound_player_roll"
+#define S_PLAYER_DIE			"sound_player_die"
+#define S_PLAYER_RUN_START		"sound_player_run_start"
+#define S_PLAYER_WALLSLIDE		"sound_player_wallslide"
+
+#define S_BLOOD1				"sound_blood1"
+#define S_BLOOD2				"sound_blood2"
+#define S_BLOOD3				"sound_blood3"
+#define S_BLOOD4				"sound_blood4"
+
+#define S_HIT					"sound_hit"
+
+#define S_DOOR_OPEN				"sound_door_open"
 
 #define GRAVITY 1200.f
 #define MAX_FALL 1000.0f

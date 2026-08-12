@@ -61,6 +61,9 @@ public:
 
 	void ForceChangeFSM(uptr<GangsterFSM> fsm);
 
+	void SetIsGangster(bool b) { isGangster = b; }
+	bool GetIsGangster() { return isGangster; }
+
 private:
 	uptr<GangsterFSM> curFSM;
 	EGangsterState curState = EGangsterState::End;
@@ -74,5 +77,6 @@ private:
 
 #pragma endregion
 
+	bool isGangster = true;
 };
 

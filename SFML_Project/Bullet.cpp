@@ -6,6 +6,7 @@
 #include "ObjectManager.h"
 #include "SingleEffect.h"
 #include "Camera.h"
+#include "SoundManager.h"
 
 Bullet::Bullet()
 {
@@ -89,15 +90,18 @@ void Bullet::CollisionEvent(GameObject& other)
 		// Spark
 		auto effect = make_unique<SingleEffect>();
 		velocity.x >= 0.f ? effect->GetDesc().bFace = true : effect->GetDesc().bFace = false;
-		effect->GetDesc().vSpawnPoint = GetPosition() + Vector2f(-5.f, 0.f);
+		effect->GetDesc().vSpawnPoint = GetPosition();
 		effect->SetEffectType(ESingleEffectType::Bullet_Parry);
 		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(effect));
+
+		SoundManager::GetInstance().PlaySFXWithReverb("parry", 50.f, 1.f, 3, 0.08f, true);
 	}
 
 	if (other.GetTag() == EObjectTag::Enemy && eObjectTag == EObjectTag::PlayerAttack || 
 		other.GetTag() == EObjectTag::Player && eObjectTag == EObjectTag::EnemyAttack)
 	{
-		Destroy();
+		if(other.IsActive())
+			Destroy();
 	}
 }
 

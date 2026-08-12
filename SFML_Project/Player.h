@@ -139,6 +139,8 @@ private:
 
 #pragma endregion
 
+	bool isUnDead = false;
+
 };
 
 

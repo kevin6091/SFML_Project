@@ -26,6 +26,13 @@ struct GruntSnapshot
 	const Texture* texture;
 };
 
+enum class EGruntType
+{
+	Grunt1,
+	Grunt2,
+	Pomp,
+};
+
 class Grunt : public GameObject
 {
 public:
@@ -58,8 +65,9 @@ public:
 	__forceinline float GetAttackCool()				{ return accAttackCool; }
 	__forceinline void SetIsFindPlayer(bool b)		{ isFindPlayer = b;}
 	__forceinline bool GetIsFindPlayer()			{ return isFindPlayer;}
-	__forceinline void SetIsGrunt(bool b)			{ isGrunt = b; }
-	__forceinline bool GetIsGrunt()					{ return isGrunt; }
+
+	__forceinline void SetGruntType(EGruntType e)			{ eGruntType = e; }
+	__forceinline EGruntType GetGruntType()					{ return eGruntType; }
 
 	void ForceChangeFSM(uptr<GruntFSM> fsm);
 
@@ -68,7 +76,7 @@ private:
 	EGruntState curState = EGruntState::End;
 	Animator animator;
 
-	bool isGrunt = true;
+	EGruntType eGruntType = EGruntType::Grunt1;
 
 #pragma region Rewind
 

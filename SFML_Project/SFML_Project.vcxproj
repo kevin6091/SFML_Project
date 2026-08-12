@@ -146,6 +146,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="MouseCursor.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EndBlock.cpp" />
     <ClCompile Include="FadeManager.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Slash.cpp" />
     <ClCompile Include="SlashImpact.cpp" />
     <ClCompile Include="SlopeBlock.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprint_Dust.cpp" />
     <ClCompile Include="Stage1_BackGround.cpp" />
     <ClCompile Include="Stage2_BackGround.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="MouseCursor.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EndBlock.h" />
     <ClInclude Include="FadeManager.h" />
@@ -234,6 +237,7 @@
     <ClInclude Include="Slash.h" />
     <ClInclude Include="SlashImpact.h" />
     <ClInclude Include="SlopeBlock.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprint_Dust.h" />
     <ClInclude Include="Stage1_BackGround.h" />
     <ClInclude Include="Stage2_BackGround.h" />
@@ -246,6 +250,7 @@
   <ItemGroup>
     <None Include="blood_shader.frag" />
     <None Include="composite_shader.frag" />
+    <None Include="end_shader.frag" />
     <None Include="fan_shader.frag" />
     <None Include="glow_shader.frag" />
     <None Include="shader.frag" />

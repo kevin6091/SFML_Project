@@ -51,11 +51,16 @@ void EndBlock::draw(RenderTarget& target, RenderStates states) const
 
 void EndBlock::CollisionEvent(GameObject& other)
 {
-	if (other.GetTag() == EObjectTag::Player)
+	if (other.GetTag() == EObjectTag::Player && !GameInstance::GetInstance().GetSceneManager().GetIsChangingScene())
 	{
-		int sceneNum = (int) GameInstance::GetInstance().GetSceneManager().GetSceneType();
-		sceneNum++;
-		GameInstance::GetInstance().GetSceneManager().ChangeScene((ESceneType)sceneNum);
+		ESceneType eType = GameInstance::GetInstance().GetSceneManager().GetSceneType();
+		ESceneType eNextType = ESceneType::End;
+		if (eType == ESceneType::Stage1)
+			eNextType = ESceneType::Stage2;
+		else if (eType == ESceneType::Stage2)
+			eNextType = ESceneType::Stage3;
+
+		GameInstance::GetInstance().GetSceneManager().ChangeScene(eNextType);
 	}
 }
 

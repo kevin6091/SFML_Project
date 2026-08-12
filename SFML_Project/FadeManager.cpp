@@ -34,8 +34,6 @@ void FadeManager::Update(float deltaTime)
             m_fadeAlpha = 0.0f;
             m_fadeState = FadeState::None;
         }
-
-        //나중에 왼쪽으로 밀면서 알파적용
     }
     else if (m_fadeState == FadeState::FadeOut)
     {

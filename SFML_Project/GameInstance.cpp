@@ -8,6 +8,8 @@
 #include "Camera.h"
 #include "RewindManager.h"
 #include "Player.h" 
+#include "SoundManager.h"
+#include "HitLIne.h"
 
 GameInstance::GameInstance() = default;
 GameInstance::~GameInstance() = default;
@@ -17,6 +19,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     window.create(VideoMode({ width, height }), title);
     window.setVerticalSyncEnabled(false);
     window.setFramerateLimit(240);
+    window.setMouseCursorVisible(false);
 
     if (!renderTarget_BG.resize(Vector2u(width, height)))
         cout << "렌더타겟 생성실패!!!" << endl;
@@ -60,6 +63,9 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
    
     if (!yShader.loadFromFile("y_shader.frag", Shader::Type::Fragment))
         cout << "셰이더 로드 실패!!!" << endl;
+    
+    if (!endShader.loadFromFile("end_shader.frag", Shader::Type::Fragment))
+        cout << "셰이더 로드 실패!!!" << endl;
 
     uCamera = uptr<Camera>(new Camera());
     uResourceManager = uptr<ResourceManager>(new ResourceManager());
@@ -93,23 +99,43 @@ void GameInstance::Run()
 
 #pragma region Update
 
+        float rawDeltaTime = clock.restart().asSeconds();
+        float gameDeltaTime = rawDeltaTime * timeScale;
+
         if (uInputManager->GetKeyPress(Keyboard::Key::LShift))
         {
             isSlow = true;
             timeScale = 0.3f;
+            if ((accSlowSound += rawDeltaTime) >= 0.7f)
+                accSlowSound = 0.7f;
+            SoundManager::GetInstance().SetGlobalPitch(1.f - accSlowSound);
+        }
+        //else if(uInputManager->GetKeyPress(Keyboard::Key::RShift))
+        else if (uObjectManager->IsNoneEnemy() &&
+            uSceneManager->GetSceneType() == ESceneType::Stage3 && 
+            !uSceneManager->GetIsChangingScene())
+        {
+            isSlow = true;
+            isEnd = true;
+            timeScale = 0.3f;
+            if ((accSlowSound += rawDeltaTime) >= 0.7f)
+                accSlowSound = 0.7f;
+            SoundManager::GetInstance().SetGlobalPitch(1.f - accSlowSound);
         }
         else
         {
             isSlow = false; 
             timeScale = 1.f;
             accSlow = 0.0f;
+            if ((accSlowSound -= rawDeltaTime) <= 0.0f)
+                accSlowSound = 0.0f;
+            SoundManager::GetInstance().SetGlobalPitch(1.f - accSlowSound);
         }
 
-        float rawDeltaTime = clock.restart().asSeconds();
-        float gameDeltaTime = rawDeltaTime * timeScale;
         if ((accSlow += gameDeltaTime) >= 0.5f)
             accSlow = 0.5f;
 
+        SoundManager::GetInstance().Update(rawDeltaTime);
         uInputManager->Update();
         uSceneManager->Update(gameDeltaTime);
         uSceneManager->LateUpdate(gameDeltaTime);
@@ -197,11 +223,24 @@ void GameInstance::Run()
             postShader.setUniform("time", gameDeltaTime);
             postShader.setUniform("accTime1", accTime1);
 
-            postShader.setUniform("textureFinal", renderTarget_Composite.getTexture());
+            postShader.setUniform("textureFinal", renderTarget_Final.getTexture());
 
             RenderStates states(&postShader);
             window.draw(spriteFinal, states);
             
+        }
+        else if (isEnd)
+        {
+            accEndTime += rawDeltaTime;
+            if (accEndTime > 2.0f)
+                shatterAmount += rawDeltaTime * 1.2f; 
+
+            endShader.setUniform("textureFinal", renderTarget_Final.getTexture());
+            endShader.setUniform("time", accEndTime);
+            endShader.setUniform("shatterStart", shatterAmount);
+
+            RenderStates states(&endShader);
+            window.draw(spriteFinal, states);
         }
         else
         {

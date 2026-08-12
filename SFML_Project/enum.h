@@ -14,6 +14,7 @@ enum class ERenderLayer
 enum class EObjectTag 
 {
     Default,
+    NonDestroy,
     Player,
     Enemy,
     EnemyAttack,
@@ -29,6 +30,7 @@ enum class ESceneType
     Title,
     Stage1,
     Stage2,
+    Stage3,
     End
 };
 

@@ -4,6 +4,7 @@
 #include "SceneTitle.h"
 #include "SceneStage1.h"
 #include "SceneStage2.h"
+#include "SceneStage3.h"
 
 
 SceneManager::SceneManager()
@@ -39,14 +40,17 @@ void SceneManager::ChangeScene(ESceneType _eSceneType, float fadeDuration)
         uNextScene = move(make_unique<SceneStage2>());
         isChangingScene = true;
         break;
+    case ESceneType::Stage3:
+        FadeOutScene(1.0f);
+        uNextScene = move(make_unique<SceneStage3>());
+        isChangingScene = true;
+        break;
 
     case ESceneType::End:
         break;
     default:
         break;
     }
-    // FadeManager를 넘겨받아 페이드 효과 트리거
-    // (직접 소유하지 않고 참조만 활용)
 }
 
 void SceneManager::FadeInScene(float fadeDuration)

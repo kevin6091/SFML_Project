@@ -11,6 +11,7 @@
 #include "HitLine.h"
 #include "Bullet.h"
 #include "SingleEffect.h"
+#include "SoundManager.h"
 
 #pragma region Macro
 
@@ -19,6 +20,7 @@
 #define KEY			Keyboard::Key
 #define MOUSE		Mouse::Button
 #define ANIM		context.GetAnimator()
+#define SOUND		SoundManager::GetInstance()
 
 #pragma endregion
 
@@ -97,13 +99,16 @@ Gangster_Idle::~Gangster_Idle()
 void Gangster_Idle::Enter()
 {
 	context.SetState(EGangsterState::Idle);
-	Play(GANGSTER_IDLE, true);
+	context.GetIsGangster() ? Play(GANGSTER_IDLE, true) : Play(SHOTGUN_IDLE, true);
 }
 
 uptr<GangsterFSM> Gangster_Idle::Update(float deltaTime)
 {
 	float disY = abs(context.GetDirToPlayer().y);
 	float disX = abs(context.GetDirToPlayer().x);
+
+	if (context.IsInDoor())
+		return nullptr;
 
 	if ((context.GetIsFindPlayer() || (disX <= 300 && disY <= 50)) &&
 		context.GetAttackCool() >= 2.f)
@@ -135,7 +140,7 @@ Gangster_Run::~Gangster_Run()
 void Gangster_Run::Enter()
 {
 	context.SetState(EGangsterState::Run);
-	Play(GANGSTER_RUN, true);
+	context.GetIsGangster() ? Play(GANGSTER_RUN, true) : Play(SHOTGUN_RUN, true);
 }
 
 uptr<GangsterFSM> Gangster_Run::Update(float deltaTime)
@@ -179,9 +184,10 @@ Gangster_Attack::~Gangster_Attack()
 void Gangster_Attack::Enter()
 {
 	context.SetState(EGangsterState::Attack);
-	Play(GANGSTER_ATTACK, true);
+	context.GetIsGangster() ? Play(GANGSTER_ATTACK, true) : Play(SHOTGUN_ATTACK, true);
 
 	context.SetVelocity({ 0.f,0.f });
+	SOUND.PlaySFXWithReverb("gun", 50.f, 1.2f, 2, 0.05f);
 }
 
 uptr<GangsterFSM> Gangster_Attack::Update(float deltaTime)
@@ -228,7 +234,6 @@ void Gangster_Attack::Exit()
 
 #pragma endregion
 
-
 #pragma region Gangster_Hit
 
 Gangster_Hit::Gangster_Hit(Gangster& context)
@@ -243,7 +248,8 @@ Gangster_Hit::~Gangster_Hit()
 void Gangster_Hit::Enter()
 {
 	context.SetState(EGangsterState::Hit);
-	Play(GANGSTER_HIT, true);
+	context.GetIsGangster() ? Play(GANGSTER_HIT, true) : Play(SHOTGUN_HIT, true);
+
 	context.SetActive(false);
 
 	Vector2f dirHit = context.GetDirHit();
@@ -281,6 +287,19 @@ void Gangster_Hit::Enter()
 		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(line));
 		GAME.SetIsHitLine(true);
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		int randomInt = RandomInt(1, 3);
+		if (randomInt == 1)
+			SOUND.PlaySFXWithReverb(S_BLOOD1, 40.f);
+		else if (randomInt == 2)
+			SOUND.PlaySFXWithReverb(S_BLOOD2, 40.f);
+		else if (randomInt == 3)
+			SOUND.PlaySFXWithReverb(S_BLOOD3, 40.f);
+	}
+
+	SOUND.PlaySFXWithReverb(S_HIT, 40.f);
 }
 
 uptr<GangsterFSM> Gangster_Hit::Update(float deltaTime)
@@ -308,7 +327,7 @@ Gangster_Hit_Roll::~Gangster_Hit_Roll()
 void Gangster_Hit_Roll::Enter()
 {
 	context.SetState(EGangsterState::Hit_Roll);
-	Play(GANGSTER_HIT_ROLL, true);
+	context.GetIsGangster() ? Play(GANGSTER_HIT_ROLL, true) : Play(SHOTGUN_HIT_ROLL, true);
 }
 
 uptr<GangsterFSM> Gangster_Hit_Roll::Update(float deltaTime)
@@ -336,7 +355,7 @@ Gangster_Hit_Ground::~Gangster_Hit_Ground()
 void Gangster_Hit_Ground::Enter()
 {
 	context.SetState(EGangsterState::Hit_Ground);
-	Play(GANGSTER_HIT_GROUND, true);
+	context.GetIsGangster() ? Play(GANGSTER_HIT_GROUND, true) : Play(SHOTGUN_HIT_GROUND, true);
 }
 
 uptr<GangsterFSM> Gangster_Hit_Ground::Update(float deltaTime)

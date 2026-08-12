@@ -38,6 +38,9 @@ bool GameObject::IsInDoor()
     float playerX = GameInstance::GetInstance().GetPlayer()->GetPosition().x;
     float playerY = GameInstance::GetInstance().GetPlayer()->GetPosition().y;
     float myX = position.x;
+    
+    if (myX >= 1887.f && myX <= 1889.f)
+        int a = 0;
     float myY = position.y;
 
     auto list = GameInstance::GetInstance().GetObjectManager().GetObjects(EObjectTag::Door);
@@ -46,8 +49,8 @@ bool GameObject::IsInDoor()
         float doorX = door->GetPosition().x;
         float doorY = door->GetPosition().y + 64;
         
-        if (abs(myY - doorY) >= 100.f || abs(playerY - doorY) >= 100.f)
-            return true;
+        if (abs(myY - doorY) >= 100.f || abs(myX - doorX) >= 300.f)
+            continue;
 
         if (doorX >= min(playerX, myX) && doorX <= max(playerX, myX)) 
         {

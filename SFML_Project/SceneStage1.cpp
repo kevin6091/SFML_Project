@@ -13,7 +13,8 @@
 #include "Grippable.h"
 #include "Fan.h"
 #include "EndBlock.h"
-
+#include "MouseCursor.h"
+#include "SoundManager.h"
 
 void SceneStage1::Initialize()
 {
@@ -29,6 +30,7 @@ void SceneStage1::Initialize()
 	//************** Texture, Anim **************//
 #pragma region Texture. Anim
 	resourceManager.LoadTexture("default", "resource/textures/default/default");
+	resourceManager.LoadTexture("cursor", "resource/textures/cursor/cursor");
 
 #pragma region Player
 
@@ -112,10 +114,11 @@ void SceneStage1::Initialize()
 
 #pragma endregion
 
-
-
 	//************** Object **************//
 #pragma region MapInfo, Object
+
+	auto cursor = make_unique<MouseCursor>();
+	objectManager.AddObject(EObjectTag::NonDestroy, ERenderLayer::UI, move(cursor));
 
 	auto stage1 = make_unique<Stage1_BackGround>();
 	objectManager.AddObject(EObjectTag::Default, ERenderLayer::Background, move(stage1));
@@ -159,7 +162,7 @@ void SceneStage1::Initialize()
 			auto grunt = make_unique<Grunt>();
 			grunt->GetDesc().vSpawnPoint = obj.position;
 			obj.scale.x >= 0 ? grunt->GetDesc().bFace = true : grunt->GetDesc().bFace = false;
-			grunt->SetIsGrunt(true);
+			grunt->SetGruntType(EGruntType::Grunt1);
 			objectManager.AddObject(EObjectTag::Enemy, ERenderLayer::Actor, move(grunt));
 		}
 		else if (obj.objectName == "obj_fanblade")
@@ -171,6 +174,36 @@ void SceneStage1::Initialize()
 	}
 
 #pragma endregion
+
+	//************** Sound **************//
+	SoundManager::GetInstance().LoadBGM("Stage1", "resource/sounds/BGM/stage1.ogg");
+	SoundManager::GetInstance().LoadBGM("Stage3", "resource/sounds/BGM/stage3.ogg");
+	SoundManager::GetInstance().LoadBGM("Stage3_3", "resource/sounds/BGM/stage3_3.ogg");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_SLASH1, "resource/sounds/player/slash1.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_SLASH2, "resource/sounds/player/slash2.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_SLASH3, "resource/sounds/player/slash3.wav");
+	
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_JUMP, "resource/sounds/player/jump.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_LAND, "resource/sounds/player/land.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_ROLL, "resource/sounds/player/roll.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_DIE, "resource/sounds/player/die.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_RUN_START, "resource/sounds/player/run_start.wav");
+	SoundManager::GetInstance().LoadSFX(S_PLAYER_WALLSLIDE, "resource/sounds/player/wallslide.wav");
+	
+	SoundManager::GetInstance().LoadSFX(S_BLOOD1, "resource/sounds/blood/blood1.wav");
+	SoundManager::GetInstance().LoadSFX(S_BLOOD2, "resource/sounds/blood/blood2.wav");
+	SoundManager::GetInstance().LoadSFX(S_BLOOD3, "resource/sounds/blood/blood3.wav");
+	SoundManager::GetInstance().LoadSFX(S_BLOOD4, "resource/sounds/blood/blood4.wav");
+
+	SoundManager::GetInstance().LoadSFX(S_HIT, "resource/sounds/hit.wav");
+	SoundManager::GetInstance().LoadSFX(S_DOOR_OPEN, "resource/sounds/hit.wav");
+
+	SoundManager::GetInstance().LoadSFX("punch", "resource/sounds/punch.wav");
+	SoundManager::GetInstance().LoadSFX("gun", "resource/sounds/gun.wav");
+	SoundManager::GetInstance().LoadSFX("parry", "resource/sounds/parry.wav");
+	SoundManager::GetInstance().LoadSFX("rewind", "resource/sounds/rewind.wav");
+
+	SoundManager::GetInstance().PlayBGM("Stage1", 50.f);
 }
 
 void SceneStage1::Update(float deltaTime)

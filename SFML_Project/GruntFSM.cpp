@@ -10,6 +10,7 @@
 #include "Collider.h"
 #include "HitLine.h"
 #include "GruntSlash.h"
+#include "SoundManager.h"
 
 #pragma region Macro
 
@@ -18,6 +19,7 @@
 #define KEY			Keyboard::Key
 #define MOUSE		Mouse::Button
 #define ANIM		context.GetAnimator()
+#define SOUND		SoundManager::GetInstance()
 
 #pragma endregion
 
@@ -92,7 +94,21 @@ Grunt_Idle::~Grunt_Idle()
 void Grunt_Idle::Enter()
 {
 	context.SetState(EGruntState::Idle);
-	context.GetIsGrunt() ? Play(GRUNT_IDLE, true) : Play(POMP_IDLE, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_IDLE, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_IDLE, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_IDLE, true);
+		break;
+	default:
+		break;
+	}
 }
 
 uptr<GruntFSM> Grunt_Idle::Update(float deltaTime)
@@ -100,8 +116,6 @@ uptr<GruntFSM> Grunt_Idle::Update(float deltaTime)
 	float disY = abs(context.GetDirToPlayer().y);
 	float disX = abs(context.GetDirToPlayer().x);
 
-	if (!context.GetIsGrunt())
-		int a = 0;
 	if (context.IsInDoor())
 		return nullptr;
 
@@ -135,7 +149,21 @@ Grunt_Run::~Grunt_Run()
 void Grunt_Run::Enter()
 {
 	context.SetState(EGruntState::Run);
-	context.GetIsGrunt() ? Play(GRUNT_RUN, true) : Play(POMP_RUN, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_RUN, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_RUN, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_RUN, true);
+		break;
+	default:
+		break;
+	}
 }
 
 uptr<GruntFSM> Grunt_Run::Update(float deltaTime)
@@ -170,12 +198,26 @@ Grunt_Hit::~Grunt_Hit()
 void Grunt_Hit::Enter()
 {
 	context.SetState(EGruntState::Hit);
-	context.GetIsGrunt() ? Play(GRUNT_HIT, true) : Play(POMP_HIT, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_HIT, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_HIT, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_HIT, true);
+		break;
+	default:
+		break;
+	}
 	context.SetActive(false);
-	
+
 	Vector2f dirHit = context.GetDirHit();
 
-	if(dirHit.y >= 0)
+	if (dirHit.y >= 0)
 	{
 		dirHit.y *= 2.f;
 		dirHit.y = clamp(dirHit.y, 0.9f, 1.7f);
@@ -208,6 +250,19 @@ void Grunt_Hit::Enter()
 		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(line));
 		GAME.SetIsHitLine(true);
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		int randomInt = RandomInt(1, 3);
+		if (randomInt == 1)
+			SOUND.PlaySFXWithReverb(S_BLOOD1, 40.f);
+		else if (randomInt == 2)
+			SOUND.PlaySFXWithReverb(S_BLOOD2, 40.f);
+		else if (randomInt == 3)
+			SOUND.PlaySFXWithReverb(S_BLOOD3, 40.f);
+	}
+
+	SOUND.PlaySFXWithReverb(S_HIT, 40.f);
 }
 
 uptr<GruntFSM> Grunt_Hit::Update(float deltaTime)
@@ -235,7 +290,21 @@ Grunt_Hit_Roll::~Grunt_Hit_Roll()
 void Grunt_Hit_Roll::Enter()
 {
 	context.SetState(EGruntState::Hit_Roll);
-	context.GetIsGrunt() ? Play(GRUNT_HIT_ROLL, true) : Play(POMP_HIT_ROLL, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_HIT_ROLL, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_HIT_ROLL, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_HIT_ROLL, true);
+		break;
+	default:
+		break;
+	}
 }
 
 uptr<GruntFSM> Grunt_Hit_Roll::Update(float deltaTime)
@@ -263,7 +332,21 @@ Grunt_Hit_Ground::~Grunt_Hit_Ground()
 void Grunt_Hit_Ground::Enter()
 {
 	context.SetState(EGruntState::Hit_Ground);
-	context.GetIsGrunt() ? Play(GRUNT_HIT_GROUND, true) : Play(POMP_HIT_GROUND, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_HIT_GROUND, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_HIT_GROUND, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_HIT_GROUND, true);
+		break;
+	default:
+		break;
+	}
 }
 
 uptr<GruntFSM> Grunt_Hit_Ground::Update(float deltaTime)
@@ -291,7 +374,21 @@ Grunt_Attack::~Grunt_Attack()
 void Grunt_Attack::Enter()
 {
 	context.SetState(EGruntState::Attack);
-	context.GetIsGrunt() ? Play(GRUNT_ATTACK, true) : Play(POMP_ATTACK, true);
+	EGruntType e = context.GetGruntType();
+	switch (e)
+	{
+	case EGruntType::Grunt1:
+		Play(GRUNT_ATTACK, true);
+		break;
+	case EGruntType::Grunt2:
+		Play(GRUNT2_ATTACK, true);
+		break;
+	case EGruntType::Pomp:
+		Play(POMP_ATTACK, true);
+		break;
+	default:
+		break;
+	}
 
 	context.SetVelocity({0.f,0.f});
 
@@ -299,6 +396,8 @@ void Grunt_Attack::Enter()
 	slash->GetDesc().bFace = context.GetDesc().bFace;
 	slash->GetDesc().vSpawnPoint = context.GetPosition();
 	GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::EnemyAttack, ERenderLayer::Effect, move(slash));
+	
+	SoundManager::GetInstance().PlaySFXWithReverb("punch", 30.f);
 }
 
 uptr<GruntFSM> Grunt_Attack::Update(float deltaTime)
@@ -315,4 +414,3 @@ void Grunt_Attack::Exit()
 }
 
 #pragma endregion
-

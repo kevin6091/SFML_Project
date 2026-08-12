@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Blood.h"
 #include "BloodDecal.h"
+#include "SoundManager.h"
 
 Gangster::Gangster()
 {
@@ -28,12 +29,24 @@ void Gangster::Initialize()
 
 	auto& resource = GameInstance::GetInstance().GetResourceManager();
 
-	animator.AddClip(GANGSTER_IDLE, 0.08f, true);
-	animator.AddClip(GANGSTER_RUN, 0.05f, true);
-	animator.AddClip(GANGSTER_ATTACK, 0.05f, false);
-	animator.AddClip(GANGSTER_HIT, 0.05f, false);
-	animator.AddClip(GANGSTER_HIT_ROLL, 0.05f, true);
-	animator.AddClip(GANGSTER_HIT_GROUND, 0.05f, false);
+	if(isGangster)
+	{
+		animator.AddClip(GANGSTER_IDLE, 0.08f, true);
+		animator.AddClip(GANGSTER_RUN, 0.05f, true);
+		animator.AddClip(GANGSTER_ATTACK, 0.05f, false);
+		animator.AddClip(GANGSTER_HIT, 0.05f, false);
+		animator.AddClip(GANGSTER_HIT_ROLL, 0.05f, true);
+		animator.AddClip(GANGSTER_HIT_GROUND, 0.05f, false);
+	}
+	else
+	{
+		animator.AddClip(SHOTGUN_IDLE, 0.08f, true);
+		animator.AddClip(SHOTGUN_RUN, 0.05f, true);
+		animator.AddClip(SHOTGUN_ATTACK, 0.05f, false);
+		animator.AddClip(SHOTGUN_HIT, 0.05f, false);
+		animator.AddClip(SHOTGUN_HIT_ROLL, 0.05f, true);
+		animator.AddClip(SHOTGUN_HIT_GROUND, 0.05f, false);
+	}
 
 	sprite.emplace(*resource.GetTexture("default"));
 
@@ -189,6 +202,7 @@ void Gangster::RestartObject()
 	isFindPlayer = false;
 	accAttackCool = 0.0f;
 	accBloodTime = 1.f;
+	isDoorOpen = false;
 }
 
 void Gangster::ForceChangeFSM(uptr<GangsterFSM> fsm)
@@ -207,8 +221,11 @@ void Gangster::CollisionEvent(GameObject& other)
 	}
 	else if (other.GetTag() == EObjectTag::PlayerAttack && other.GetCollider().GetColliderType() == EColliderType::RectAttack)
 	{
-		-dirToPlayer.x >= 0 ? dirHit = Vector2f(1.f, 0.0f) : dirHit = Vector2f(-1.f, 0.0f);
-		ForceChangeFSM(make_unique<Gangster_Hit>(*this));
+		if(IsActive())
+		{
+			-dirToPlayer.x >= 0 ? dirHit = Vector2f(1.f, 0.0f) : dirHit = Vector2f(-1.f, 0.0f);
+			ForceChangeFSM(make_unique<Gangster_Hit>(*this));
+		}
 	}
 }
 
@@ -228,6 +245,16 @@ void Gangster::CollisionBounce()
 			bloodDecal->SetAttackDir(velocity.normalized());
 			bloodDecal->SetIsSingle(true);
 			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Decal, move(bloodDecal));
+
+			int randomInt = RandomInt(1, 3);
+			if (randomInt == 1)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD1, 30.f);
+			else if (randomInt == 2)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD2, 30.f);
+			else if (randomInt == 3)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD3, 30.f);
+
+			SoundManager::GetInstance().PlaySFXWithReverb(S_PLAYER_LAND, 25.f, 1.f, 1);
 		}
 		bounceCount++;
 	}

@@ -159,16 +159,13 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                 if (wallType == EColliderType::JumpThrough)
                 {
                     // 이전 프레임의 발바닥 위치 역산 (현재 바닥 Y - 이번 프레임 이동량)
-                    if (isDownPressed)
+                    if (isDownPressed && obj->GetTag() == EObjectTag::Player)
                         continue;
 
                     // 이전 프레임의 발바닥 위치 역산 (현재 바닥 Y - 이번 프레임 이동량)
                     float prevBottom = objBounds.position.y + objBounds.size.y - moveDelta.y;
                     float wallTop = wallBounds.position.y;
 
-                    // 조건 1: 낙하 중일 것 (vel.y >= 0)
-                    // 조건 2: 이전 프레임에 플레이어 발바닥이 블록의 상단(Top)보다 위(또는 살짝 오차 내)에 있었을 것
-                    // (※ !isDownPressed 조건은 위에서 이미 걸렀으므로 삭제했습니다)
                     if (vel.y >= 0.f && prevBottom <= wallTop + 4.0f)
                     {
                         if (optional<FloatRect> overlap = objBounds.findIntersection(wallBounds))
@@ -188,7 +185,6 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                     // 빗면 충돌 판정 및 보정 위치 받아오기
                     if (SlopeCollision(objBounds, wallBounds, isSlopeUp, newBoundsTopY))
                     {
-                        // Origin 설정에 상관없이, 이동해야 할 변화량(Delta)만큼 pos.y에 더해줍니다.
                         pos.y += (newBoundsTopY - objBounds.position.y);
                         vel.y = 0.f;
                         isGrounded = true;
@@ -251,10 +247,10 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                 {
                     EColliderType wallType = wall->GetCollider().GetColliderType();
 
-                    if (isDownPressed && wallType == EColliderType::JumpThrough)
+                    if (isDownPressed && wallType == EColliderType::JumpThrough && obj->GetTag() == EObjectTag::Player)
                         continue;
                     
-                    if (isDownPressed && wallType == EColliderType::Block)
+                    if (isDownPressed && wallType == EColliderType::Block && obj->GetTag() == EObjectTag::Player)
                     {
                         FloatRect wallBounds = wall->GetCollider().GetBounds();
                         if (wallBounds.position.y > playerBottom + 4.0f)
@@ -269,12 +265,12 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
 
                     FloatRect wallBounds = wall->GetCollider().GetBounds();
 
-                    // 1. 벽이나 빗면의 가로(X) 구간 안에 플레이어의 '정중앙'이 속해 있는지 확인
+                    // 1. 벽이나 빗면의 가로(X) 구간 안에 플레이어의 정중앙이 속해 있는지 확인
                     if (playerCenterX >= wallBounds.position.x && playerCenterX <= wallBounds.position.x + wallBounds.size.x)
                     {
                         float surfaceY = wallBounds.position.y; // 일반 블록은 윗부분이 표면
 
-                        // 빗면일 경우, X좌표에 따른 정확한 표면(Y) 높이를 계산
+                        // 빗면일 경우, X좌표에 따른 정확한 표면 높이를 계산
                         if (wallType == EColliderType::SlopBlock1 || wallType == EColliderType::SlopBlock2)
                         {
                             float localX = playerCenterX - wallBounds.position.x;
@@ -286,10 +282,8 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                                 surfaceY = wallBounds.position.y + (ratio * wallBounds.size.y);
                         }
 
-                        // 2. 찾아낸 표면이 플레이어의 발밑~스냅 사거리 내에 존재한다면?
                         if (surfaceY >= playerBottom - 2.0f && surfaceY <= playerBottom + snapDistance)
                         {
-                            // 가장 높은 땅(Y값이 제일 작은 땅)을 최우선으로 잡음
                             if (surfaceY < bestSurfaceY)
                             {
                                 bestSurfaceY = surfaceY;
@@ -299,11 +293,8 @@ void CollisionManager::UpdatePhysics(float deltaTime, list<sptr<GameObject>> dyn
                     }
                 }
 
-                // 3. 바닥을 찾았다면 강제로 끌어당기기
                 if (foundSnap)
                 {
-                    // ★ 4. pos.y에 덮어씌우지 않고, 바운딩 박스 기준의 '오차(Delta)값'만큼만 더해줍니다!
-                    // 이렇게 해야 Origin(중심점) 세팅에 상관없이 발바닥이 땅에 정확히 붙습니다.
                     float targetTopY = bestSurfaceY - objBounds.size.y;
                     pos.y += (targetTopY - objBounds.position.y);
 

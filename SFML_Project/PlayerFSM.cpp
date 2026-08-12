@@ -10,6 +10,7 @@
 #include "Land_Dust.h"
 #include "WallSlide_Dust.h"
 #include "Jump_Dust.h"
+#include "SoundManager.h"
 
 #pragma region Macro
 
@@ -18,6 +19,7 @@
 #define KEY			Keyboard::Key
 #define MOUSE		Mouse::Button
 #define ANIM		context.GetAnimator()
+#define SOUND		SoundManager::GetInstance()
 
 #pragma endregion
 
@@ -129,6 +131,7 @@ uptr<PlayerFSM> Player_Idle::Update(float deltaTime)
 
 void Player_Idle::Exit()
 {
+	SOUND.PlaySFXWithReverb(S_PLAYER_RUN_START, 30.f);
 }
 
 #pragma endregion
@@ -432,6 +435,8 @@ void Player_Roll::Enter()
 	}
 
 	context.SetVelocity(vel);
+
+	SOUND.PlaySFXWithReverb(S_PLAYER_ROLL, 65.f, 2, 5, 0.1f);
 }
 
 uptr<PlayerFSM> Player_Roll::Update(float deltaTime)
@@ -516,6 +521,8 @@ void Player_Jump::Enter()
 	dust->GetDesc().bFace = true;
 	dust->GetDesc().vSpawnPoint = context.GetPosition();
 	GAME.GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Effect, move(dust));
+
+	SOUND.PlaySFXWithReverb(S_PLAYER_JUMP, 40.f);
 }
 
 uptr<PlayerFSM> Player_Jump::Update(float deltaTime)
@@ -592,6 +599,8 @@ uptr<PlayerFSM> Player_Fall::Update(float deltaTime)
 
 	if (context.GetIsGrounded())
 	{
+		SOUND.PlaySFXWithReverb(S_PLAYER_LAND, 25.f, 1.f, 1);
+
 		if (INPUT.GetKeyPress(KEY::S) && INPUT.GetKeyPress(KEY::A))
 		{
 			MoveLeft();
@@ -664,6 +673,14 @@ void Player_Attack::Enter()
 
 	// Camera
 	GAME.GetCamera().Shake(attackDir, 0.2f, 2.0f);
+
+	int randomInt = RandomInt(0, 2);
+	if (randomInt == 0)
+		SOUND.PlaySFXWithReverb(S_PLAYER_SLASH1, 40.f, 1.f, 2.f, 0.05f);
+	else if(randomInt == 1)
+		SOUND.PlaySFXWithReverb(S_PLAYER_SLASH2, 40.f, 1.f, 2.f, 0.05f);
+	else
+		SOUND.PlaySFXWithReverb(S_PLAYER_SLASH3, 40.f, 1.f, 2.f, 0.05f);
 }
 
 uptr<PlayerFSM> Player_Attack::Update(float deltaTime)
@@ -698,6 +715,9 @@ Player_WallSlide::~Player_WallSlide()
 
 void Player_WallSlide::Enter()
 {
+	if(context.GetState() != EPlayerState::Flip)
+		SOUND.PlaySFXWithReverb(S_PLAYER_RUN_START, 25.f, 1.f, 5, 0.1f);
+
 	context.SetState(EPlayerState::WallSlide);
 	Play(PLAYER_WALLSLIDE, true);
 }
@@ -779,6 +799,8 @@ void Player_Flip::Enter()
 		context.SetVelocity({ -ATTACK_FORCE, -JUMP_FORCE});
 
 	context.SetIsGrippable(false);
+
+	SOUND.PlaySFXWithReverb(S_PLAYER_ROLL, 65.f, 2, 5, 0.1f);
 }
 
 uptr<PlayerFSM> Player_Flip::Update(float deltaTime)
@@ -822,6 +844,9 @@ void Player_Hit_Begin::Enter()
 
 	Vector2f hitDir = context.GetHitDir();
  	context.SetVelocity(hitDir * 500.f);
+
+	SOUND.PlaySFXWithReverb(S_PLAYER_DIE, 14.f, 1.f, 3, 0.7f);
+	SOUND.PlaySFXWithReverb(S_BLOOD1, 20.f, 1.f, 1);
 }
 
 uptr<PlayerFSM> Player_Hit_Begin::Update(float deltaTime)
@@ -884,6 +909,7 @@ void Player_Hit_Ground::Enter()
 {
 	context.SetState(EPlayerState::Hit_Ground);
 	Play(PLAYER_HIT_GROUND, true);
+	SOUND.PlaySFXWithReverb(S_PLAYER_LAND, 40.f);
 }
 
 uptr<PlayerFSM> Player_Hit_Ground::Update(float deltaTime)
@@ -927,7 +953,10 @@ void Player_Hit_Recover::Enter()
 uptr<PlayerFSM> Player_Hit_Recover::Update(float deltaTime)
 {
 	if (ANIM.IsFinished())
+	{
+		SOUND.PlaySFXWithReverb(S_PLAYER_LAND, 25.f, 1.2f);
 		return make_unique<Player_Idle>(context);
+	}
 
 	return nullptr;
 }

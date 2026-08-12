@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Blood.h"
 #include "BloodDecal.h"
+#include "SoundManager.h"
 
 Grunt::Grunt()
 {
@@ -28,23 +29,34 @@ void Grunt::Initialize()
 
 	auto& resource = GameInstance::GetInstance().GetResourceManager();
 	
-	if(isGrunt)
+	switch (eGruntType)
 	{
+	case EGruntType::Grunt1:
 		animator.AddClip(GRUNT_IDLE, 0.08f, true);
 		animator.AddClip(GRUNT_RUN, 0.05f, true);
 		animator.AddClip(GRUNT_ATTACK, 0.05f, false);
 		animator.AddClip(GRUNT_HIT, 0.05f, false);
 		animator.AddClip(GRUNT_HIT_ROLL, 0.05f, true);
 		animator.AddClip(GRUNT_HIT_GROUND, 0.05f, false);
-	}
-	else
-	{
+		break;
+	case EGruntType::Grunt2:
+		animator.AddClip(GRUNT2_IDLE, 0.08f, true);
+		animator.AddClip(GRUNT2_RUN, 0.05f, true);
+		animator.AddClip(GRUNT2_ATTACK, 0.05f, false);
+		animator.AddClip(GRUNT2_HIT, 0.05f, false);
+		animator.AddClip(GRUNT2_HIT_ROLL, 0.05f, true);
+		animator.AddClip(GRUNT2_HIT_GROUND, 0.05f, false);
+		break;
+	case EGruntType::Pomp:
 		animator.AddClip(POMP_IDLE, 0.08f, true);
 		animator.AddClip(POMP_RUN, 0.05f, true);
 		animator.AddClip(POMP_ATTACK, 0.05f, false);
 		animator.AddClip(POMP_HIT, 0.05f, false);
 		animator.AddClip(POMP_HIT_ROLL, 0.05f, true);
 		animator.AddClip(POMP_HIT_GROUND, 0.05f, false);
+		break;
+	default:
+		break;
 	}
 
 	sprite.emplace(*resource.GetTexture("default"));
@@ -192,8 +204,11 @@ void Grunt::CollisionEvent(GameObject& other)
 	}
 	else if (other.GetTag() == EObjectTag::PlayerAttack && other.GetCollider().GetColliderType() == EColliderType::RectAttack)
 	{
-		-dirToPlayer.x >= 0 ? dirHit = Vector2f(1.f, -0.1f) : dirHit = Vector2f(-1.f, -0.1f);
-		ForceChangeFSM(make_unique<Grunt_Hit>(*this));
+		if (IsActive())
+		{
+			-dirToPlayer.x >= 0 ? dirHit = Vector2f(1.f, -0.1f) : dirHit = Vector2f(-1.f, -0.1f);
+			ForceChangeFSM(make_unique<Grunt_Hit>(*this));
+		}
 	}
 }
 
@@ -213,6 +228,16 @@ void Grunt::CollisionBounce()
 			bloodDecal->SetAttackDir(velocity.normalized());
 			bloodDecal->SetIsSingle(true);
 			GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Default, ERenderLayer::Decal, move(bloodDecal));
+			
+			int randomInt = RandomInt(1, 3);
+			if (randomInt == 1)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD1, 30.f);
+			else if (randomInt == 2)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD2, 30.f);
+			else if (randomInt == 3)
+				SoundManager::GetInstance().PlaySFXWithReverb(S_BLOOD3, 30.f);
+
+			SoundManager::GetInstance().PlaySFXWithReverb(S_PLAYER_LAND, 25.f, 1.f, 1);
 		}
 		bounceCount++;
 	}
@@ -252,6 +277,7 @@ void Grunt::RestartObject()
 	isFindPlayer = false;
 	accAttackCool = 0.0f;
 	accBloodTime = 1.f;
+	isDoorOpen = false;
 }
 
 void Grunt::ForceChangeFSM(uptr<GruntFSM> fsm)

@@ -7,6 +7,7 @@
 #include "SingleEffect.h"
 #include "Block.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 Door::Door()
 {
@@ -32,12 +33,16 @@ void Door::Initialize()
 	animator.Play(DOOR_OPEN, true);
 	animator.UpdateSpriteTexture(*sprite, true);
 
-	sprite->setOrigin({ 0.f, 0.f });
-	Vector2f offset;
-	descStatus.bFace ? offset = Vector2f{ -32.f,0.f } : offset = Vector2f{ 32.f,0.f };
-	descStatus.bFace ? sprite->setScale({ 2.f,2.f }) : sprite->setScale({ -2.f,2.f });
+	auto size = sprite->getTexture().getSize();
+	sprite->setOrigin({ size.x * 0.5f, 0.f});
+
+
+	descStatus.bFace ? sprite->setScale({ 2.f, 2.f }) : sprite->setScale({ -2.f, 2.f });
 	bFirstFace = descStatus.bFace;
-	SetPosition(descStatus.vSpawnPoint);
+
+	Vector2f offset;
+	descStatus.bFace ? offset = Vector2f{ -32.f, 0.f } : offset = Vector2f{ 0.f, 0.f };
+	position = descStatus.vSpawnPoint;
 	sprite->setPosition(descStatus.vSpawnPoint + offset);
 }
 
@@ -47,15 +52,17 @@ void Door::Update(float deltaTime)
 		animator.Update(deltaTime, *sprite);
 	sprite->setOrigin({ 0.f, 0.f });
 
-
 	float disX = GameInstance::GetInstance().GetPlayer()->GetPosition().x - GetPosition().x;
 	float disY = GameInstance::GetInstance().GetPlayer()->GetPosition().y - (GetPosition().y + 64.f);
-	if (abs(disX) <= 20.f && GameInstance::GetInstance().GetPlayer()->GetState() == EPlayerState::Attack)
+	if (abs(disX) <= 80.f && GameInstance::GetInstance().GetPlayer()->GetState() == EPlayerState::Attack)
 	{
 		if (abs(disY) <= 100.f)
 		{
 			if (!isDoorOpen)
+			{
 				isDoorOpen = true;
+				SoundManager::GetInstance().PlaySFXWithReverb(S_DOOR_OPEN, 50.f);
+			}
 		}
 	}
 }
@@ -87,19 +94,25 @@ void Door::CollisionEvent(GameObject& other)
 void Door::RestartObject()
 {
 	Vector2f offset;
-	descStatus.bFace ? offset = Vector2f{ -32.f,0.f } : offset = Vector2f{ 32.f,0.f };
-	ColliderDesc col{ "", EColliderType::Block ,FloatRect(descStatus.vSpawnPoint - offset, Vector2f{32.f, 128.f}) };
-	auto block = make_unique<Block>(col);
-	block->SetIsDoor(true);
-	GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Wall, ERenderLayer::Background, move(block));
+	descStatus.bFace ? offset = Vector2f{ 0.f, 0.f } : offset = Vector2f{ -32.f, 0.f };
 
-	isDoorOpen = false;
+	if (isDoorOpen)
+	{
+		ColliderDesc col{ "", EColliderType::Block ,FloatRect(descStatus.vSpawnPoint + offset, Vector2f{32.f, 128.f}) };
+		auto block = make_unique<Block>(col);
+		block->SetIsDoor(true);
+		GameInstance::GetInstance().GetObjectManager().AddObject(EObjectTag::Wall, ERenderLayer::Background, move(block));
+	}
 	
+	isDoorOpen = false;
 	animator.Play(DOOR_OPEN, true);
 	animator.UpdateSpriteTexture(*sprite, true);
-
+	auto size = sprite->getTexture().getSize();
+	sprite->setOrigin({ size.x * 0.5f, 0.f });
 	sprite->setOrigin({ 0.f, 0.f });
-	SetPosition(descStatus.vSpawnPoint);
-	sprite->setPosition(descStatus.vSpawnPoint + offset);
 
+	descStatus.bFace ? offset = Vector2f{ -32.f, 0.f } : offset = Vector2f{ 0.f, 0.f };
+
+	position = descStatus.vSpawnPoint;
+	sprite->setPosition(descStatus.vSpawnPoint + offset);
 }
