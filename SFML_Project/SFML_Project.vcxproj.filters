@@ -186,6 +186,9 @@
     <Filter Include="01. Managers\SoundManager">
       <UniqueIdentifier>{f49e659f-4a92-4cdb-986a-8e18d2f11fff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\Smoke">
+      <UniqueIdentifier>{f1d7af0e-d0e6-4bee-8271-0d66d279a2ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SFML_Project.cpp">
@@ -340,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>01. Managers\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Smoke.cpp">
+      <Filter>03. GameObject\Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="Smoke_Throw.cpp">
+      <Filter>03. GameObject\Smoke</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -510,6 +519,12 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>01. Managers\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Smoke.h">
+      <Filter>03. GameObject\Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="Smoke_Throw.h">
+      <Filter>03. GameObject\Smoke</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

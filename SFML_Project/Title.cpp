@@ -1,6 +1,7 @@
 #include "Title.h"
 #include "GameInstance.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 
 Title::Title()
 {
@@ -78,8 +79,15 @@ void Title::Update(float deltaTime)
 {
     animator.Update(deltaTime, *seq_sprite_plant);
 
-    if (position.y >= 360)
+    if (position.y >= 361)
+    {
         position.y = 360;
+        if (!isSound)
+        {
+            isSound = true;
+            SoundManager::GetInstance().PlaySFXWithReverb("title_down", 35.f, 1.f, 4.f, 0.07f);
+        }
+    }
     else
     {
         accTargetMove += deltaTime * deltaTime;

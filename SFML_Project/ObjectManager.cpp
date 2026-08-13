@@ -28,6 +28,8 @@ void ObjectManager::Update(float deltaTime)
 		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Player], objects[EObjectTag::Wall]);
 		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Enemy], objects[EObjectTag::Wall]);
 		
+		collisionManager.UpdatePhysics(deltaTime, objects[EObjectTag::Smoke], objects[EObjectTag::Wall]);
+		
 		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::Wall]);
 
 		collisionManager.CollisionTest(objects[EObjectTag::PlayerAttack], objects[EObjectTag::EnemyAttack]);

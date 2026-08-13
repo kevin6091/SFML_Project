@@ -41,5 +41,6 @@ private:
 
 	bool isZER = false;
 	bool isO = false;
+	bool isSound = false;
 };
 

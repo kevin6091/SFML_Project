@@ -86,6 +86,10 @@
 #define SHOTGUN_HIT_ROLL		"anim_shotgun_hit_roll"
 #define SHOTGUN_HIT_GROUND		"anim_shotgun_hit_ground"
 
+#define SMOKE_START				"anim_smoke_start"
+#define SMOKE_LOOP				"anim_smoke_loop"
+#define SMOKE_END				"anim_smoke_end"
+
 #define BULLET					"bullet"
 #define BULLET_PARRY			"anim_bullet_parry"
 #define BULLET_SMOKE			"anim_bullet_smoke"

@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 
 #include "Camera.h"
 #include "Title.h"
@@ -13,6 +14,11 @@ void SceneTitle::Initialize()
 	auto& gameInstance = GameInstance::GetInstance();
 	auto& resourceManager = gameInstance.GetResourceManager();
 	auto& objectManager = gameInstance.GetObjectManager();
+
+	SoundManager::GetInstance().LoadBGM("title", "resource/sounds/BGM/stage_title.ogg");
+	SoundManager::GetInstance().LoadSFX("title_down", "resource/sounds/title_down.wav");
+
+	SoundManager::GetInstance().PlayBGM("title", 50.f);
 
 #pragma region Zero
 

@@ -32,7 +32,6 @@ void SceneStage2::Initialize()
 	// Resource
 #pragma region Bullet
 
-	resourceManager.LoadTexture(BULLET, "resource/textures/bullet/bullet");
 	resourceManager.LoadTextureSequence(BULLET_PARRY, "resource/textures/bullet/bullet_parry", 5);
 	resourceManager.LoadTextureSequence(BULLET_SPARK, "resource/textures/bullet/bullet_spark", 8);
 	resourceManager.LoadTextureSequence(BULLET_SMOKE, "resource/textures/bullet/bullet_smoke", 10);

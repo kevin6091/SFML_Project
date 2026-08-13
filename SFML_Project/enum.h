@@ -22,6 +22,7 @@ enum class EObjectTag
     Wall,
     Slope,
     Door,
+    Smoke,
     End
 };
 

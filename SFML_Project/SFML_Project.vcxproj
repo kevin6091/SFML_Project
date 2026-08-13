@@ -181,6 +181,8 @@
     <ClCompile Include="Slash.cpp" />
     <ClCompile Include="SlashImpact.cpp" />
     <ClCompile Include="SlopeBlock.cpp" />
+    <ClCompile Include="Smoke.cpp" />
+    <ClCompile Include="Smoke_Throw.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprint_Dust.cpp" />
     <ClCompile Include="Stage1_BackGround.cpp" />
@@ -237,6 +239,8 @@
     <ClInclude Include="Slash.h" />
     <ClInclude Include="SlashImpact.h" />
     <ClInclude Include="SlopeBlock.h" />
+    <ClInclude Include="Smoke.h" />
+    <ClInclude Include="Smoke_Throw.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprint_Dust.h" />
     <ClInclude Include="Stage1_BackGround.h" />

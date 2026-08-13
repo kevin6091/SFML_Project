@@ -1,0 +1,110 @@
+{
+  "room_name": "room_factory_2",
+  "width": 1800,
+  "height": 784,
+  "layers": [
+    {
+      "layer_name": "blocks",
+      "instances": [
+        { "object_name": "obj_block", "x": 0, "y": 96, "scale_x": 57.80645, "scale_y": 2 },
+        { "object_name": "obj_block", "x": -128, "y": 672, "scale_x": 45.41935, "scale_y": 2 },
+        { "object_name": "obj_block", "x": -64, "y": 384, "scale_x": 21, "scale_y": 2 },
+        { "object_name": "obj_slope", "x": 896, "y": 544, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 960, "y": 480, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 992, "y": 448, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1024, "y": 416, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 1056, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 928, "y": 512, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 1088, "y": 384, "scale_x": 33, "scale_y": 3 },
+        { "object_name": "obj_jumpthrough", "x": 608, "y": 384, "scale_x": 15, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 0, "y": 0, "scale_x": 1, "scale_y": 14 },
+        { "object_name": "obj_slope", "x": 864, "y": 576, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 832, "y": 608, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope", "x": 800, "y": 640, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_block", "x": 576, "y": 160, "scale_x": 2, "scale_y": 3 },
+        { "object_name": "obj_block", "x": 0, "y": 448, "scale_x": 1, "scale_y": 7 },
+        { "object_name": "obj_end_block", "x": 1792, "y": 160, "scale_x": 1, "scale_y": 7 },
+        { "object_name": "obj_slope2", "x": 608, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_slope2", "x": 640, "y": 416, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_door", "x": 640, "y": 256, "scale_x": -2, "scale_y": 2 }
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Instances_Depth_-15",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "objects",
+      "instances": [
+        { "object_name": "obj_enemy_grunt", "x": 640, "y": 672, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 336, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 544, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 96, "y": 384, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1280, "y": 384, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1480, "y": 384, "scale_x": -1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Instances_Depth_-2",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Instances_Depth_-1",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "player",
+      "instances": [
+        { "object_name": "obj_respawn_point", "x": 110, "y": 672, "scale_x": 1, "scale_y": 1 }
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Instances_Depth_5",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "fg1",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "fg2",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "fg3",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "fg4",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "bg2",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "bg1",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Background_0",
+      "instances": [
+      ]
+    },
+    {
+      "layer_name": "Compatibility_Colour",
+      "instances": [
+      ]
+    }
+  ]
+}

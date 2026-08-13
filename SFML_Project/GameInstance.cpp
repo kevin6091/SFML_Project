@@ -80,7 +80,7 @@ void GameInstance::Initialize(uint width, uint height, const string& title)
     uSceneManager->Initialize();
     uInputManager->Initialize();
 
-    uSceneManager->ChangeScene(ESceneType::Stage1, 0.0f);
+    uSceneManager->ChangeScene(ESceneType::Title, 0.0f);
 }
 
 void GameInstance::Run()

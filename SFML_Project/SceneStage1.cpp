@@ -107,6 +107,16 @@ void SceneStage1::Initialize()
 
 #pragma endregion
 
+#pragma region Smoke
+
+	resourceManager.LoadTextureSequence(SMOKE_START, "resource/textures/smoke/start", 3);
+	resourceManager.LoadTextureSequence(SMOKE_LOOP, "resource/textures/smoke/loop", 6);
+	resourceManager.LoadTextureSequence(SMOKE_END, "resource/textures/smoke/end", 7);
+
+#pragma endregion
+	resourceManager.LoadTexture(BULLET, "resource/textures/bullet/bullet");
+
+
 	// BackGround
 	resourceManager.LoadTexture(MAP_STAGE1, "resource/textures/map/stage1");
 	auto size = resourceManager.GetTexture(MAP_STAGE1)->getSize();

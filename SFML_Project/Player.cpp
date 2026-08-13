@@ -10,6 +10,7 @@
 #include "RewindTracker.h"
 #include "Camera.h"
 #include "InputManager.h"
+#include "Smoke_Throw.h"
 
 Player::Player()
 {
