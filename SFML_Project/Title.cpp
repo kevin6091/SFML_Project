@@ -70,7 +70,7 @@ void Title::Initialize()
 #pragma endregion
 
 #pragma region SetPosition
-    position = Vector2f(WIDTH / 2, -2 * HEIGHT);
+    SetPosition({ WIDTH / 2, -600.f});
 #pragma endregion
 
 }

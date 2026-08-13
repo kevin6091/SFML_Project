@@ -37,12 +37,12 @@
     {
       "layer_name": "objects",
       "instances": [
-        { "object_name": "obj_enemy_grunt", "x": 640, "y": 672, "scale_x": -1, "scale_y": 1 },
-        { "object_name": "obj_enemy_grunt", "x": 336, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_enemy_pomp", "x": 544, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_enemy_gangster", "x": 96, "y": 384, "scale_x": 1, "scale_y": 1 },
-        { "object_name": "obj_enemy_gangster", "x": 1280, "y": 384, "scale_x": -1, "scale_y": 1 },
-        { "object_name": "obj_enemy_gangster", "x": 1480, "y": 384, "scale_x": -1, "scale_y": 1 }
+        { "object_name": "obj_enemy_grunt", "x": 640, "y": 660, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_grunt", "x": 336, "y": 374, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_pomp", "x": 544, "y": 374, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 96, "y": 374, "scale_x": 1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1280, "y": 374, "scale_x": -1, "scale_y": 1 },
+        { "object_name": "obj_enemy_gangster", "x": 1480, "y": 374, "scale_x": -1, "scale_y": 1 }
       ]
     },
     {
@@ -58,7 +58,7 @@
     {
       "layer_name": "player",
       "instances": [
-        { "object_name": "obj_respawn_point", "x": 110, "y": 672, "scale_x": 1, "scale_y": 1 }
+        { "object_name": "obj_respawn_point", "x": 110, "y": 660, "scale_x": 1, "scale_y": 1 }
       ]
     },
     {
