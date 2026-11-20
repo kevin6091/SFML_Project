@@ -2,6 +2,14 @@
 
 SFML 3.1과 C++로 제작한 《Katana Zero》 모작입니다. 2D 액션 전투, 슬로 모션과 되감기, JSON 맵으로 구성한 3개 스테이지를 구현했습니다.
 
+## 플레이 영상
+
+전체 플레이 시연 영상입니다. 아래 플레이어에서 재생할 수 있습니다. **3분 24초 · 720p · 60fps · 소리 포함**
+
+https://github.com/user-attachments/assets/86522bf3-0009-400d-9dd1-ba33bb2529f3
+
+[전체 영상 다운로드](https://github.com/kevin6091/SFML_Project/releases/download/gameplay-demo/KatanaZero-gameplay-720p.mp4) · [시연 영상 Release](https://github.com/kevin6091/SFML_Project/releases/tag/gameplay-demo)
+
 ## 플레이 화면
 
 Windows Release x64 빌드에서 캡처한 타이틀과 첫 스테이지입니다. 타이틀에서 `Enter`를 누르면 게임이 시작됩니다.
